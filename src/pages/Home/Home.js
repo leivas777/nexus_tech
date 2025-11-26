@@ -37,7 +37,7 @@ const Home = () => {
             <label>
               <span className={styles.dadosCadastraisTitle}>Website:</span>
               <span className={styles.infoDados}>
-                <Link to="/main">https://nexustech.tec.br/</Link>
+                <Link to="/">https://nexustech.tec.br/</Link>
               </span>
             </label>
             <label>

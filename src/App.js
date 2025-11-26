@@ -1,11 +1,9 @@
 //CSS
 import './App.css';
 
-//Logo
-import logo from './assets/logo_nexus_sem_fundo.png'
 
 //Router 
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 //Pages
 import Home from './pages/Home/Home';
