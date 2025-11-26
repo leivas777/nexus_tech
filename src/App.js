@@ -1,24 +1,30 @@
-import logo from './logo.svg';
+//CSS
 import './App.css';
+
+//Logo
+import logo from './assets/logo_nexus_sem_fundo.png'
+
+//Router 
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
+//Pages
+import Home from './pages/Home/Home';
+import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService/TermsOfService';
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Home/>}/>
+        <Route path='/privacy-policy' element={<PrivacyPolicy/>}/>
+        <Route path='/terms-of-use' element={<TermsOfService/>}/>
+      </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 

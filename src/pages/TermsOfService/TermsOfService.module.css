@@ -1,0 +1,21 @@
+.container h1,
+.container h2 {
+    color: #1a1a1a;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.container p {
+    margin-bottom: 1em;
+}
+
+strong {
+    color: #000;
+}
+
+.container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
