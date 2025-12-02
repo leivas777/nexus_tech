@@ -250,7 +250,6 @@ const TestMessage = () => {
       ) : (
         ""
       )}
-      <Footer />
     </>
   );
 };
