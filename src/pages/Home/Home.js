@@ -1,19 +1,17 @@
 import styles from "./Home.module.css";
 import { Link } from "react-router-dom";
 
+
 const Home = () => {
   const recipient = "nexus_tech@leivaseleivas.com";
   const subject = "Política de Privacidade";
   const body = "Olá, gostaria de informações sobre a política de privacidade.";
   return (
     <>
-      <div className={styles.top}>
-        <h1>
-          <span className={styles.mainLogo}>Nexus</span>
-          <span className={styles.logo}> Tech</span>
-        </h1>
-      </div>
       <body>
+        <div className={styles.buttonContainer}>
+          <Link to='/test-message' className={styles.btn}>Faça um teste</Link>
+        </div>
         <div className={styles.dados}>
           <h1 className={styles.title}>Detalhes da Empresa</h1>
           <div className={styles.dadosCadastrais}>
@@ -76,12 +74,7 @@ const Home = () => {
           </div>
         </div>
       </body>
-      <div className={styles.footer}>
-        <p>&copy; Leivas & Leivas Ltda</p> <p>Todos os direitos reservados.</p>{" "}
-        <p>
-          <Link to="/privacy-policy">Política de Privacidade</Link>
-        </p>
-      </div>
+
     </>
   );
 };
