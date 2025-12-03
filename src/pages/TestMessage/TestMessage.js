@@ -17,7 +17,7 @@ const TestMessage = () => {
   const [templateCategory, setTemplateCategory] = useState("");
 
   const N8N_WEBHOOK_URL =
-    "https://curso-n8n-n8n.ebwe7d.easypanel.host/webhook-test/sendMessage";
+    "https://curso-n8n-n8n.ebwe7d.easypanel.host/webhook/sendMessage";
 
   const sendMessageToN8N = async (type) => {
     if (type === "send") {
