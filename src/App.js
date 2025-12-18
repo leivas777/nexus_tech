@@ -11,6 +11,11 @@ import TermsOfService from "./pages/TermsOfService/TermsOfService";
 import TestMessage from "./pages/TestMessage/TestMessage";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import About from "./pages/About/About";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import AuthPage from "./pages/LoginPages/AuthPage";
+
+
 
 function App() {
   return (
@@ -22,6 +27,9 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-use" element={<TermsOfService />} />
           <Route path="/test-message" element={<TestMessage />} />
+          <Route path="/about" element={<About/>}/>
+          <Route path="/dashboard" element={<Dashboard/>}/>
+          <Route path="/registration" element={<AuthPage/>}/>
         </Routes>
         <Footer/>
       </Router>

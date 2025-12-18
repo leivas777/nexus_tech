@@ -1,0 +1,128 @@
+.container {
+    display: grid;
+    gap: 16px;
+    padding: 16px 20px 20px 20px;
+}
+
+.header {
+    display: grid;
+    gap: 8px;
+}
+
+.title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.subtitle {
+    margin: 0;
+    opacity: 0.85;
+}
+
+.progressBar {
+    height: 8px;
+    background: #0b1222;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    background: linear-gradient(135deg, #4f8aff 0%, #7aa8ff 100%);
+    width: 0%;
+}
+
+.stepArea {
+    background: #0b1222;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.grid {
+    display: grid;
+    gap: 12px;
+}
+
+.stack {
+    display: grid;
+    gap: 10px;
+}
+
+.label {
+    display: grid;
+    gap: 6px;
+    font-size: 14px;
+}
+
+.input, .select, .textarea {
+    background: #091223;
+    color: #eaf0ff;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 8px;
+    padding: 10px 12px;
+    outline: none;
+}
+.input:focus, .select:focus, .textarea:focus {
+    border-color: #6aa2ff;
+    box-shadow: 0 0 0 3px rgba(106, 162, 255, 0.2);
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.helper {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.primaryBtn {
+    background: linear-gradient(135deg, #4f8aff 0%, #7aa8ff 100%);
+    color: #07132a;
+    font-weight: 700;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.secondaryBtn {
+    background: #0b1222;
+    color: #eaf0ff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.ghostBtn {
+    background: transparent;
+    color: #eaf0ff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.spacer {
+    flex: 1;
+}
+
+.error {
+    color: #ff8a8a;
+    background: rgba(255, 64, 64, 0.1);
+    border: 1px solid rgba(255, 64, 64, 0.4);
+    padding: 8px 10px;
+    border-radius: 8px;
+}
