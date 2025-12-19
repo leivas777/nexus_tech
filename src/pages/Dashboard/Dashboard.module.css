@@ -1,0 +1,91 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #0b0f1a;
+    color: #eaf0ff;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.headerRight {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.user {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.ghostBtn {
+    background: transparent;
+    color: #eaf0ff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.ghostBtn:hover {
+    border-color: #6aa2ff;
+}
+
+.main {
+    padding: 24px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.card {
+    background: #0f1629;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.cardTitle {
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.list {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.infoRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0b1222;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.infoLabel {
+    opacity: 0.75;
+}
+
+.infoValue {
+    font-weight: 600;
+}

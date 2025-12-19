@@ -1,0 +1,397 @@
+/* ========================================
+   RESET E CONFIGURAÇÕES BASE
+======================================== */
+
+/* Reset moderno */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Variáveis CSS para consistência e manutenibilidade */
+:root {
+    /* Cores principais */
+    --primary-color: #3498db;
+    --primary-dark: #2980b9;
+    --primary-darker: #1f618d;
+    --text-primary: #273b4f;
+    --text-secondary: #34495e;
+    --branco: #fff;
+    --shadow-light: rgba(52, 152, 219, 0.3);
+    --shadow-medium: rgba(52, 152, 219, 0.4);
+    --shadow-focus: rgba(52, 152, 219, 0.5);
+    
+    /* Espaçamentos */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 0.75rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    
+    /* Tipografia */
+    --font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-size-sm: clamp(0.875rem, 2vw, 0.95rem);
+    --font-size-base: clamp(0.9rem, 2.5vw, 1rem);
+    --font-size-lg: clamp(1.25rem, 3.5vw, 1.5rem);
+    --font-size-xl: clamp(1.5rem, 4vw, 2rem);
+    --font-weight-bold: bold;
+    --font-weight-normal: 400;
+    --font-weight-bolder: bolder;
+    
+    /* Bordas e raios */
+    --border-radius: 12px;
+    --border-width: 2px;
+    --border-width-thicker: 4px;
+    --border-width-thinner: 1px;
+    
+    /* Transições */
+    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Sombras modernas */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
+}
+
+/* Configurações globais */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: clamp(1rem, 3vh, 2rem) clamp(1rem, 5vw, 3rem);
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    min-height: 100vh;
+}
+
+/* ========================================
+   COMPONENTES PRINCIPAIS
+======================================== */
+/* Main */
+.main {
+    min-height: 100%;
+}
+
+/* Container de botões modernizado */
+.buttonContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    width: 100%;
+    max-width: 800px;
+    margin: var(--spacing-2xl) auto 0;
+    padding: 0 var(--spacing-md);
+}
+
+/* Botão moderno com micro-interações */
+.btn {
+    /* Layout e posicionamento */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    position: relative;
+    overflow: hidden;
+    
+    /* Tipografia */
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    color: #fff;
+    
+    /* Dimensões */
+    padding: var(--spacing-md) var(--spacing-xl);
+    min-height: 48px; /* Melhor acessibilidade */
+    min-width: 140px;
+    
+    /* Aparência */
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    border: var(--border-width) solid var(--primary-dark);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md), 0 4px 12px var(--shadow-light);
+    
+    /* Interações */
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    
+    /* Performance */
+    will-change: transform, box-shadow;
+    backface-visibility: hidden;
+    
+    /* Acessibilidade */
+
+    -webkit-user-select: none;
+    user-select: none;
+    outline: none;
+}
+
+.facebookButtons{
+    display: flex;
+    gap: 10px;
+    padding: 2px 5px;
+    align-items: center;
+}
+
+.facebookBtn{
+    width: 150px;
+    height: 50px;
+    font-size: .8rem;
+    font-weight: 400;
+}
+
+/* Estados do botão */
+.btn:hover {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-darker) 100%);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: var(--shadow-lg), 0 8px 20px var(--shadow-medium);
+}
+
+.btn:active {
+    transform: translateY(-1px) scale(0.98);
+    box-shadow: var(--shadow-sm), 0 2px 8px var(--shadow-light);
+}
+
+.btn:focus-visible {
+    outline: 3px solid var(--shadow-focus);
+    outline-offset: 3px;
+}
+
+/* Efeito ripple modernizado */
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width var(--transition-slow), height var(--transition-slow);
+    pointer-events: none;
+}
+
+.btn:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Floating Action Button(WhatsApp */
+.whatsappFab {
+    position: fixed !important;
+    right: 16px;
+    bottom: 16px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #25D366;
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    outline: none;
+    border: none;
+    z-index: 1000;
+    transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+}
+
+.whatsappFab:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.24);
+    background-color: #1ebe5b;
+}
+
+.whatsappFab:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.whatsappFab:focus-visible {
+    box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.3), 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+/* Ícone */
+.whatsappIcon {
+    display: block;
+}
+
+/* Texto somente para leitores de tela */
+.srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Respeita usuários com movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+    .whatsappFab {
+        transition: none;
+    }
+}
+
+/* ========================================
+   RESPONSIVIDADE MODERNA
+======================================== */
+
+/* Container queries para melhor responsividade */
+@container (max-width: 768px) {
+    .buttonContainer {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+}
+
+/* Tablets */
+@media screen and (max-width: 768px) {
+    :root {
+        --spacing-xl: 1.5rem;
+        --spacing-2xl: 2rem;
+    }
+    
+    body {
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+
+    .buttonContainer {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        margin: var(--spacing-xl) auto 0;
+    }
+
+    .btn {
+        min-width: 120px;
+        padding: var(--spacing-sm) var(--spacing-lg);
+    }
+}
+
+/* Smartphones */
+@media screen and (max-width: 480px) {
+    :root {
+        --spacing-xl: 1rem;
+        --spacing-2xl: 1.5rem;
+    }
+    
+    body {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .buttonContainer {
+        grid-template-columns: 1fr;
+        max-width: 320px;
+    }
+    
+    .btn {
+        width: 100%;
+        min-width: auto;
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+}
+
+/* Telas muito pequenas */
+@media screen and (max-width: 320px) {
+    .btn {
+        font-size: var(--font-size-sm);
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+}
+
+/* ========================================
+   ACESSIBILIDADE E PREFERÊNCIAS
+======================================== */
+
+/* Respeitar preferências de movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .btn::before {
+        display: none;
+    }
+}
+
+/* Modo escuro */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-primary: #f1f5f9;
+        --text-secondary: #cbd5e1;
+        --branco: #1e293b;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+    
+}
+
+/* Alto contraste */
+@media (prefers-contrast: high) {
+    :root {
+        --primary-color: #0066cc;
+        --primary-dark: #004499;
+        --border-width: 3px;
+    }
+    
+    .btn {
+        border-width: 3px;
+    }
+}
+
+/* ========================================
+   UTILITÁRIOS E MELHORIAS
+======================================== */
+
+/* Loading state para botões */
+.btn.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.btn.loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Melhorias de performance */
+.btn {
+    contain: layout style paint;
+}
+
+/* Focus trap para melhor navegação por teclado */
+.btn:focus-visible {
+    z-index: 1;
+}

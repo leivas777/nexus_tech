@@ -1,0 +1,130 @@
+.backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 9, 20, 0.72);
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    z-index: 1000;
+}
+
+.dialog {
+    width: 100%;
+    max-width: 520px;
+    background: #0f1629;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    color: #eaf0ff;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    outline: none;
+}
+
+.content {
+    padding: 20px;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+}
+
+.subtitle {
+    margin: 0 0 16px 0;
+    opacity: 0.8;
+}
+
+.actionsRow {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.primaryBtn {
+    background: linear-gradient(135deg, #4f8aff 0%, #7aa8ff 100%);
+    color: #07132a;
+    font-weight: 700;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.primaryBtn:hover {
+    filter: brightness(1.05);
+}
+
+.secondaryBtn {
+    background: #0b1222;
+    color: #eaf0ff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.secondaryBtn:hover {
+    border-color: #6aa2ff;
+}
+
+.linkBtn {
+    background: transparent;
+    color: #9bb6ff;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.backBtn {
+    background: transparent;
+    color: #9bb6ff;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+.form {
+    display: grid;
+    gap: 12px;
+}
+
+.label {
+    display: grid;
+    gap: 6px;
+    font-size: 14px;
+}
+
+.input, .select, .textarea {
+    background: #0b1222;
+    color: #eaf0ff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 10px 12px;
+    outline: none;
+}
+.input:focus, .select:focus, .textarea:focus {
+    border-color: #6aa2ff;
+    box-shadow: 0 0 0 3px rgba(106, 162, 255, 0.2);
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.error {
+    color: #ff8a8a;
+    background: rgba(255, 64, 64, 0.1);
+    border: 1px solid rgba(255, 64, 64, 0.4);
+    padding: 8px 10px;
+    border-radius: 8px;
+}
+
+.ghostBtn {
+    background: transparent;
+    color: #eaf0ff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}

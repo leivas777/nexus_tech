@@ -1,0 +1,228 @@
+/* ========================================
+   RESET E CONFIGURAÇÕES BASE
+======================================== */
+
+/* Reset moderno */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Variáveis CSS para consistência e manutenibilidade */
+:root {
+    /* Cores principais */
+    --primary-color: #3498db;
+    --primary-dark: #2980b9;
+    --primary-darker: #1f618d;
+    --text-primary: #273b4f;
+    --text-secondary: #34495e;
+    --branco: #fff;
+    --shadow-light: rgba(52, 152, 219, 0.3);
+    --shadow-medium: rgba(52, 152, 219, 0.4);
+    --shadow-focus: rgba(52, 152, 219, 0.5);
+    
+    /* Espaçamentos */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 0.75rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    
+    /* Tipografia */
+    --font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-size-sm: clamp(0.875rem, 2vw, 0.95rem);
+    --font-size-base: clamp(0.9rem, 2.5vw, 1rem);
+    --font-size-lg: clamp(1.25rem, 3.5vw, 1.5rem);
+    --font-size-xl: clamp(1.5rem, 4vw, 2rem);
+    --font-weight-bold: bold;
+    --font-weight-normal: 400;
+    --font-weight-bolder: bolder;
+    
+    /* Bordas e raios */
+    --border-radius: 12px;
+    --border-width: 2px;
+    --border-width-thicker: 4px;
+    --border-width-thinner: 1px;
+    
+    /* Transições */
+    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Sombras modernas */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
+}
+
+/* Configurações globais */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: clamp(1rem, 3vh, 2rem) clamp(1rem, 5vw, 3rem);
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    min-height: 100vh;
+}
+
+/* ========================================
+   SEÇÕES DE CONTEÚDO
+======================================== */
+
+/* Container de dados modernizado */
+.dados {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 700px;
+    margin: var(--spacing-2xl) auto 0;
+    background: #fff;
+    border: var(--border-width) solid var(--primary-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.dados .title {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    padding: var(--spacing-xl);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: #fff;
+    text-align: center;
+}
+
+.dados .dadosCadastrais {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-xl);
+}
+
+.dados .dadosCadastrais label {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--spacing-md);
+    align-items: center;
+    padding: var(--spacing-md);
+    background: #f8fafc;
+    border-radius: var(--spacing-xs);
+    border-left: 4px solid var(--primary-color);
+    transition: all var(--transition-fast);
+}
+
+a{
+    color: #fff;
+}
+
+.dados .dadosCadastrais label:hover {
+    background: #f1f5f9;
+    transform: translateX(4px);
+}
+
+.dados .dadosCadastrais .dadosCadastraisTitle {
+    font-weight: 600;
+    color: var(--text-primary);
+    min-width: 120px;
+}
+
+/* ========================================
+   RESPONSIVIDADE MODERNA
+======================================== */
+
+/* Tablets */
+@media screen and (max-width: 768px) {
+    :root {
+        --spacing-xl: 1.5rem;
+        --spacing-2xl: 2rem;
+    }
+    
+    body {
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+
+    .dados{
+        margin: var(--spacing-xl) auto 0;
+    }
+
+}
+
+/* Smartphones */
+@media screen and (max-width: 480px) {
+    :root {
+        --spacing-xl: 1rem;
+        --spacing-2xl: 1.5rem;
+    }
+    
+    body {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .dados .title{
+        font-size: var(--font-size-lg);
+        padding: var(--spacing-lg);
+    }
+
+    .dados .dadosCadastrais {
+        padding: var(--spacing-lg);
+        gap: var(--spacing-md);
+    }
+
+    .dados .dadosCadastrais label {
+        grid-template-columns: 1fr;
+        text-align: left;
+    }
+
+}
+
+/* Modo escuro */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-primary: #f1f5f9;
+        --text-secondary: #cbd5e1;
+        --branco: #1e293b;
+    }
+    
+
+
+    .dados {
+        background: #1e293b;
+        border-color: var(--primary-color);
+    }
+    
+    .dados .dadosCadastrais label {
+        background: #334155;
+    }
+    
+    .dados .dadosCadastrais label:hover {
+        background: #475569;
+    }
+
+}
+
+/* ========================================
+   UTILITÁRIOS E MELHORIAS
+======================================== */
+
+/* Scroll suave para elementos internos */
+.dados{
+    scroll-margin-top: 2rem;
+}
+
+/* Melhorias de performance */
+.dados {
+    contain: layout style paint;
+}
