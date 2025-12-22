@@ -23,7 +23,7 @@ const HeroBanner = ({ logoSrc, onCtaClick }) => {
 
           <div className="hero__ctaWrap">
             <a
-              href="/dashboard"
+              href="/registration"
               className="btn btn--primary"
               onClick={onCtaClick}
               aria-label="Fazer teste Grátis de automação do WhatsApp Business"

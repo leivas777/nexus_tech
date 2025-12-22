@@ -1,8 +1,10 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 
 function HealthBeautySection() {
+  const navigate = useNavigate();
   const handleCTAClick = () => {
-    window.location.href = '/dashboard';
+    navigate('/registration');
   };
 
   return (

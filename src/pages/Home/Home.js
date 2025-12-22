@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import styles from "./Home.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // Components
 import HeroBanner from "../../components/HeroBanner/HeroBanner";
 import HealthBeautySection from "../../components/HeroHealthBeauty/HealthBeautySection";
@@ -10,6 +10,7 @@ import logo from "../../assets/logo_nexus_sem_fundo.png";
 const WHATSAPP_PHONE = "5551992747402";
 
 const Home = () => {
+  const navigate = useNavigate();
   const [isFBSDKLoaded, setIsFBSDKLoaded] = useState(false);
 
   useEffect(() => {
@@ -105,14 +106,16 @@ const Home = () => {
     return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(text)}`;
   }, []);
 
+  const handleTestClick = () => {
+    navigate('/registration');
+  };
+
   return (
     <>
       <main className={styles.main} role="main">
         <HeroBanner
           logoSrc={logo}
-          onCtaClick={() => {
-            /* analytics*/
-          }}
+          onCtaClick={handleTestClick}
         />
         <HealthBeautySection />
         <div className={styles.buttonContainer}>

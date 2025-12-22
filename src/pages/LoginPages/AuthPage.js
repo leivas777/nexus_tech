@@ -1,8 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./AuthPage.module.css";
 import logo from "../../assets/logo_nexus_sem_fundo.png";
+import { authService } from "../../services/authService";
 
 export default function AuthPage() {
+  const navigate = useNavigate();
+
+  // ✅ Estados de tema
   const getInitialTheme = () => {
     if (typeof window === "undefined") {
       return "dark";
@@ -18,27 +23,83 @@ export default function AuthPage() {
   };
 
   const [theme, setTheme] = useState(getInitialTheme);
+
+  // ✅ Estados de formulário
   const [mode, setMode] = useState("login");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(true);
   const [showPass, setShowPass] = useState(false);
+
+  // ✅ Estados de validação
   const [touched, setTouched] = useState({
     name: false,
     email: false,
     password: false,
   });
 
+  // ✅ Estados de requisição
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  // ✅ Verificar se já está logado ao montar componente
+  useEffect(() => {
+    // ⚠️ IMPORTANTE: Verificação mais robusta
+    try {
+      const token = localStorage.getItem("token");
+      const userStr = localStorage.getItem("user");
+
+      // Validar token e user
+      const hasValidToken = token && typeof token === "string" && token.length > 0;
+      const hasValidUser = userStr && typeof userStr === "string";
+
+      console.log("🔍 Verificando autenticação...");
+      console.log("   Token válido?", hasValidToken);
+      console.log("   User válido?", hasValidUser);
+
+      if (hasValidToken && hasValidUser) {
+        try {
+          JSON.parse(userStr); // Validar se é JSON válido
+          console.log("✅ Usuário autenticado! Redirecionando para dashboard");
+          navigate("/dashboard", { replace: true });
+        } catch (e) {
+          console.warn("⚠️ User no localStorage é inválido:", e.message);
+          // Limpar dados inválidos
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+        }
+      } else {
+        console.log("ℹ️ Usuário não autenticado. Permitindo acesso a /registration");
+      }
+    } catch (err) {
+      console.error("❌ Erro ao verificar autenticação:", err);
+    }
+  }, [navigate]);
+
+  // ✅ Efeito para tema
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
 
+  // ✅ Limpar mensagens de sucesso/erro após 5 segundos
+  useEffect(() => {
+    if (error || successMessage) {
+      const timer = setTimeout(() => {
+        setError("");
+        setSuccessMessage("");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, successMessage]);
+
   const toggleTheme = () => {
     setTheme((t) => (t === "dark" ? "light" : "dark"));
   };
 
+  // ✅ Validação com useMemo
   const errors = useMemo(() => {
     const e = {};
     if (mode === "signup" && (!name || name.trim().length < 2)) {
@@ -56,6 +117,78 @@ export default function AuthPage() {
 
   const isValid = Object.keys(errors).length === 0;
 
+  // ✅ Função para enviar formulário
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validar antes de enviar
+    if (!isValid) {
+      setError("Por favor, preencha todos os campos corretamente.");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+    setSuccessMessage("");
+
+    try {
+      let response;
+
+      if (mode === "login") {
+        // ✅ Login
+        console.log("🔐 Tentando fazer login com:", email);
+        response = await authService.login(email, password);
+        console.log("✅ Resposta do servidor:", response);
+
+        if (response.success) {
+          setSuccessMessage("Login realizado com sucesso! Redirecionando...");
+          console.log("✅ Login bem-sucedido!");
+
+          // Aguardar um momento e redirecionar
+          setTimeout(() => {
+            navigate("/dashboard", { replace: true });
+          }, 1500);
+        } else {
+          throw new Error(response.message || "Erro ao fazer login");
+        }
+      } else {
+        // ✅ Registro
+        console.log("📝 Tentando registrar usuário:", email);
+        response = await authService.register(name, email, password);
+        console.log("✅ Resposta do servidor:", response);
+
+        if (response.success) {
+          setSuccessMessage("Conta criada com sucesso! Redirecionando...");
+          console.log("✅ Registro bem-sucedido!");
+
+          // Aguardar um momento e redirecionar
+          setTimeout(() => {
+            navigate("/dashboard", { replace: true });
+          }, 1500);
+        } else {
+          throw new Error(response.message || "Erro ao criar conta");
+        }
+      }
+    } catch (err) {
+      console.error("❌ Erro na autenticação:", err.message);
+      setError(err.message || "Ocorreu um erro. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ✅ Alterar modo (login/registro)
+  const handleModeChange = (newMode) => {
+    setMode(newMode);
+    setError("");
+    setSuccessMessage("");
+    setName("");
+    setEmail("");
+    setPassword("");
+    setTouched({ name: false, email: false, password: false });
+    console.log(`📊 Alterado para modo: ${newMode}`);
+  };
+
   return (
     <div className={styles.fullPage}>
       <div className={styles.page}>
@@ -67,6 +200,7 @@ export default function AuthPage() {
             aria-labelledby="authTitle"
             aria-describedby="authDesc"
           >
+            {/* ✅ Cabeçalho com logo e tema */}
             <div className={styles.brandRow}>
               <div className={styles.brandLeft}>
                 <div className={styles.logoStub}>
@@ -90,6 +224,7 @@ export default function AuthPage() {
                     ? "Tema: Escuro (clique para Claro)"
                     : "Tema: Claro (clique para Escuro)"
                 }
+                disabled={loading}
               >
                 <span className={styles.themeIcon} aria-hidden="true">
                   {theme === "dark" ? "☾" : "☀"}
@@ -100,6 +235,7 @@ export default function AuthPage() {
               </button>
             </div>
 
+            {/* ✅ Abas de login/registro */}
             <div
               className={styles.tabs}
               role="tablist"
@@ -111,7 +247,8 @@ export default function AuthPage() {
                 className={`${styles.tab} ${
                   mode === "login" ? styles.active : ""
                 }`}
-                onClick={() => setMode("login")}
+                onClick={() => handleModeChange("login")}
+                disabled={loading}
               >
                 Entrar
               </button>
@@ -121,12 +258,14 @@ export default function AuthPage() {
                 className={`${styles.tab} ${
                   mode === "signup" ? styles.active : ""
                 }`}
-                onClick={() => setMode("signup")}
+                onClick={() => handleModeChange("signup")}
+                disabled={loading}
               >
                 Criar conta
               </button>
             </div>
 
+            {/* ✅ Título e subtítulo */}
             <h1 id="authTitle" className={styles.title}>
               {mode === "login" ? "Acesse sua conta" : "Crie sua conta"}
             </h1>
@@ -136,16 +275,33 @@ export default function AuthPage() {
                 : "Leva menos de 1 minuto para começar."}
             </p>
 
+            {/* ✅ Mensagens de erro e sucesso */}
+            {error && (
+              <div
+                className={`${styles.alert} ${styles.alertError}`}
+                role="alert"
+                aria-live="polite"
+              >
+                ❌ {error}
+              </div>
+            )}
+            {successMessage && (
+              <div
+                className={`${styles.alert} ${styles.alertSuccess}`}
+                role="alert"
+                aria-live="polite"
+              >
+                ✅ {successMessage}
+              </div>
+            )}
+
+            {/* ✅ Formulário */}
             <form
               className={styles.form}
               noValidate
-              onSubmit={(e) => {
-                e.preventDefault();
-                alert(
-                  `${mode === "login" ? "Login" : "Cadastro"} (demonstrativo)`
-                );
-              }}
+              onSubmit={handleSubmit}
             >
+              {/* ✅ Campo de Nome (apenas para registro) */}
               {mode === "signup" && (
                 <div className={styles.field}>
                   <label htmlFor="name" className={styles.label}>
@@ -166,6 +322,7 @@ export default function AuthPage() {
                     aria-describedby={
                       touched.name && errors.name ? "name-error" : undefined
                     }
+                    disabled={loading}
                   />
                   {touched.name && errors.name && (
                     <span id="name-error" className={styles.errorText}>
@@ -175,6 +332,7 @@ export default function AuthPage() {
                 </div>
               )}
 
+              {/* ✅ Campo de E-mail */}
               <div className={styles.field}>
                 <label htmlFor="email" className={styles.label}>
                   E-mail
@@ -195,6 +353,7 @@ export default function AuthPage() {
                     touched.email && errors.email ? "email-error" : undefined
                   }
                   autoComplete="email"
+                  disabled={loading}
                 />
                 {touched.email && errors.email && (
                   <span id="email-error" className={styles.errorText}>
@@ -203,6 +362,7 @@ export default function AuthPage() {
                 )}
               </div>
 
+              {/* ✅ Campo de Senha */}
               <div className={styles.field}>
                 <label htmlFor="password" className={styles.label}>
                   Senha
@@ -230,12 +390,14 @@ export default function AuthPage() {
                     autoComplete={
                       mode === "login" ? "current-password" : "new-password"
                     }
+                    disabled={loading}
                   />
                   <button
                     type="button"
                     className={styles.showBtn}
                     onClick={() => setShowPass((v) => !v)}
                     aria-label={showPass ? "Ocultar senha" : "Mostrar senha"}
+                    disabled={loading}
                   >
                     {showPass ? "Ocultar" : "Mostrar"}
                   </button>
@@ -247,46 +409,70 @@ export default function AuthPage() {
                 )}
               </div>
 
+              {/* ✅ Checkbox de "Lembrar de mim" e "Esqueci senha" */}
               <div className={styles.formRow}>
                 <label className={styles.checkbox}>
                   <input
                     type="checkbox"
                     checked={remember}
                     onChange={(e) => setRemember(e.target.checked)}
+                    disabled={loading}
                   />
                   <span>Lembrar de mim</span>
                 </label>
 
                 {mode === "login" && (
-                  <button type="button" className={styles.linkBtn}>
+                  <button
+                    type="button"
+                    className={styles.linkBtn}
+                    disabled={loading}
+                  >
                     Esqueci minha senha
                   </button>
                 )}
               </div>
 
+              {/* ✅ Botão principal */}
               <button
                 type="submit"
                 className={styles.primaryBtn}
-                disabled={!isValid}
-                aria-disabled={!isValid}
+                disabled={!isValid || loading}
+                aria-disabled={!isValid || loading}
               >
-                {mode === "login" ? "Entrar" : "Criar conta"}
+                {loading ? (
+                  <>
+                    <span className={styles.spinner} aria-hidden="true">
+                      ⏳
+                    </span>
+                    {mode === "login" ? " Entrando..." : " Criando conta..."}
+                  </>
+                ) : mode === "login" ? (
+                  "Entrar"
+                ) : (
+                  "Criar conta"
+                )}
               </button>
 
+              {/* ✅ Divider */}
               <div className={styles.divider} role="separator" aria-label="ou">
                 ou
               </div>
 
+              {/* ✅ Botão Google */}
               <button
                 type="button"
                 className={styles.googleBtn}
-                onClick={() => alert("Login com Google (demonstrativo)")}
+                onClick={() =>
+                  alert("Login com Google (em desenvolvimento)")
+                }
                 aria-label="Continuar com Google"
+                disabled={loading}
               >
                 <span className={styles.googleG}>G</span>
                 <span>Continuar com Google</span>
               </button>
 
+              {/* ✅ Texto legal */}
               <p className={styles.legalText}>
                 Ao continuar, você concorda com nossos Termos e Política de
                 Privacidade.
@@ -294,9 +480,10 @@ export default function AuthPage() {
             </form>
           </div>
 
+          {/* ✅ Dica sobre tema */}
           <div className={styles.tip}>
-            Dica: o tema é persistido. Para resetar, remova a chave “theme” do
-            localStorage.
+            💡 Dica: O tema é persistido no navegador. Para resetar, remova a
+            chave "theme" do localStorage.
           </div>
         </div>
       </div>
