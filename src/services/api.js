@@ -10,7 +10,7 @@ const getApiUrl = () => {
 
     if(isDev){
         console.log('✅ Usando URL de DESENVOLVIMENTO');
-        const url = process.env.REACT_APP_API_DEV || 'http://localhost:3001/api';
+        const url = process.env.REACT_APP_API_URL_DEV || 'http://localhost:3001/api';
         console.log('   URL:', url);
         return url;
     }
