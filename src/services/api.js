@@ -6,30 +6,34 @@ const getApiUrl = () => {
     const isDev = process.env.NODE_ENV === 'development';
     const isProd = process.env.NODE_ENV === 'production';
 
-    // Se estiver em desenvolvimento
+    console.log('🌍 Ambiente detectado:', process.env.NODE_ENV);
+
     if(isDev){
         console.log('✅ Usando URL de DESENVOLVIMENTO');
-        return process.env.REACT_APP_API_DEV || 'http://localhost:3001/api';
+        const url = process.env.REACT_APP_API_DEV || 'http://localhost:3001/api';
+        console.log('   URL:', url);
+        return url;
     }
 
-    // Se estiver em produção
     if (isProd) {
         console.log('✅ Usando URL de PRODUÇÃO');
-        console.log(`URL de produção ${process.env.REACT_APP_API_PROD}`)
-        return process.env.REACT_APP_API_PROD || 'https://nexutech.api.br/api';
+        const url = process.env.REACT_APP_API_PROD || 'https://nexutech.api.br/api';
+        console.log('   URL:', url);
+        return url;
     }
 
-    // Fallback
     console.warn('⚠️ Ambiente desconhecido, usando URL padrão');
     return 'http://localhost:3001/api';
 };
 
 const API_BASE_URL = getApiUrl();
 
+console.log(`🌐 Backend conectado em: ${API_BASE_URL}`);
+
 const api = axios.create({
     baseURL: API_BASE_URL,
-    timeout: 10000, // ✅ Timeout de 10 segundos
-    withCredentials: true, // ✅ Incluir cookies/sessão
+    timeout: 30000,
+    withCredentials: true,
     headers: {
         'Content-Type': 'application/json'
     }
@@ -38,6 +42,7 @@ const api = axios.create({
 // ✅ Interceptor para adicionar token automaticamente
 api.interceptors.request.use(
     (config) => {
+        console.log(`📤 ${config.method?.toUpperCase()} ${API_BASE_URL}${config.url}`);
         const token = localStorage.getItem('token');
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
@@ -54,7 +59,7 @@ api.interceptors.request.use(
 // ✅ Interceptor para tratar erros de resposta
 api.interceptors.response.use(
     (response) => {
-        console.log('✅ Resposta bem-sucedida:', response.status);
+        console.log(`✅ Resposta bem-sucedida: ${response.status}`);
         return response;
     },
     (error) => {
