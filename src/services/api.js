@@ -8,11 +8,13 @@ const getApiUrl = () => {
 
     // Se estiver em desenvolvimento
     if(isDev){
+        console.log('✅ Usando URL de DESENVOLVIMENTO');
         return process.env.REACT_APP_API_DEV || 'http://localhost:3001/api';
     }
 
     // Se estiver em produção
     if (isProd) {
+        console.log('✅ Usando URL de PRODUÇÃO');
         return process.env.REACT_APP_API_PROD || 'https://nexutech.api.br/api';
     }
 
