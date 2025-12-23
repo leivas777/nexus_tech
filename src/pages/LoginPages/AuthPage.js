@@ -5,6 +5,8 @@ import logo from "../../assets/logo_nexus_sem_fundo.png";
 import { authService } from "../../services/authService";
 
 export default function AuthPage() {
+
+  
   const navigate = useNavigate();
 
   // ✅ Estados de tema
