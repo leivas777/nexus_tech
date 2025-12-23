@@ -15,6 +15,7 @@ const getApiUrl = () => {
     // Se estiver em produção
     if (isProd) {
         console.log('✅ Usando URL de PRODUÇÃO');
+        console.log(`URL de produção ${process.env.REACT_APP_API_PROD}`)
         return process.env.REACT_APP_API_PROD || 'https://nexutech.api.br/api';
     }
 
