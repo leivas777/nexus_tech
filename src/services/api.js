@@ -1,4 +1,3 @@
-// src/services/api.js
 import axios from 'axios';
 
 // ✅ Função para detectar ambiente com mais precisão
@@ -70,6 +69,7 @@ api.interceptors.response.use(
             console.warn('⚠️ Não autorizado (401) - Redirecionando para login');
             localStorage.removeItem('token');
             localStorage.removeItem('user');
+            localStorage.removeItem('customer');
             window.location.href = '/registration';
         } else if (error.response?.status === 500) {
             console.error('🔥 Erro interno do servidor (500)');

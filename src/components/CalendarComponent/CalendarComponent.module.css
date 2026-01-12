@@ -1,0 +1,259 @@
+.container {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 24px;
+    padding: 24px;
+    background: #f9fafb;
+    border-radius: 12px;
+}
+
+.calendarWrapper {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.monthYear {
+    font-size: 20px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.navBtn {
+    background: #f3f4f6;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background 0.2s;
+}
+
+.navBtn:hover {
+    background: #e5e7eb;
+}
+
+.weekDays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.weekDay {
+    text-align: center;
+    font-weight: 600;
+    color: #6b7280;
+    padding: 8px;
+    font-size: 12px;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.day {
+    aspect-ratio: 1;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.day:hover:not(.empty) {
+    border-color: #3b82f6;
+    background: #eff6ff;
+}
+
+.day.selected {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+}
+
+.day.today {
+    background: #fef3c7;
+    border-color: #f59e0b;
+}
+
+.day.empty {
+    cursor: default;
+    background: #f9fafb;
+}
+
+.dayNumber {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.appointmentDots {
+    display: flex;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.dotConfirmed {
+    background: #10b981;
+}
+
+.dotPending {
+    background: #f59e0b;
+}
+
+.appointmentsPanel {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.panelTitle {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #111827;
+}
+
+.noAppointments {
+    color: #6b7280;
+    text-align: center;
+    padding: 24px;
+}
+
+.appointmentsList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.appointmentItem {
+    display: flex;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 4px solid #3b82f6;
+    background: #f0f9ff;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.appointmentItem:hover {
+    background: #e0f2fe;
+}
+
+.appointmentItem.statusconfirmed {
+    border-left-color: #10b981;
+    background: #f0fdf4;
+}
+
+.appointmentItem.statuspending {
+    border-left-color: #f59e0b;
+    background: #fffbeb;
+}
+
+.appointmentItem.statuscancelled {
+    border-left-color: #ef4444;
+    background: #fef2f2;
+    opacity: 0.6;
+}
+
+.aptTime {
+    font-weight: 600;
+    color: #111827;
+    min-width: 60px;
+}
+
+.aptInfo {
+    flex: 1;
+}
+
+.aptTitle {
+    font-weight: 500;
+    color: #111827;
+}
+
+.aptClient {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.aptStatus {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background: white;
+    border-radius: 12px;
+    padding: 32px;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+}
+
+.closeBtn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #6b7280;
+}
+
+.modalInfo {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modalInfo p {
+    margin: 0;
+    color: #374151;
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    .appointmentsPanel {
+        max-height: 400px;
+    }
+}

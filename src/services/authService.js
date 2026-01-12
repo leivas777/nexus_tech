@@ -1,146 +1,164 @@
-// src/services/authServices.js
 import api from './api';
 
 export const authService = {
     /**
-     * Registra um novo usuário
-     * @param {string} name - Nome do usuário
-     * @param {string} email - E-mail do usuário
-     * @param {string} password - Senha do usuário
-     * @returns {Promise} Resposta do servidor
-     */
-    async register(name, email, password) {
-        try {
-            console.log('📝 Tentando registrar usuário:', email);
-
-            // ✅ Validação básica
-            if (!name || !email || !password) {
-                throw new Error('Nome, e-mail e senha são obrigatórios.');
-            }
-
-            const response = await api.post('/auth/register', { 
-                name, 
-                email, 
-                password 
-            });
-
-            // ✅ Validar resposta
-            if (response.data?.success && response.data?.data?.token) {
-                console.log('✅ Registro bem-sucedido!');
-                
-                // Armazenar token e usuário
-                localStorage.setItem('token', response.data.data.token);
-                localStorage.setItem('user', JSON.stringify(response.data.data.user));
-                
-                return response.data;
-            } else {
-                throw new Error(response.data?.message || 'Erro ao registrar usuário');
-            }
-        } catch (error) {
-            console.error('❌ Erro no registro:', error.message);
-            throw error;
-        }
-    },
-
-    /**
-     * Faz login do usuário
-     * @param {string} email - E-mail do usuário
-     * @param {string} password - Senha do usuário
-     * @returns {Promise} Resposta do servidor
+     * Fazer login
      */
     async login(email, password) {
         try {
-            console.log('🔐 Tentando fazer login:', email);
+            console.log('🔐 Iniciando login:', email);
 
-            // ✅ Validação básica
-            if (!email || !password) {
-                throw new Error('E-mail e senha são obrigatórios.');
-            }
+            const response = await api.post('/auth/login', { email, password });
 
-            const response = await api.post('/auth/login', { 
-                email, 
-                password 
-            });
+            if (response.data?.success) {
+                console.log('✅ Login bem-sucedido');
 
-            // ✅ Validar resposta
-            if (response.data?.success && response.data?.data?.token) {
-                console.log('✅ Login bem-sucedido!');
-                
-                // Armazenar token e usuário
-                localStorage.setItem('token', response.data.data.token);
-                localStorage.setItem('user', JSON.stringify(response.data.data.user));
-                
+                // ✅ Armazenar token
+                localStorage.setItem('token', response.data.token);
+
+                // ✅ Armazenar dados do usuário
+                localStorage.setItem('user', JSON.stringify({
+                    id: response.data.user.id,
+                    name: response.data.user.name,
+                    email: response.data.user.email
+                }));
+
+                // ✅ Armazenar dados do customer (se existir)
+                if (response.data.customer) {
+                    console.log('✅ Customer encontrado:', response.data.customer.id);
+                    localStorage.setItem('customer', JSON.stringify(response.data.customer));
+                } else {
+                    console.log('ℹ️ Nenhum customer encontrado para este usuário');
+                    localStorage.removeItem('customer');
+                }
+
                 return response.data;
             } else {
-                throw new Error(response.data?.message || 'Credenciais inválidas');
+                throw new Error(response.data?.message || 'Erro ao fazer login');
             }
+
         } catch (error) {
-            console.error('❌ Erro no login:', error.message);
+            console.error('❌ Erro ao fazer login:', error.message);
             throw error;
         }
     },
 
     /**
-     * Obtém o perfil do usuário autenticado
-     * @returns {Promise} Dados do perfil
+     * Fazer registro
      */
-    async getProfile() {
+    async register(name, email, password) {
         try {
-            console.log('👤 Buscando perfil do usuário');
-            const response = await api.get('/auth/profile');
-            return response.data;
+            console.log('📝 Iniciando registro:', email);
+
+            const response = await api.post('/auth/register', { name, email, password });
+
+            if (response.data?.success) {
+                console.log('✅ Registro bem-sucedido');
+
+                // ✅ Armazenar token
+                localStorage.setItem('token', response.data.token);
+
+                // ✅ Armazenar dados do usuário
+                localStorage.setItem('user', JSON.stringify({
+                    id: response.data.user.id,
+                    name: response.data.user.name,
+                    email: response.data.user.email
+                }));
+
+                // ✅ IMPORTANTE: Limpar customer (novo usuário ainda não tem)
+                localStorage.removeItem('customer');
+                console.log('ℹ️ Customer removido (novo usuário)');
+
+                return response.data;
+            } else {
+                throw new Error(response.data?.message || 'Erro ao fazer registro');
+            }
+
         } catch (error) {
-            console.error('❌ Erro ao buscar perfil:', error.message);
+            console.error('❌ Erro ao fazer registro:', error.message);
             throw error;
         }
     },
 
     /**
-     * Faz logout do usuário
-     */
-    logout() {
-        try {
-            console.log('🚪 Fazendo logout...');
-            
-            // ✅ Corrigido: era 'toke', agora é 'token'
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            
-            console.log('✅ Logout realizado com sucesso');
-            
-            // Redirecionar para home ou login
-            window.location.href = '/';
-        } catch (error) {
-            console.error('❌ Erro no logout:', error.message);
-        }
-    },
-
-    /**
-     * Obtém o usuário atual do localStorage
-     * @returns {Object|null} Dados do usuário ou null
-     */
-    getCurrentUser() {
-        try {
-            const user = localStorage.getItem('user');
-            return user ? JSON.parse(user) : null;
-        } catch (error) {
-            console.error('❌ Erro ao obter usuário atual:', error.message);
-            return null;
-        }
-    },
-
-    /**
-     * Verifica se o usuário está autenticado
-     * @returns {boolean} True se autenticado
+     * Verificar se está autenticado
      */
     isAuthenticated() {
         const token = localStorage.getItem('token');
-        return !!token;
+        const user = localStorage.getItem('user');
+
+        console.log('🔐 Verificando autenticação...');
+        console.log('   Token:', token ? '✅ Existe' : '❌ Não existe');
+        console.log('   Usuário:', user ? '✅ Existe' : '❌ Não existe');
+
+        return !!(token && user);
     },
 
     /**
-     * Obtém o token do localStorage
-     * @returns {string|null} Token ou null
+     * Obter usuário atual
+     */
+    getCurrentUser() {
+        const user = localStorage.getItem('user');
+
+        if (user) {
+            try {
+                const parsedUser = JSON.parse(user);
+                console.log('👤 Usuário atual:', parsedUser.id);
+                return parsedUser;
+            } catch (error) {
+                console.error('❌ Erro ao fazer parse do usuário:', error);
+                return null;
+            }
+        }
+
+        console.warn('⚠️ Nenhum usuário autenticado');
+        return null;
+    },
+
+    /**
+     * Obter customer atual
+     */
+    getCurrentCustomer() {
+        const customer = localStorage.getItem('customer');
+
+        if (customer) {
+            try {
+                const parsedCustomer = JSON.parse(customer);
+                console.log('📋 Customer atual:', parsedCustomer.id);
+                return parsedCustomer;
+            } catch (error) {
+                console.error('❌ Erro ao fazer parse do customer:', error);
+                return null;
+            }
+        }
+
+        console.log('ℹ️ Nenhum customer encontrado');
+        return null;
+    },
+
+    /**
+     * Atualizar customer no localStorage
+     */
+    updateCurrentCustomer(customerData) {
+        console.log('💾 Atualizando customer no localStorage:', customerData);
+        localStorage.setItem('customer', JSON.stringify(customerData));
+    },
+
+    /**
+     * Fazer logout
+     */
+    logout() {
+        console.log('🚪 Realizando logout...');
+
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        localStorage.removeItem('customer');
+
+        console.log('✅ Logout realizado com sucesso');
+    },
+
+    /**
+     * Obter token
      */
     getToken() {
         return localStorage.getItem('token');

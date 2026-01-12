@@ -6,6 +6,7 @@ import HeroBanner from "../../components/HeroBanner/HeroBanner";
 import HealthBeautySection from "../../components/HeroHealthBeauty/HealthBeautySection";
 //Assets
 import logo from "../../assets/logo_nexus_sem_fundo.png";
+import UranusSection from "../../components/UranusSection/UranusSection";
 
 const WHATSAPP_PHONE = "5551992747402";
 
@@ -118,6 +119,7 @@ const Home = () => {
           onCtaClick={handleTestClick}
         />
         <HealthBeautySection />
+        <UranusSection/>
         <div className={styles.buttonContainer}>
           <Link to="/test-message" className={styles.btn}>
             Faça um teste

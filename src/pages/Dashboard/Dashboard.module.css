@@ -75,7 +75,12 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 16px 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--surface);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    width: 95%;
+    margin-left: 2.5%;
 }
 
 .brand { display: flex; flex-direction: column; gap: 2px; }
@@ -304,4 +309,82 @@ body {
 /* Responsividade geral */
 @media (max-width: 640px) {
     .grid { grid-template-columns: 1fr; }
+}
+
+/* ✅ Container de loading */
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-size: 18px;
+  color: var(--text-secondary);
+}
+
+/* ✅ Banner de erro */
+.errorBanner {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  animation: slideDown 0.3s ease-out;
+}
+
+/* ✅ Tema escuro para banner de erro */
+[data-theme="dark"] .errorBanner {
+  background-color: #7f1d1d;
+  color: #fecaca;
+  border-color: #991b1b;
+}
+
+/* ✅ Animação de slide */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ✅ Desabilitar botão com opacidade */
+.ghostBtn:disabled,
+.primaryBtn:disabled,
+.secondaryBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Botão de Edição */
+.editBtn {
+    padding: 8px 16px;
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.editBtn:hover {
+    background-color: #0052a3;
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+}
+
+.editBtn:active {
+    transform: scale(0.98);
+}
+
+.editBtn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }

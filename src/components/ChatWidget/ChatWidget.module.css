@@ -1,0 +1,72 @@
+.container {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1000;
+}
+
+.fab {
+    width: 56px;
+    height: 56px;
+    border-radius: 28px;
+    background: #3498db;
+    color: #fff;
+    border: none;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .25);
+}
+
+.chat {
+    position: fixed;
+    right: 20px;
+    bottom: 88px;
+    width: 340px;
+    max-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
+}
+
+.header {
+    padding: 10px 12px;
+    font-weight: 600;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.body {
+    padding: 12px;
+    overflow: auto;
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputRow {
+    padding: 8px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.msgUser {
+    align-self: flex-end;
+    background: #2563eb;
+    color: #fff;
+    padding: 8px 10px;
+    border-radius: 12px 12px 2px 12px;
+    max-width: 80%;
+}
+
+.msgBot {
+    align-self: flex-start;
+    background: #f3f4f6;
+    color: #111827;
+    padding: 8px 10px;
+    border-radius: 12px 12px 12px 2px;
+    max-width: 80%;
+}
+
+.typing {
+    color: #6b7280;
+    font-size: 12px;
+}
