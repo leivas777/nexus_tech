@@ -13,7 +13,7 @@ export const googleCalendarService = {
         try {
             console.log('🔐 Obtendo URL de autenticação do Google...');
 
-            const response = await api.get('/auth/google/url');
+            const response = await api.get('/api/auth/google/url');
             console.log('✅ URL de autenticação obtida');
             return response.data.authUrl;
         } catch (error) {
@@ -29,7 +29,7 @@ export const googleCalendarService = {
         try {
             console.log('🔍 Verificando status do Google Calendar...');
 
-            const response = await api.get('/auth/google/status');
+            const response = await api.get(`/auth/google/status?t=${new Date().getTime()}`);
             console.log(
                 `✅ Status: ${response.data.isConnected ? 'Conectado' : 'Desconectado'}`
             );
@@ -51,7 +51,7 @@ export const googleCalendarService = {
         try {
             console.log('🔌 Desconectando Google Calendar...');
 
-            const response = await api.post('/auth/google/disconnect');
+            const response = await api.post('/api/auth/google/disconnect');
             console.log('✅ Google Calendar desconectado');
             return response.data;
         } catch (error) {
@@ -67,11 +67,16 @@ export const googleCalendarService = {
         try {
             console.log('🔐 Iniciando autenticação com Google...');
 
-            const authUrl = await this.getAuthUrl();
-            window.location.href = authUrl;
+            const token = localStorage.getItem('token')
+
+            if(!token){
+                throw new Error ('Usuário não autenticado no sistema local.');
+            }
+
+            window.location.href = `http://localhost:3001/api/auth/google?token=${token}`;
         } catch (error) {
             console.error('❌ Erro ao iniciar autenticação:', error.message);
-            throw error;
+            alert("Erro ao conectar com Google: " + error.message);
         }
     },
 
@@ -82,7 +87,7 @@ export const googleCalendarService = {
         try {
             console.log(`📅 Listando eventos de ${startDate} a ${endDate}...`);
 
-            const response = await api.get('/auth/google/events', {
+            const response = await api.get('/api/auth/google/events', {
                 params: {
                     startDate: startDate.toISOString(),
                     endDate: endDate.toISOString()

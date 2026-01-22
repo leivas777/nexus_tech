@@ -9,6 +9,8 @@ import {
   useLocation,
 } from "react-router-dom";
 
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
 //Pages
 import Home from "./pages/Home/Home";
 import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
@@ -24,6 +26,7 @@ import UranusB2B from "./pages/UranusB2B/UranusB2B";
 import UranusB2C from "./pages/UranusB2C/UranusB2C";
 import WhatsAppNormal from "./pages/WhatsAppNormal/WhatsAppNormal";
 import Calendar from "./pages/Calendar/Calendar";
+import Agenda from "./pages/Agenda/Agenda";
 
 function AppContent() {
   const location = useLocation();
@@ -44,6 +47,7 @@ function AppContent() {
           <Route path="/uranusb2c" element={<UranusB2C/>}/>
           <Route path="/whats-nao-oficial" element={<WhatsAppNormal/>}/>
           <Route path="/agenda" element={<Calendar/>}/>
+          <Route path="/agendar" element={<Agenda/>}/>
         </Routes>
         {isDashboard ? <DashboardFooter/>:<Footer/>}
         
@@ -53,9 +57,11 @@ function AppContent() {
 
 function App(){
   return (
-    <Router>
-      <AppContent/>
-    </Router>
+    <GoogleOAuthProvider clientId="10016738900-p58t59j9dsdbi8jbefpoekckdk1f4bp6.apps.googleusercontent.com">
+      <Router>
+        <AppContent/>
+      </Router>
+    </GoogleOAuthProvider>
   )
 }
 

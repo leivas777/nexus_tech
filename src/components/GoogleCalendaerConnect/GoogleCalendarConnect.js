@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useGoogleLogin } from '@react-oauth/google'; // Importe o hook
 import styles from "./GoogleCalendarConnect.module.css";
 import { googleCalendarService } from "../../services/googleCalendarService";
+import api from "../../services/api"; // Certifique-se de importar sua instância do axios
 
 export default function GoogleCalendarConnect({ onConnected }) {
     const [isConnected, setIsConnected] = useState(false);
@@ -8,6 +11,7 @@ export default function GoogleCalendarConnect({ onConnected }) {
     const [error, setError] = useState(null);
     const [calendarEmail, setCalendarEmail] = useState(null);
 
+    // ✅ Verifica o status da conexão ao carregar o componente
     useEffect(() => {
         checkConnectionStatus();
     }, []);
@@ -20,23 +24,42 @@ export default function GoogleCalendarConnect({ onConnected }) {
             setCalendarEmail(status.email);
             setError(null);
         } catch (err) {
-            console.error("❌ Erro:", err);
+            console.error("❌ Erro ao verificar status:", err);
             setError("Erro ao verificar conexão");
         } finally {
             setLoading(false);
         }
     };
 
-    const handleConnect = async () => {
-        try {
-            setLoading(true);
-            await googleCalendarService.initiateAuth();
-        } catch (err) {
-            console.error("❌ Erro:", err);
-            setError("Erro ao iniciar autenticação com Google");
-            setLoading(false);
-        }
-    };
+    // ✅ Configuração do Login do Google
+    const login = useGoogleLogin({
+        onSuccess: async (codeResponse) => {
+            try {
+                setLoading(true);
+                console.log("🔐 Código recebido do Google, enviando ao backend...");
+
+                // Envia o 'code' para a nova rota de armazenamento de tokens
+                await api.post('/auth/google/store-tokens', {
+                    code: codeResponse.code
+                });
+
+                console.log("✅ Conexão realizada com sucesso!");
+                await checkConnectionStatus(); // Atualiza a interface
+                if (onConnected) onConnected();
+            } catch (err) {
+                console.error("❌ Erro ao salvar tokens:", err);
+                setError("Erro ao sincronizar com o servidor");
+            } finally {
+                setLoading(false);
+            }
+        },
+        onError: (error) => {
+            console.error("❌ Erro no Login Google:", error);
+            setError("Falha na autenticação com o Google");
+        },
+        flow: 'auth-code', // Crucial para receber o 'code' e permitir o Refresh Token
+        scope: 'https://www.googleapis.com/auth/calendar', // Permissão para o calendário
+    });
 
     const handleDisconnect = async () => {
         try {
@@ -46,18 +69,12 @@ export default function GoogleCalendarConnect({ onConnected }) {
             setCalendarEmail(null);
             setError(null);
         } catch (err) {
-            console.error("❌ Erro:", err);
+            console.error("❌ Erro ao desconectar:", err);
             setError("Erro ao desconectar");
         } finally {
             setLoading(false);
         }
     };
-
-    useEffect(() => {
-        if (isConnected && onConnected) {
-            onConnected();
-        }
-    }, [isConnected, onConnected]);
 
     return (
         <div className={styles.container}>
@@ -74,17 +91,13 @@ export default function GoogleCalendarConnect({ onConnected }) {
                     </div>
                 </div>
 
-                {error && (
-                    <div className={styles.error} role="alert">
-                        ❌ {error}
-                    </div>
-                )}
+                {error && <div className={styles.error} role="alert">❌ {error}</div>}
 
                 <div className={styles.statusSection}>
                     {loading ? (
                         <div className={styles.loading}>
                             <span className={styles.spinner}></span>
-                            <p>Verificando conexão...</p>
+                            <p>Processando...</p>
                         </div>
                     ) : isConnected ? (
                         <div className={styles.connected}>
@@ -93,11 +106,7 @@ export default function GoogleCalendarConnect({ onConnected }) {
                                 Conectado
                             </div>
                             <p className={styles.email}>{calendarEmail}</p>
-                            <button
-                                className={styles.disconnectBtn}
-                                onClick={handleDisconnect}
-                                disabled={loading}
-                            >
+                            <button className={styles.disconnectBtn} onClick={handleDisconnect} disabled={loading}>
                                 🔌 Desconectar
                             </button>
                         </div>
@@ -106,11 +115,8 @@ export default function GoogleCalendarConnect({ onConnected }) {
                             <p className={styles.message}>
                                 Conecte sua conta Google Calendar para sincronizar agendamentos
                             </p>
-                            <button
-                                className={styles.connectBtn}
-                                onClick={handleConnect}
-                                disabled={loading}
-                            >
+                            {/* ✅ O botão agora chama a função 'login' da biblioteca */}
+                            <button className={styles.connectBtn} onClick={() => login()} disabled={loading}>
                                 🔗 Conectar Google Calendar
                             </button>
                         </div>

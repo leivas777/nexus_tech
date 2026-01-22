@@ -5,6 +5,8 @@ import GoogleCalendarConnect from "../../components/GoogleCalendaerConnect/Googl
 import { authService } from "../../services/authService";
 import { appointmentService } from "../../services/appointmentService";
 import { googleCalendarService } from "../../services/googleCalendarService";
+import { useLocation } from "react-router-dom";
+
 
 export default function Calendar() {
     const [appointments, setAppointments] = useState([]);
@@ -13,11 +15,17 @@ export default function Calendar() {
     const [userData, setUserData] = useState(null);
     const [googleConnected, setGoogleConnected] = useState(false);
     const [activeTab, setActiveTab] = useState("calendar");
+    const location = useLocation();
 
     useEffect(() => {
-        loadAppointments();
-        checkGoogleConnection();
-    }, []);
+        const params = new URLSearchParams(location.search);
+        
+        // Se a URL mudar e tiver sucesso, apenas atualiza os dados locais
+        if (params.get("google_status") === "success") {
+            checkGoogleConnection();
+            loadAppointments();
+        }
+    }, [location]);
 
     const loadAppointments = async () => {
         try {
