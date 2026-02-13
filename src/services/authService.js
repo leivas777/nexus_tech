@@ -6,40 +6,32 @@ export const authService = {
      */
     async login(email, password) {
         try {
-            console.log('🔐 Iniciando login:', email);
+            console.log('🔐 Iniciando login SaaS:', email);
 
             const response = await api.post('/auth/login', { email, password });
 
-            if (response.data?.success) {
+            // No novo backend, se não der erro, os dados vem direto no response.data
+            if (response.data && response.data.token) {
                 console.log('✅ Login bem-sucedido');
 
-                // ✅ Armazenar token
                 localStorage.setItem('token', response.data.token);
-
-                // ✅ Armazenar dados do usuário
+                
+                // Ajustado para o que o seu novo backend retorna
                 localStorage.setItem('user', JSON.stringify({
-                    id: response.data.user.id,
-                    name: response.data.user.name,
-                    email: response.data.user.email
+                    id: response.data.userId, // O backend retorna userId
+                    email: email
                 }));
 
-                // ✅ Armazenar dados do customer (se existir)
-                if (response.data.customer) {
-                    console.log('✅ Customer encontrado:', response.data.customer.id);
-                    localStorage.setItem('customer', JSON.stringify(response.data.customer));
-                } else {
-                    console.log('ℹ️ Nenhum customer encontrado para este usuário');
-                    localStorage.removeItem('customer');
-                }
-
-                return response.data;
+                return { success: true, ...response.data };
             } else {
-                throw new Error(response.data?.message || 'Erro ao fazer login');
+                throw new Error('Falha na autenticação');
             }
 
         } catch (error) {
-            console.error('❌ Erro ao fazer login:', error.message);
-            throw error;
+            // Captura a mensagem de erro vinda do backend (ex: "Credenciais inválidas")
+            const errorMsg = error.response?.data?.error || error.message;
+            console.error('❌ Erro ao fazer login:', errorMsg);
+            throw new Error(errorMsg);
         }
     },
 
@@ -48,36 +40,46 @@ export const authService = {
      */
     async register(name, email, password) {
         try {
-            console.log('📝 Iniciando registro:', email);
+            console.log('📝 Iniciando registro SaaS:', email);
 
-            const response = await api.post('/auth/register', { name, email, password });
+            // O novo backend signup espera apenas email e password por enquanto
+            const response = await api.post('/auth/signup', { email, password });
 
-            if (response.data?.success) {
+            // Se o status for 201 (Criado), consideramos sucesso
+            if (response.status === 201 || response.data?.userId) {
                 console.log('✅ Registro bem-sucedido');
 
-                // ✅ Armazenar token
-                localStorage.setItem('token', response.data.token);
-
-                // ✅ Armazenar dados do usuário
-                localStorage.setItem('user', JSON.stringify({
-                    id: response.data.user.id,
-                    name: response.data.user.name,
-                    email: response.data.user.email
-                }));
-
-                // ✅ IMPORTANTE: Limpar customer (novo usuário ainda não tem)
-                localStorage.removeItem('customer');
-                console.log('ℹ️ Customer removido (novo usuário)');
-
-                return response.data;
+                // Opcional: Você pode logar o usuário automaticamente aqui 
+                // ou pedir para ele fazer login. Se o backend não retorna token no signup:
+                return { success: true, userId: response.data.userId };
             } else {
-                throw new Error(response.data?.message || 'Erro ao fazer registro');
+                throw new Error('Erro ao criar conta');
             }
 
         } catch (error) {
-            console.error('❌ Erro ao fazer registro:', error.message);
-            throw error;
+            const errorMsg = error.response?.data?.error || error.message;
+            console.error('❌ Erro ao fazer registro:', errorMsg);
+            throw new Error(errorMsg);
         }
+    },
+
+    async  getProfile() {
+        try{
+            const token = this.getToken();
+            if(!token) return null;
+
+            const response = await api.get('auth/me', {
+            headers: { Authorization: `Bearer ${token}`}
+            });
+
+            if(response.data){
+            localStorage.setItem('user', JSON.stringify(response.data));
+            return response.data
+            }
+        }catch(error){
+            console.error("Erro ao sincronizar perfil:", error);
+            return null
+        }        
     },
 
     /**
@@ -163,4 +165,5 @@ export const authService = {
     getToken() {
         return localStorage.getItem('token');
     }
+
 };

@@ -1,0 +1,205 @@
+.container {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.grid {
+  display: flex;
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+}
+
+.timeColumn {
+  width: 60px;
+  flex-shrink: 0;
+  background: #fcfcfc;
+  border-right: 1px solid #eee;
+}
+
+.dayColumn {
+  flex: 1;
+  border-right: 1px solid #eee;
+}
+
+.dayHeader {
+  height: 70px;
+  /* Altura fixa para o cabeçalho */
+  text-align: center;
+  padding: 10px;
+  background: #f8f9fa;
+  border-bottom: 2px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  /* Crucial para o padding não somar na altura */
+}
+
+.spacer {
+  height: 70px;
+  /* EXATAMENTE a mesma altura do dayHeader */
+  border-bottom: 2px solid transparent;
+  /* Para alinhar com a borda do vizinho */
+}
+
+.timeLabel {
+  height: 80px;
+  /* Altura do slot */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: #666;
+  border-bottom: 1px solid transparent;
+  /* Espaço para alinhar com a borda do slot */
+}
+
+.slot {
+  height: 80px;
+  border-bottom: 1px solid #eee;
+  box-sizing: border-box;
+  position: relative;
+  /* Crucial: define o limite para o ícone absoluto */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s
+}
+
+.dayName {
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.dayNumber {
+  font-size: 1.2rem;
+}
+
+.slots {
+  display: flex;
+  flex-direction: column;
+}
+
+.slot:hover {
+  background-color: #f0f7ff;
+}
+
+.slot:hover:not(.blocked) {
+  background-color: #f0f7ff;
+}
+
+.addIcon {
+  display: none;
+  /* Escondido por padrão */
+  color: #2196f3;
+  font-size: 1.5rem;
+  font-weight: 300;
+  pointer-events: none;
+}
+
+.slot:hover .addIcon {
+  display: block;
+}
+
+.slot.booked {
+  cursor: default;
+  display: block;
+  padding: 2px;
+  background-color: #e1ecfa;
+  border: 1px solid #bad3f6;
+}
+
+.slot.booked:hover {
+  background-color: #ffebee;
+  border: 1px solid #f8cbd2;
+}
+
+.appointmentBadge {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.75rem;
+  padding: 4px;
+  color: #1976d2;
+}
+
+.clientName {
+  font-weight: 600;
+  color: #1565c0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.serviceName {
+  color: #1976d2;
+  font-size: 0.75rem;
+}
+
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.saveBtn {
+  background: #2196f3;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cancelBtn {
+  background: #eee;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}

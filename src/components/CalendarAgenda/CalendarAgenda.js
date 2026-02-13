@@ -1,7 +1,8 @@
 import { useState } from "react";
 import styles from "./CalendarAgenda.module.css";
-import Calendar from "react-calendar";
+import MiniCalendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import CalendarCalendar from "../CalendarCalendar/CalendarCalendar";
 
 const CalendarAgenda = () => {
   const [value, setValue] = useState(new Date());
@@ -9,11 +10,17 @@ const CalendarAgenda = () => {
   return (
     <>
       <section className={styles.main}>
-        <div className={styles.top}>
-          <Calendar onChange={setValue} value={value} />
+        <div className={styles.sidebar}>
+          <div className={styles.top}>
+            <MiniCalendar onChange={setValue} value={value} />
+          </div>
+          <div className={styles.mid}>
+            <p>Usuários</p>
+          </div>
         </div>
-        <div className={styles.mid}>
-          <p>Usuários</p>
+        <div className={styles.content}>
+          {/* A grade detalhada escuta o 'value'e reage a ele */}
+          <CalendarCalendar currentDate={value instanceof Date ? value : new Date()} onDateChange={setValue} />
         </div>
       </section>
     </>

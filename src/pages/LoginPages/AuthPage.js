@@ -4,9 +4,10 @@ import styles from "./AuthPage.module.css";
 import logo from "../../assets/logo_nexus_sem_fundo.png";
 import { authService } from "../../services/authService";
 
-export default function AuthPage() {
 
-  
+export default function AuthPage() {
+  const API_BASE_URL = "https://michel-ruthless-mythically.ngrok-free.dev/api/auth";
+
   const navigate = useNavigate();
 
   // ✅ Estados de tema
@@ -54,7 +55,8 @@ export default function AuthPage() {
       const userStr = localStorage.getItem("user");
 
       // Validar token e user
-      const hasValidToken = token && typeof token === "string" && token.length > 0;
+      const hasValidToken =
+        token && typeof token === "string" && token.length > 0;
       const hasValidUser = userStr && typeof userStr === "string";
 
       console.log("🔍 Verificando autenticação...");
@@ -73,12 +75,44 @@ export default function AuthPage() {
           localStorage.removeItem("user");
         }
       } else {
-        console.log("ℹ️ Usuário não autenticado. Permitindo acesso a /registration");
+        console.log(
+          "ℹ️ Usuário não autenticado. Permitindo acesso a /registration",
+        );
       }
     } catch (err) {
       console.error("❌ Erro ao verificar autenticação:", err);
     }
   }, [navigate]);
+
+  useEffect(() => {
+  // 1. Criar a função que a Meta chamará automaticamente
+  window.fbAsyncInit = function() {
+    window.FB.init({
+      appId      : 'SEU_META_APP_ID', // Certifique-se de que é o ID correto
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v18.0'
+    });
+    
+    // Testar se o init funcionou
+    console.log("✅ SDK da Meta Inicializado e vinculado ao App");
+  };
+
+  // 2. Carregar o script (apenas se ainda não existir)
+  const loadSDK = (d, s, id) => {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {
+      // Se o script já existe, forçamos o init manualmente
+      if (window.FB) window.fbAsyncInit();
+      return;
+    }
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/pt_BR/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  };
+
+  loadSDK(document, 'script', 'facebook-jssdk');
+}, []);
 
   // ✅ Efeito para tema
   useEffect(() => {
@@ -191,6 +225,12 @@ export default function AuthPage() {
     console.log(`📊 Alterado para modo: ${newMode}`);
   };
 
+  const handleGoogleLogin = () => {
+    setLoading(true);
+    window.location.href = `${process.env.BACKEND_URL}api/auth/google`;
+  };
+
+
   return (
     <div className={styles.fullPage}>
       <div className={styles.page}>
@@ -298,11 +338,7 @@ export default function AuthPage() {
             )}
 
             {/* ✅ Formulário */}
-            <form
-              className={styles.form}
-              noValidate
-              onSubmit={handleSubmit}
-            >
+            <form className={styles.form} noValidate onSubmit={handleSubmit}>
               {/* ✅ Campo de Nome (apenas para registro) */}
               {mode === "signup" && (
                 <div className={styles.field}>
@@ -461,18 +497,18 @@ export default function AuthPage() {
               </div>
 
               {/* ✅ Botão Google */}
-              <button
-                type="button"
-                className={styles.googleBtn}
-                onClick={() =>
-                  alert("Login com Google (em desenvolvimento)")
-                }
-                aria-label="Continuar com Google"
-                disabled={loading}
-              >
-                <span className={styles.googleG}>G</span>
-                <span>Continuar com Google</span>
-              </button>
+              <div className={styles.socialButtons}>
+                <button
+                  type="button"
+                  className={styles.googleBtn}
+                  onClick={handleGoogleLogin}
+                  aria-label="Continuar com Google"
+                  disabled={loading}
+                >
+                  <span className={styles.googleG}>G</span>
+                  <span>Continuar com Google</span>
+                </button>
+              </div>
 
               {/* ✅ Texto legal */}
               <p className={styles.legalText}>

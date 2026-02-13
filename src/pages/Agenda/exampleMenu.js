@@ -1,5 +1,6 @@
 import React from "react";
 import WhatsApp from "../../assets/WhatsApp.png";
+import Instagram from "../../assets/instagram.png";
 const Icon = ({ children }) => (
   <span style={{ fontSize: 16, lineHeight: 1 }}>{children}</span>
 );
@@ -14,13 +15,17 @@ export const exampleMenu = [
     key: "dashboard",
     label: "Dashboard",
     icon: <Icon>📊</Icon>,
-    link: "/",
+    link: "/dashboard",
   },
   {
     key: 'whatsApp',
     label: 'WhatsApp',
     icon: <img src={WhatsApp} alt="whatsapp" />
-
+  },
+  {
+    key: 'instagram',
+    label: 'Instagram',
+    icon: <img src={Instagram} alt="instagram" />
   },
   {
     key: "agenda",

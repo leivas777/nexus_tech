@@ -22,7 +22,7 @@ const getApiUrl = () => {
     }
 
     console.warn('⚠️ Ambiente desconhecido, usando URL padrão');
-    return 'http://localhost:3001/api';
+    return `${process.env.BACKEND_URL}`;
 };
 
 const API_BASE_URL = getApiUrl();

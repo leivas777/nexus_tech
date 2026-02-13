@@ -73,7 +73,7 @@ export const googleCalendarService = {
                 throw new Error ('Usuário não autenticado no sistema local.');
             }
 
-            window.location.href = `http://localhost:3001/api/auth/google?token=${token}`;
+            window.location.href = `${process.env.BACKEND_URL}api/auth/google?token=${token}`;
         } catch (error) {
             console.error('❌ Erro ao iniciar autenticação:', error.message);
             alert("Erro ao conectar com Google: " + error.message);

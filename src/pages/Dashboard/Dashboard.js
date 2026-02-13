@@ -3,12 +3,8 @@ import React, { useMemo, useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import styles from "./Dashboard.module.css";
 import { useFacebookSDK } from "../../hooks/useFacebookSDK";
-import { launchEmbeddedSignup } from "../../services/launchEmbeddedSignup";
-import { buildSignupExtras } from "../../utils/buildSignupExtras";
 import { authService } from "../../services/authService";
-import { customerService } from "../../services/customerService";
-import EditCustomerModal from "../../components/EditCustomerModal/EditCustomerModal";
-import ChatWidget from "../../components/ChatWidget/ChatWidget";
+
 
 import facebookLogo from "../../assets/Facebook_logo_PNG12.png";
 import instagramLogo from "../../assets/InstagramPNG.png";
@@ -18,6 +14,7 @@ import nexusAI from "../../assets/nexusAI.png";
 import uranusB2B from "../../assets/Uranus1.png";
 import uranusB2C from "../../assets/Uranus2.png";
 import calendar from "../../assets/calendar.png";
+import TenantSetupModal from "../../components/TenantSetupModal/TenantSetupModal";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -26,6 +23,10 @@ export default function Dashboard() {
   const [loadingLogout, setLoadingLogout] = useState(false);
   const [error, setError] = useState(null);
   const [searchParams] = useSearchParams();
+  const [showSetupModal, setShowSetupModal] = useState(false);
+  const [hasTenant, setHasTenant] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const user = authService.getCurrentUser();
 
   // ✅ Dados do usuário (imutáveis)
   const [userData, setUserData] = useState({
@@ -34,68 +35,35 @@ export default function Dashboard() {
     email: "Carregando...",
   });
 
-  // ✅ Dados do customer (editáveis)
-  const [customerData, setCustomerData] = useState({
-    id: null,
-    nome: "Não preenchido",
-    email: "Não preenchido",
-    segmento: "Não informado",
-    qtdClientes: "0",
-    site: "Não informado",
-    telefone: "Não informado",
-  });
-
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [hasCustomer, setHasCustomer] = useState(false);
-
   // ✅ Carregar dados ao montar
   useEffect(() => {
-    try {
-      console.log("🔐 Verificando autenticação no Dashboard...");
+    const loadData = async () => {
+      try {
+        if (!authService.isAuthenticated()) {
+          navigate("/registration");
+          return;
+        }
 
-      if (!authService.isAuthenticated()) {
-        console.warn("⚠️ Usuário não autenticado! Redirecionando...");
-        navigate("/registration", { replace: true });
-        return;
+        //Busca dados novos do servidor (incluindo o tenantId se existir)
+        const freshUser = await authService.getProfile();
+
+        if (freshUser) {
+          setUserData({
+            id: freshUser.id,
+            name: freshUser.name || freshUser.email,
+            email: freshUser.email,
+          });
+          setHasTenant(!!freshUser.tenantId);
+          console.log("✅ Dashboard sincronizado. TenantId:", freshUser.tenantId)
+        }
+      } catch (err) {
+        console.error("Erro ao carregar perfil:", err);
+        setError("Não foi possível carregar os dados do perfil.");
+      } finally {
+        setLoading(false);
       }
-
-      // ✅ Obter dados do usuário do localStorage
-      const user = authService.getCurrentUser();
-      console.log("👤 Usuário recuperado:", user);
-
-      if (user) {
-        setUserData({
-          id: user.id,
-          name: user.name,
-          email: user.email,
-        });
-      }
-
-      // ✅ Obter dados do customer do localStorage
-      const customer = authService.getCurrentCustomer();
-      console.log("📋 Customer recuperado:", customer);
-
-      if (customer) {
-        setCustomerData({
-          id: customer.id,
-          nome: customer.nome,
-          email: customer.email,
-          segmento: customer.segmento,
-          qtdClientes: customer.qtdClientes,
-          site: customer.site,
-          telefone: customer.telefone,
-        });
-        setHasCustomer(true);
-      } else {
-        setHasCustomer(false);
-      }
-
-      setLoading(false);
-    } catch (err) {
-      console.error("❌ Erro ao carregar Dashboard:", err);
-      setError("Erro ao carregar dados");
-      setLoading(false);
-    }
+    };
+    loadData();
   }, [navigate]);
 
   // ✅ Calcular iniciais do nome
@@ -109,9 +77,6 @@ export default function Dashboard() {
         .toUpperCase() || "U"
     );
   }, [userData?.name]);
-
-  // ✅ Dados para integração Meta
-  const cliente = useMemo(() => customerData, [customerData]);
 
   useFacebookSDK(process.env.REACT_APP_META_APP_ID);
 
@@ -152,30 +117,6 @@ export default function Dashboard() {
     }
   };
 
-  // ✅ Salvar alterações do customer
-  const handleEditSave = (updatedData) => {
-    console.log("✅ Customer atualizado:", updatedData);
-
-    // Atualizar no estado
-    setCustomerData((prev) => ({
-      ...prev,
-      ...updatedData,
-    }));
-
-    // Atualizar no localStorage
-    authService.updateCurrentCustomer({
-      id: customerData.id,
-      nome: updatedData.nome || customerData.nome,
-      email: updatedData.email || customerData.email,
-      segmento: updatedData.segmento || customerData.segmento,
-      qtdClientes: updatedData.qtdClientes || customerData.qtdClientes,
-      site: updatedData.site || customerData.site,
-      telefone: updatedData.telefone || customerData.telefone,
-    });
-
-    setHasCustomer(true);
-  };
-
   async function setupWhatsApp() {
     try {
       setLoading(true);
@@ -200,40 +141,30 @@ export default function Dashboard() {
     }
   }
 
-  async function onConnect() {
-    try {
-      setLoading(true);
-      setError(null);
-
-      const extras = buildSignupExtras({
-        name: userData.name, // ✅ Usar nome do usuário
-        website: customerData.site,
-        email: userData.email, // ✅ Usar email do usuário
-        phone: customerData.telefone,
-      });
-
-      console.log("🚀 Iniciando Embedded Signup com extras:", extras);
-
-      launchEmbeddedSignup({
-        configId: process.env.REACT_APP_META_LOGIN_CONFIG_ID,
-        redirectUri: process.env.REACT_APP_META_REDIRECT_URI,
-        extras,
-      });
-    } catch (e) {
-      console.error("❌ Erro ao iniciar integração:", e);
-      setError("Erro ao iniciar integração.");
-    } finally {
-      setLoading(false);
-    }
-  }
-
   async function onWhatsAppNormal() {
     navigate("/whats-nao-oficial");
   }
 
-  async function onCalendar() {
-    navigate("/agenda");
-  }
+  const handleOpenScheduler = () => {
+    //1. Buscar o usuário mais atualizado do localStorage
+    const currentUser = authService.getCurrentUser();
+
+    console.log("🔍 Verificando tenant para o usuário:", currentUser);
+
+    if (!currentUser || !currentUser.id) {
+      setError("Erro ao identificar usuário. Tente fazer login novamente.");
+      return;
+    }
+
+    //2. Verifica se ele já possui um tenantId vinculado
+    if (!currentUser.tenantId) {
+      console.log("ℹ️ Usuário sem negócio configurado. Abrindo setup...");
+      setIsModalOpen(true);
+    } else {
+      console.log("✅ Negócio identificado. Acessando agenda...");
+      navigate("/agendar");
+    }
+  };
 
   if (loading) {
     return (
@@ -247,14 +178,6 @@ export default function Dashboard() {
 
   return (
     <div className={styles.container}>
-      {/* ✅ Modal de Edição */}
-      <EditCustomerModal
-        isOpen={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
-        customer={customerData}
-        onSave={handleEditSave}
-      />
-
       <header className={styles.header}>
         <div className={styles.brand}>
           <h1 className={styles.title}>Dashboard</h1>
@@ -288,84 +211,6 @@ export default function Dashboard() {
             ❌ {error}
           </div>
         )}
-
-        {/* ✅ Card de Dados do Negócio (editáveis) */}
-        <section className={styles.card}>
-          <div className={styles.sectionHeader}>
-            <h2 className={styles.cardTitle}>Dados do Negócio</h2>
-            {hasCustomer ? (
-              <button
-                className={styles.editBtn}
-                type="button"
-                onClick={() => setIsEditModalOpen(true)}
-                aria-label="Editar dados do negócio"
-              >
-                ✏️ Editar
-              </button>
-            ) : (
-              <button
-                className={styles.editBtn}
-                type="button"
-                onClick={() => setIsEditModalOpen(true)}
-                aria-label="Preencher dados do negócio"
-              >
-                ➕ Preencher
-              </button>
-            )}
-          </div>
-          <div className={styles.grid}>
-            <InfoRow label="Segmento" value={customerData.segmento} />
-            <InfoRow
-              label="Qtd. de Clientes"
-              value={customerData.qtdClientes}
-            />
-            <InfoRow label="Site" value={customerData.site} />
-            <InfoRow label="Telefone" value={customerData.telefone} />
-          </div>
-        </section>
-
-        <section className={styles.card}>
-          <div className={styles.sectionHeader}>
-            <h2 className={styles.cardTitle}>WhatsApp Business</h2>
-            <StatusBadge status={waStatus} />
-          </div>
-
-          {error && (
-            <div className={styles.error} role="alert" aria-live="assertive">
-              {error}
-            </div>
-          )}
-
-          <div className={styles.inlineActions}>
-            <button
-              className={styles.primaryBtn}
-              onClick={onConnect}
-              disabled={loading || waStatus === "conectado"}
-              type="button"
-            >
-              {loading && (
-                <span className={styles.btnLoader} aria-hidden="true" />
-              )}
-              {loading ? "Conectando..." : "Conectar via Facebook"}
-            </button>
-
-            <button
-              className={styles.subtleBtn}
-              onClick={setupWhatsApp}
-              disabled={loading}
-              type="button"
-              aria-label="Reverificar status do WhatsApp Business"
-            >
-              Re‑verificar status
-            </button>
-          </div>
-
-          <ul className={styles.listCompact}>
-            <li>Integração: {waStatus}</li>
-            <li>Automações ativas: 0</li>
-            <li>Próximos passos: conectar conta, criar fluxo</li>
-          </ul>
-        </section>
         <section className={styles.card}>
           <h2 className={styles.cardTitle}>Crie seu Auto-Atendimento</h2>
           <div className={styles.cardsGrid3}>
@@ -376,7 +221,7 @@ export default function Dashboard() {
               description="Gerencie a integração dos atendimentos do seu consultório"
               text="Acessar"
               enabled={true}
-              onClick={onCalendar}
+              onClick={handleOpenScheduler}
             />
           </div>
         </section>
@@ -464,33 +309,32 @@ export default function Dashboard() {
             />
           </div>
         </section>
-        <ChatWidget user={userData} customer={customerData} />
+
+        {isModalOpen && (
+          <TenantSetupModal
+            userId={userData.id}
+            onClose={() => setIsModalOpen(false)}
+            onSuccess={(newTenant) => {
+              // 1. Atualizar o estado local para o Dashboard saber que agora tem tenant
+              setHasTenant(true);
+
+              // Atualizar o localStorgae para que o handleAgendadorClick funcione na próxima vez
+              const currentUser = authService.getCurrentUser() || {};
+              const updateUser = {
+                ...currentUser,
+                tenantId: newTenant.id,
+                businessName: newTenant.name
+              };
+              localStorage.setItem("user", JSON.stringify(updateUser));
+              navigate("/agendar");
+            }}
+          />
+        )}
       </main>
     </div>
   );
 }
 
-function InfoRow({ label, value }) {
-  return (
-    <div className={styles.infoRow}>
-      <span className={styles.infoLabel}>{label}</span>
-      <span className={styles.infoValue}>{value}</span>
-    </div>
-  );
-}
-
-function StatusBadge({ status }) {
-  const map = {
-    conectado: { label: "Conectado", cls: styles.statusConectado },
-    pendente: { label: "Pendente", cls: styles.statusPendente },
-    parcial: { label: "Parcial", cls: styles.statusParcial },
-    erro: { label: "Erro", cls: styles.statusErro },
-  };
-  const conf = map[status] || map.pendente;
-  return (
-    <span className={`${styles.statusBadge} ${conf.cls}`}>{conf.label}</span>
-  );
-}
 
 function ActionCard({
   img,

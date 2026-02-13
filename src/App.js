@@ -27,6 +27,8 @@ import UranusB2C from "./pages/UranusB2C/UranusB2C";
 import WhatsAppNormal from "./pages/WhatsAppNormal/WhatsAppNormal";
 import Calendar from "./pages/Calendar/Calendar";
 import Agenda from "./pages/Agenda/Agenda";
+import GenAi from "./pages/GenAi/GenAi";
+import AuthSuccess from "./pages/Auth/AuthSuccess";
 
 function AppContent() {
   const location = useLocation();
@@ -43,11 +45,13 @@ function AppContent() {
           <Route path="/about" element={<About />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/registration" element={<AuthPage />} />
+          <Route path="/auth-success" element={<AuthSuccess/>}/>
           <Route path="/uranusb2b" element={<UranusB2B/>}/>
           <Route path="/uranusb2c" element={<UranusB2C/>}/>
           <Route path="/whats-nao-oficial" element={<WhatsAppNormal/>}/>
           <Route path="/agenda" element={<Calendar/>}/>
           <Route path="/agendar" element={<Agenda/>}/>
+          <Route path="/genAi" element={<GenAi/>}/>
         </Routes>
         {isDashboard ? <DashboardFooter/>:<Footer/>}
         
