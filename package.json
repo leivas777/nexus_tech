@@ -20,6 +20,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@uiw/react-json-view": "^2.0.0-alpha.39",
     "axios": "^1.13.2",
+    "date-fns": "^4.1.0",
     "jspdf": "^4.0.0",
     "react": "^19.2.0",
     "react-calendar": "^6.0.0",
@@ -54,6 +55,7 @@
     ]
   },
   "devDependencies": {
+    "baseline-browser-mapping": "^2.9.19",
     "gh-pages": "^6.3.0",
     "nodemon": "^3.1.11"
   }
