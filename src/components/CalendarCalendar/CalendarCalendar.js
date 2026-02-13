@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import styles from "./CalendaCalendar.module.css";
 import { format, addDays, startOfWeek, endOfWeek, isSameDay } from "date-fns";
-import ptBR from "date-fns/locale/pt-BR";
+import { ptBR } from "date-fns/locale";
 
 const generateHours = () => {
   const hours = [];
