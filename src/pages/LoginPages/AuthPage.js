@@ -6,7 +6,6 @@ import { authService } from "../../services/authService";
 
 
 export default function AuthPage() {
-  const API_BASE_URL = "https://michel-ruthless-mythically.ngrok-free.dev/api/auth";
 
   const navigate = useNavigate();
 

@@ -2,9 +2,8 @@ import styles from "./TestMessage.module.css";
 import logo from "../../assets/logo_nexus.png";
 
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import JsonView from "@uiw/react-json-view";
-import Footer from "../../components/Footer/Footer";
 
 const TestMessage = () => {
   const [template] = useState("hello_world");

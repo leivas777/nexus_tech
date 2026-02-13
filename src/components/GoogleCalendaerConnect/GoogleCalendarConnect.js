@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import { useGoogleLogin } from '@react-oauth/google'; // Importe o hook
 import styles from "./GoogleCalendarConnect.module.css";
 import { googleCalendarService } from "../../services/googleCalendarService";

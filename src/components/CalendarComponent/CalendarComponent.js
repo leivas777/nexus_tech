@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState } from "react";
 import styles from "./CalendarComponent.module.css";
 
 const DAYS_OF_WEEK = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
@@ -45,7 +45,6 @@ export default function CalendarComponent({ appointments = [] }) {
     const getAppointmentsForDay = (day) => {
         if (!day) return [];
 
-        const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
         return appointments.filter((apt) => {
             const aptDate = new Date(apt.startTime);
             return (

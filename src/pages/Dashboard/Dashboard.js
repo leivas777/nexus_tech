@@ -23,10 +23,8 @@ export default function Dashboard() {
   const [loadingLogout, setLoadingLogout] = useState(false);
   const [error, setError] = useState(null);
   const [searchParams] = useSearchParams();
-  const [showSetupModal, setShowSetupModal] = useState(false);
   const [hasTenant, setHasTenant] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const user = authService.getCurrentUser();
 
   // ✅ Dados do usuário (imutáveis)
   const [userData, setUserData] = useState({
