@@ -28,7 +28,7 @@ const DashboardFooter = () => {
             >
               Entre em contato pelo WhatsApp
             </a>
-            <a href="">Fale com nossa IA</a>
+            <a href="/">Fale com nossa IA</a>
           </div>
         </div>
 
@@ -36,7 +36,7 @@ const DashboardFooter = () => {
           <p>&copy; Leivas & Leivas Ltda</p>
           <p>Todos os direitos reservados.</p>
           <p>
-            <a href="" to="/privacy-policy">Política de Privacidade</a>
+            <a href="/" to="/privacy-policy">Política de Privacidade</a>
           </p>
         </div>
       </div>

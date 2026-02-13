@@ -18,11 +18,13 @@ import TenantSetupModal from "../../components/TenantSetupModal/TenantSetupModal
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  // eslint-disable-next-line no-unused-vars
   const [waStatus, setWaStatus] = useState("pendente");
   const [loading, setLoading] = useState(true);
   const [loadingLogout, setLoadingLogout] = useState(false);
   const [error, setError] = useState(null);
   const [searchParams] = useSearchParams();
+  // eslint-disable-next-line no-unused-vars
   const [hasTenant, setHasTenant] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 

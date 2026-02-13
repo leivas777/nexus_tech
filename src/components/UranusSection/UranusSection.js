@@ -13,7 +13,6 @@ function UranusSection() {
     <section
       aria-labelledby="uranus-title"
       className="uranus-section"
-      role="region"
     >
       <div className="uranus-container">
         {/* Hero */}

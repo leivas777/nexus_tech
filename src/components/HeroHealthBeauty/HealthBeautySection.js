@@ -8,7 +8,7 @@ function HealthBeautySection() {
   };
 
   return (
-    <section aria-labelledby="benefits-title" className="benefits-section" role="region">
+    <section aria-labelledby="benefits-title" className="benefits-section">
       <div className="benefits-container">
         {/* Hero com Comparação de Tempo */}
         <div className="benefits-hero">
