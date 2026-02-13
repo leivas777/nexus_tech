@@ -226,7 +226,7 @@ export default function AuthPage() {
 
   const handleGoogleLogin = () => {
     setLoading(true);
-    window.location.href = `${process.env.BACKEND_URL}api/auth/google`;
+    window.location.href = `${process.env.REACT_APP_BACKEND_URL}api/auth/google`;
   };
 
 
