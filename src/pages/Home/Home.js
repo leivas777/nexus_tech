@@ -65,13 +65,7 @@ const Home = () => {
         href: "https://nexustech.tec.br/",
         quote: "Conheça a Leivas & Leivas - Soluções tecnológicas inovadoras!",
       },
-      function (response) {
-        if (response && !response.error_message) {
-          console.log("Compartilhamento realizado com sucesso!");
-        } else {
-          console.log("Erro no compartilhamento:", response);
-        }
-      }
+      
     );
   };
 
@@ -86,13 +80,10 @@ const Home = () => {
     window.FB.login(
       function (response) {
         if (response.authResponse) {
-          console.log("Login realizado com sucesso!");
           window.FB.api("/me", { fields: "name, email" }, function (userInfo) {
-            console.log("Informações do usuário:", userInfo);
+
           });
-        } else {
-          console.log("Usuário cancelou o Login.");
-        }
+        } 
       },
       { scope: "email, public_profile" }
     );

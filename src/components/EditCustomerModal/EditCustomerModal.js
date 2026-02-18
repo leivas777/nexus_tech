@@ -26,12 +26,11 @@ export default function EditCustomerModal({ isOpen, onClose, customer, onSave })
                 setLoadingSegments(true);
                 setError(null);
 
-                console.log('📋 Carregando segmentos...');
 
                 const response = await api.get('/auth/business-segments');
 
                 if (response.data?.success) {
-                    console.log('✅ Segmentos carregados:', response.data.data);
+
                     setSegments(response.data.data);
                 }
             } catch (err) {
@@ -98,8 +97,6 @@ export default function EditCustomerModal({ isOpen, onClose, customer, onSave })
             setError(null);
             setSuccess(false);
 
-            console.log('💾 Atualizando customer:', formData);
-
             // ✅ Se customer não existe, criar
             if (!customer.id) {
                 const newCustomer = await customerService.createCustomer({
@@ -108,7 +105,6 @@ export default function EditCustomerModal({ isOpen, onClose, customer, onSave })
                     ...formData
                 });
 
-                console.log('✅ Customer criado:', newCustomer.id);
                 setSuccess(true);
 
                 if (onSave) {
@@ -127,7 +123,6 @@ export default function EditCustomerModal({ isOpen, onClose, customer, onSave })
                     ...formData
                 });
 
-                console.log('✅ Customer atualizado');
                 setSuccess(true);
 
                 if (onSave) {

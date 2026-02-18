@@ -32,7 +32,7 @@ export default function ChatWidget({ user, customer }) {
     useEffect(() => {
         const newSessionId = generateSessionId();
         setSessionId(newSessionId);
-        console.log("🔑 SessionId gerado:", newSessionId);
+
     }, []);
 
     // Mantém o contexto atualizado

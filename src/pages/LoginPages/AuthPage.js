@@ -58,14 +58,10 @@ export default function AuthPage() {
         token && typeof token === "string" && token.length > 0;
       const hasValidUser = userStr && typeof userStr === "string";
 
-      console.log("🔍 Verificando autenticação...");
-      console.log("   Token válido?", hasValidToken);
-      console.log("   User válido?", hasValidUser);
-
       if (hasValidToken && hasValidUser) {
         try {
           JSON.parse(userStr); // Validar se é JSON válido
-          console.log("✅ Usuário autenticado! Redirecionando para dashboard");
+
           navigate("/dashboard", { replace: true });
         } catch (e) {
           console.warn("⚠️ User no localStorage é inválido:", e.message);
@@ -73,11 +69,7 @@ export default function AuthPage() {
           localStorage.removeItem("token");
           localStorage.removeItem("user");
         }
-      } else {
-        console.log(
-          "ℹ️ Usuário não autenticado. Permitindo acesso a /registration",
-        );
-      }
+      } 
     } catch (err) {
       console.error("❌ Erro ao verificar autenticação:", err);
     }
@@ -92,9 +84,6 @@ export default function AuthPage() {
       xfbml      : true,
       version    : 'v18.0'
     });
-    
-    // Testar se o init funcionou
-    console.log("✅ SDK da Meta Inicializado e vinculado ao App");
   };
 
   // 2. Carregar o script (apenas se ainda não existir)
@@ -171,13 +160,10 @@ export default function AuthPage() {
 
       if (mode === "login") {
         // ✅ Login
-        console.log("🔐 Tentando fazer login com:", email);
         response = await authService.login(email, password);
-        console.log("✅ Resposta do servidor:", response);
 
         if (response.success) {
           setSuccessMessage("Login realizado com sucesso! Redirecionando...");
-          console.log("✅ Login bem-sucedido!");
 
           // Aguardar um momento e redirecionar
           setTimeout(() => {
@@ -188,13 +174,10 @@ export default function AuthPage() {
         }
       } else {
         // ✅ Registro
-        console.log("📝 Tentando registrar usuário:", email);
         response = await authService.register(name, email, password);
-        console.log("✅ Resposta do servidor:", response);
 
         if (response.success) {
           setSuccessMessage("Conta criada com sucesso! Redirecionando...");
-          console.log("✅ Registro bem-sucedido!");
 
           // Aguardar um momento e redirecionar
           setTimeout(() => {
@@ -221,7 +204,6 @@ export default function AuthPage() {
     setEmail("");
     setPassword("");
     setTouched({ name: false, email: false, password: false });
-    console.log(`📊 Alterado para modo: ${newMode}`);
   };
 
   const handleGoogleLogin = () => {

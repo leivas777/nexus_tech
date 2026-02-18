@@ -5,19 +5,14 @@ const getApiUrl = () => {
     const isDev = process.env.NODE_ENV === 'development';
     const isProd = process.env.NODE_ENV === 'production';
 
-    console.log('🌍 Ambiente detectado:', process.env.NODE_ENV);
 
     if(isDev){
-        console.log('✅ Usando URL de DESENVOLVIMENTO');
         const url = process.env.REACT_APP_API_URL_DEV || 'http://localhost:3001/api';
-        console.log('   URL:', url);
         return url;
     }
 
     if (isProd) {
-        console.log('✅ Usando URL de PRODUÇÃO');
         const url = process.env.REACT_APP_API_PROD || 'https://nexutech.api.br/api';
-        console.log('   URL:', url);
         return url;
     }
 
@@ -26,8 +21,6 @@ const getApiUrl = () => {
 };
 
 const API_BASE_URL = getApiUrl();
-
-console.log(`🌐 Backend conectado em: ${API_BASE_URL}`);
 
 const api = axios.create({
     baseURL: API_BASE_URL,
@@ -41,11 +34,9 @@ const api = axios.create({
 // ✅ Interceptor para adicionar token automaticamente
 api.interceptors.request.use(
     (config) => {
-        console.log(`📤 ${config.method?.toUpperCase()} ${API_BASE_URL}${config.url}`);
         const token = localStorage.getItem('token');
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
-            console.log('🔑 Token adicionado ao header');
         }
         return config;
     },
@@ -58,7 +49,6 @@ api.interceptors.request.use(
 // ✅ Interceptor para tratar erros de resposta
 api.interceptors.response.use(
     (response) => {
-        console.log(`✅ Resposta bem-sucedida: ${response.status}`);
         return response;
     },
     (error) => {

@@ -7,12 +7,9 @@ export const customerService = {
      */
     async getCustomer() {
         try {
-            console.log('📋 Buscando customer do usuário...');
-
             const response = await api.get('/auth/customers');
 
             if (response.data?.success) {
-                console.log('✅ Customer encontrado:', response.data.data);
                 return response.data.data;
             } else {
                 throw new Error(response.data?.message || 'Erro ao buscar customer');
@@ -22,7 +19,6 @@ export const customerService = {
             console.error('❌ Erro ao buscar customer:', error.message);
             // Retornar null se não encontrar (não é erro)
             if (error.response?.status === 404) {
-                console.log('ℹ️ Customer não existe ainda');
                 return null;
             }
             throw error;
@@ -34,8 +30,6 @@ export const customerService = {
      */
     async createCustomer(customerData) {
         try {
-            console.log('📝 Criando novo customer:', customerData);
-
             const response = await api.post('/auth/customers', {
                 nome: customerData.nome,
                 email: customerData.email,
@@ -46,7 +40,6 @@ export const customerService = {
             });
 
             if (response.data?.success) {
-                console.log('✅ Customer criado com sucesso!');
                 return response.data.data;
             } else {
                 throw new Error(response.data?.message || 'Erro ao criar customer');
@@ -63,12 +56,9 @@ export const customerService = {
      */
     async updateCustomer(id, customerData) {
         try {
-            console.log('✏️ Atualizando customer:', id, customerData);
-
             const response = await api.put(`/auth/customers/${id}`, customerData);
 
             if (response.data?.success) {
-                console.log('✅ Customer atualizado com sucesso!');
                 return response.data.data;
             } else {
                 throw new Error(response.data?.message || 'Erro ao atualizar customer');
@@ -85,12 +75,9 @@ export const customerService = {
      */
     async deleteCustomer(id) {
         try {
-            console.log('🗑️ Deletando customer:', id);
-
             const response = await api.delete(`/auth/customers/${id}`);
 
             if (response.data?.success) {
-                console.log('✅ Customer deletado com sucesso!');
                 return response.data;
             } else {
                 throw new Error(response.data?.message || 'Erro ao deletar customer');

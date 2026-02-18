@@ -11,10 +11,7 @@ export const googleCalendarService = {
      */
     async getAuthUrl() {
         try {
-            console.log('🔐 Obtendo URL de autenticação do Google...');
-
             const response = await api.get('/api/auth/google/url');
-            console.log('✅ URL de autenticação obtida');
             return response.data.authUrl;
         } catch (error) {
             console.error('❌ Erro ao obter URL de autenticação:', error.message);
@@ -27,12 +24,7 @@ export const googleCalendarService = {
      */
     async getConnectionStatus() {
         try {
-            console.log('🔍 Verificando status do Google Calendar...');
-
             const response = await api.get(`/auth/google/status?t=${new Date().getTime()}`);
-            console.log(
-                `✅ Status: ${response.data.isConnected ? 'Conectado' : 'Desconectado'}`
-            );
             return {
                 isConnected: response.data.isConnected,
                 calendarId: response.data.calendarId,
@@ -49,10 +41,7 @@ export const googleCalendarService = {
      */
     async disconnect() {
         try {
-            console.log('🔌 Desconectando Google Calendar...');
-
             const response = await api.post('/api/auth/google/disconnect');
-            console.log('✅ Google Calendar desconectado');
             return response.data;
         } catch (error) {
             console.error('❌ Erro ao desconectar:', error.message);
@@ -65,8 +54,6 @@ export const googleCalendarService = {
      */
     async initiateAuth() {
         try {
-            console.log('🔐 Iniciando autenticação com Google...');
-
             const token = localStorage.getItem('token')
 
             if(!token){
@@ -85,8 +72,6 @@ export const googleCalendarService = {
      */
     async listEvents(startDate, endDate) {
         try {
-            console.log(`📅 Listando eventos de ${startDate} a ${endDate}...`);
-
             const response = await api.get('/api/auth/google/events', {
                 params: {
                     startDate: startDate.toISOString(),
@@ -94,7 +79,6 @@ export const googleCalendarService = {
                 }
             });
 
-            console.log(`✅ ${response.data.events?.length || 0} eventos encontrados`);
             return response.data.events || [];
         } catch (error) {
             console.error('❌ Erro ao listar eventos:', error.message);

@@ -54,7 +54,6 @@ export default function Dashboard() {
             email: freshUser.email,
           });
           setHasTenant(!!freshUser.tenantId);
-          console.log("✅ Dashboard sincronizado. TenantId:", freshUser.tenantId)
         }
       } catch (err) {
         console.error("Erro ao carregar perfil:", err);
@@ -85,7 +84,6 @@ export default function Dashboard() {
     const metaStatus = searchParams.get("meta_status");
 
     if (metaStatus === "success") {
-      console.log("✅ Retorno bem-sucedido do Meta");
       setupWhatsApp();
     } else if (metaStatus === "error") {
       setError("Erro ao conectar com o Facebook. Tente novamente.");
@@ -101,11 +99,8 @@ export default function Dashboard() {
   const handleLogout = async () => {
     try {
       setLoadingLogout(true);
-      console.log("🚪 Iniciando logout...");
 
       authService.logout();
-
-      console.log("✅ Logout realizado com sucesso");
 
       setTimeout(() => {
         navigate("/", { replace: true });
@@ -122,8 +117,6 @@ export default function Dashboard() {
       setLoading(true);
       const r = await fetch("/api/meta/setup-whatsapp", { method: "POST" });
       const data = await r.json();
-
-      console.log("📍 Setup response:", data);
 
       if (r.ok && data.status === "connected") {
         setWaStatus("conectado");
@@ -149,8 +142,6 @@ export default function Dashboard() {
     //1. Buscar o usuário mais atualizado do localStorage
     const currentUser = authService.getCurrentUser();
 
-    console.log("🔍 Verificando tenant para o usuário:", currentUser);
-
     if (!currentUser || !currentUser.id) {
       setError("Erro ao identificar usuário. Tente fazer login novamente.");
       return;
@@ -158,10 +149,8 @@ export default function Dashboard() {
 
     //2. Verifica se ele já possui um tenantId vinculado
     if (!currentUser.tenantId) {
-      console.log("ℹ️ Usuário sem negócio configurado. Abrindo setup...");
       setIsModalOpen(true);
     } else {
-      console.log("✅ Negócio identificado. Acessando agenda...");
       navigate("/agendar");
     }
   };

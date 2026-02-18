@@ -11,15 +11,10 @@ export const appointmentService = {
      */
     async getAppointments(filters = {}) {
         try {
-            console.log('📅 Buscando agendamentos...');
 
             const response = await api.get('/appointments', {
                 params: filters
             });
-
-            console.log(
-                `✅ ${response.data.appointments?.length || 0} agendamentos encontrados`
-            );
             return response.data.appointments || [];
         } catch (error) {
             console.error('❌ Erro ao buscar agendamentos:', error.message);
@@ -32,7 +27,6 @@ export const appointmentService = {
      */
     async getAppointmentById(id) {
         try {
-            console.log(`📅 Buscando agendamento ${id}...`);
             const response = await api.get(`/appointments/${id}`);
             return response.data.appointment;
         } catch (error) {
@@ -46,9 +40,7 @@ export const appointmentService = {
      */
     async createAppointment(appointmentData) {
         try {
-            console.log('📝 Criando novo agendamento...', appointmentData);
 
-            // Validações básicas
             if (!appointmentData.title) {
                 throw new Error('Título é obrigatório');
             }
@@ -60,7 +52,6 @@ export const appointmentService = {
             }
 
             const response = await api.post('/appointments', appointmentData);
-            console.log('✅ Agendamento criado:', response.data.appointment?.id);
             return response.data.appointment;
         } catch (error) {
             console.error('❌ Erro ao criar agendamento:', error.message);
@@ -73,13 +64,11 @@ export const appointmentService = {
      */
     async updateAppointment(id, appointmentData) {
         try {
-            console.log(`📝 Atualizando agendamento ${id}...`, appointmentData);
 
             const response = await api.put(
                 `/appointments/${id}`,
                 appointmentData
             );
-            console.log('✅ Agendamento atualizado');
             return response.data.appointment;
         } catch (error) {
             console.error(`❌ Erro ao atualizar agendamento ${id}:`, error.message);
@@ -92,10 +81,7 @@ export const appointmentService = {
      */
     async deleteAppointment(id) {
         try {
-            console.log(`🗑️ Deletando agendamento ${id}...`);
-
             const response = await api.delete(`/appointments/${id}`);
-            console.log('✅ Agendamento deletado');
             return response.data;
         } catch (error) {
             console.error(`❌ Erro ao deletar agendamento ${id}:`, error.message);
@@ -108,10 +94,6 @@ export const appointmentService = {
      */
     async getAppointmentsByDateRange(startDate, endDate) {
         try {
-            console.log(
-                `📅 Buscando agendamentos de ${startDate} a ${endDate}...`
-            );
-
             const response = await api.get('/appointments', {
                 params: {
                     startDate: startDate.toISOString(),

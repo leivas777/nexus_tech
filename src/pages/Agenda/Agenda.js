@@ -18,8 +18,7 @@ const Agenda = () => {
           cookie: true,
           xfbml: true,
           version: "v18.0",
-        });
-        console.log("✅ SDK da Meta Inicializado");
+        })
       }
     };
     if (!window.FB) {
@@ -41,20 +40,12 @@ const Agenda = () => {
 
     window.FB.login(
       (response) => {
-        console.log("--- DEBUG CONEXÃO META ---");
-        console.log("Status:", response.status);
 
         if (response.authResponse) {
-          // ✅ Aqui está o log que precisamos
-          console.log(
-            "Escopos Concedidos:",
-            response.authResponse.grantedScopes,
-          );
 
           const accessToken = response.authResponse.accessToken;
           saveWhatsAppToken(accessToken);
         } else {
-          console.log("Usuário cancelou ou não autorizou.");
           setLoading(false);
         }
       },
@@ -83,7 +74,7 @@ const Agenda = () => {
           const accessToken = response.authResponse.accessToken;
           saveInstagramToken(accessToken);
         } else {
-          console.log("Usuário cancelou o login do Instagram.");
+
         }
       },
       {
@@ -106,7 +97,7 @@ const Agenda = () => {
         accessToken,
       });
       alert("WhatsApp conectado com sucesso ao seu negócio!");
-      console.log("✅ Sucesso:", response.data);
+
     } catch (error) {
       console.error(error);
       alert("Erro ao vincular no saveWhatsAppToken:", error);
@@ -129,7 +120,6 @@ const Agenda = () => {
         },
       );
       alert("Instagram conectado com sucesso!");
-      console.log("✅ Sucesso Instagram:", response.data);
     } catch (error) {
       console.error("Erro ao vincular Instagram:", error);
       alert("Erro ao vincular Instagram.");

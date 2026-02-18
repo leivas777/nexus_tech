@@ -39,15 +39,9 @@ const CalendarCalendar = ({ currentDate, onDateChange }) => {
 
     try {
       const response = await fetch(
-        `https://michel-ruthless-mythically.ngrok-free.dev/api/appointments/${tenantId}?start=${start}&end=${end}`,
-        {
-          headers: {
-            "ngrok-skip-browser-warning": "true", // 👈 Isso pula a tela de aviso do ngrok
-            "Accept": "application/json"
-          }
-        }
+        `${process.env.REACT_APP_BACKEND_URL}/api/appointments/${tenantId}?start=${start}&end=${end}`,
+
       );
-      console.log(response)
       const data = await response.json();
       
       if(Array.isArray(data)){

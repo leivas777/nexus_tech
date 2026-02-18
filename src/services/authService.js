@@ -6,13 +6,10 @@ export const authService = {
      */
     async login(email, password) {
         try {
-            console.log('🔐 Iniciando login SaaS:', email);
-
             const response = await api.post('/auth/login', { email, password });
 
             // No novo backend, se não der erro, os dados vem direto no response.data
             if (response.data && response.data.token) {
-                console.log('✅ Login bem-sucedido');
 
                 localStorage.setItem('token', response.data.token);
                 
@@ -40,15 +37,11 @@ export const authService = {
      */
     async register(name, email, password) {
         try {
-            console.log('📝 Iniciando registro SaaS:', email);
-
             // O novo backend signup espera apenas email e password por enquanto
             const response = await api.post('/auth/signup', { email, password });
 
             // Se o status for 201 (Criado), consideramos sucesso
             if (response.status === 201 || response.data?.userId) {
-                console.log('✅ Registro bem-sucedido');
-
                 // Opcional: Você pode logar o usuário automaticamente aqui 
                 // ou pedir para ele fazer login. Se o backend não retorna token no signup:
                 return { success: true, userId: response.data.userId };
@@ -88,11 +81,6 @@ export const authService = {
     isAuthenticated() {
         const token = localStorage.getItem('token');
         const user = localStorage.getItem('user');
-
-        console.log('🔐 Verificando autenticação...');
-        console.log('   Token:', token ? '✅ Existe' : '❌ Não existe');
-        console.log('   Usuário:', user ? '✅ Existe' : '❌ Não existe');
-
         return !!(token && user);
     },
 
@@ -105,7 +93,6 @@ export const authService = {
         if (user) {
             try {
                 const parsedUser = JSON.parse(user);
-                console.log('👤 Usuário atual:', parsedUser.id);
                 return parsedUser;
             } catch (error) {
                 console.error('❌ Erro ao fazer parse do usuário:', error);
@@ -126,15 +113,12 @@ export const authService = {
         if (customer) {
             try {
                 const parsedCustomer = JSON.parse(customer);
-                console.log('📋 Customer atual:', parsedCustomer.id);
                 return parsedCustomer;
             } catch (error) {
                 console.error('❌ Erro ao fazer parse do customer:', error);
                 return null;
             }
         }
-
-        console.log('ℹ️ Nenhum customer encontrado');
         return null;
     },
 
@@ -142,7 +126,6 @@ export const authService = {
      * Atualizar customer no localStorage
      */
     updateCurrentCustomer(customerData) {
-        console.log('💾 Atualizando customer no localStorage:', customerData);
         localStorage.setItem('customer', JSON.stringify(customerData));
     },
 
@@ -150,13 +133,9 @@ export const authService = {
      * Fazer logout
      */
     logout() {
-        console.log('🚪 Realizando logout...');
-
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         localStorage.removeItem('customer');
-
-        console.log('✅ Logout realizado com sucesso');
     },
 
     /**

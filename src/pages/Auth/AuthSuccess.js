@@ -19,7 +19,6 @@ export default function AuthSuccess(){
                 email,
                 tenantId: tenantId || null
              }));
-            console.log("✅ Token social capturado com sucesso!");
             navigate("/dashboard", { replace: true });
         }else{
             navigate("/auth", { replace: true });

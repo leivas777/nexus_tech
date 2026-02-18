@@ -72,7 +72,6 @@ const SidebarItem = ({
 
     // 1. Prioridade: Se o item tem uma função onClick (WhatsApp)
     if (item.onClick) {
-      console.log(`🚀 Executando ação customizada para: ${item.label}`);
       item.onClick();
       return;
     }

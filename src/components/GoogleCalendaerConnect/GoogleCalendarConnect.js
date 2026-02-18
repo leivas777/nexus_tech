@@ -35,14 +35,12 @@ export default function GoogleCalendarConnect({ onConnected }) {
         onSuccess: async (codeResponse) => {
             try {
                 setLoading(true);
-                console.log("🔐 Código recebido do Google, enviando ao backend...");
 
                 // Envia o 'code' para a nova rota de armazenamento de tokens
                 await api.post('/auth/google/store-tokens', {
                     code: codeResponse.code
                 });
 
-                console.log("✅ Conexão realizada com sucesso!");
                 await checkConnectionStatus(); // Atualiza a interface
                 if (onConnected) onConnected();
             } catch (err) {
