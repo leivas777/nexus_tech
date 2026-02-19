@@ -93,7 +93,7 @@ const Agenda = () => {
       const user = JSON.parse(localStorage.getItem("user"));
       const tenantId = user?.tenantId;
 
-      const response = await api.post(`/tenants/${tenantId}/connect-whatsapp`, {
+      await api.post(`/tenants/${tenantId}/connect-whatsapp`, {
         accessToken,
       });
       alert("WhatsApp conectado com sucesso ao seu negócio!");
@@ -113,13 +113,14 @@ const Agenda = () => {
       const user = JSON.parse(localStorage.getItem("user"));
       const tenantId = user?.tenantId;
 
-      const response = await api.post(
+      await api.post(
         `/tenants/${tenantId}/connect-instagram`,
         {
           accessToken,
         },
       );
       alert("Instagram conectado com sucesso!");
+
     } catch (error) {
       console.error("Erro ao vincular Instagram:", error);
       alert("Erro ao vincular Instagram.");
