@@ -5,8 +5,10 @@ import { exampleMenu } from "./exampleMenu";
 import CalendarAgenda from "../../components/CalendarAgenda/CalendarAgenda";
 import ChatWidgetAppointment from "../../components/ChatWidgetAppointment/ChatWidgetAppointment";
 import api from "../../services/api"; // Certifique-se de ter sua instância do axios/api
+import { useNavigate } from "react-router-dom";
 
 const Agenda = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   // 1. Inicializar SDK da Meta ao carregar a Agenda
@@ -133,8 +135,10 @@ const Agenda = () => {
   const menuWithLogic = exampleMenu.map((item) => {
     if (item.key === "whatsApp") {
       return { ...item, onClick: handleConnectWhatsApp };
-    } else if (item.key === "instagram") {
+    } if (item.key === "instagram") {
       return { ...item, onClick: handleConnectInstagram };
+    } if (item.key === "services") {
+      return { ...item, onClick: () => navigate("/dashboard/services") };
     }
     return item;
   });
