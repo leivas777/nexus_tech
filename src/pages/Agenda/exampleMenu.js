@@ -28,6 +28,11 @@ export const exampleMenu = [
     icon: <img src={Instagram} alt="instagram" />
   },
   {
+    key: 'settings',
+    label: 'Meu Negócio',
+    icon: <Icon>🏢</Icon>
+  },
+  {
     key: "services",
     label: "Meus Serviços",
     icon: <Icon>🚚</Icon>

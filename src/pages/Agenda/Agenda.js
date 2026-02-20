@@ -7,9 +7,13 @@ import ChatWidgetAppointment from "../../components/ChatWidgetAppointment/ChatWi
 import api from "../../services/api"; // Certifique-se de ter sua instância do axios/api
 import { useNavigate } from "react-router-dom";
 
+
 const Agenda = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [businessData, setBusinessData] = useState(null);
+
+
 
   // 1. Inicializar SDK da Meta ao carregar a Agenda
   useEffect(() => {
@@ -139,9 +143,23 @@ const Agenda = () => {
       return { ...item, onClick: handleConnectInstagram };
     } if (item.key === "services") {
       return { ...item, onClick: () => navigate("/dashboard/services") };
+    } if (item.key === "settings") {
+      return { ...item, onClick: () => navigate("/business/settings") };
     }
     return item;
   });
+
+  useEffect(() => {
+    const fetchBusinessInfo = async () => {
+      try{
+        const response = await api.get("/tenants/me");
+        setBusinessData(response.data);
+      } catch (error) {
+        console.error("Erro ao carregar info do negócio", error);
+      }
+    };
+    fetchBusinessInfo()
+  }, []);
 
   return (
     <>
@@ -151,7 +169,31 @@ const Agenda = () => {
           <Sidebar menuItems={menuWithLogic} />
         </section>
         <section className={styles.agenda}>
-          {loading ? <p>Conectando WhatsApp...</p> : <CalendarAgenda />}
+          <div style={{ 
+            padding: '15px 25px', 
+            background: '#fff', 
+            borderBottom: '1px solid #eee',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}>
+            <div>
+              <h2 style={{ margin: 0, fontSize: '1.2rem' }}>Minha Agenda</h2>
+              <p style={{ margin: 0, fontSize: '0.8rem', color: '#666' }}>Gerencie seus compromissos</p>
+            </div>
+            
+            {/* Se estiver conectado ao Instagram, mostra aqui */}
+            {businessData?.instagramAccountId && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: '#f9f9f9', padding: '5px 12px', borderRadius: '20px', border: '1px solid #e0e0e0' }}>
+                <span style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#E1306C' }}>INSTAGRAM ATIVO</span>
+                <span style={{ fontSize: '0.85rem', color: '#333' }}>{businessData.name}</span>
+                {/* Se você salvar a foto no banco, use businessData.instagramProfilePic */}
+              </div>
+            )}
+          </div>
+          {loading ? (<div className={styles.loader}><p>Sincronizando com a Meta...</p></div>) : (
+            <CalendarAgenda />
+          )}
         </section>
       </section>
       <ChatWidgetAppointment />

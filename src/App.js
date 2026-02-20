@@ -30,6 +30,7 @@ import Agenda from "./pages/Agenda/Agenda";
 import GenAi from "./pages/GenAi/GenAi";
 import AuthSuccess from "./pages/Auth/AuthSuccess";
 import ServicesPage from "./pages/Dashboard/services";
+import SettingsPage from "./pages/Agenda/settings";
 
 function AppContent() {
   const location = useLocation();
@@ -54,6 +55,7 @@ function AppContent() {
           <Route path="/agendar" element={<Agenda/>}/>
           <Route path="/genAi" element={<GenAi/>}/>
           <Route path="/dashboard/services" element={<ServicesPage/>}/>
+          <Route path="/business/settings" element={<SettingsPage/>}/>
         </Routes>
         {isDashboard ? <DashboardFooter/>:<Footer/>}
         
