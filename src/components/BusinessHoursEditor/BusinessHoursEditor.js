@@ -91,7 +91,7 @@ export default function BusinessHoursEditor({ hours = {}, onChange }) {
             <div
               key={day.key}
               className={`${styles.row} ${isOpen ? styles.rowOpen : styles.rowClosed}`}
-              role="!istitem"
+
             >
               <div className={styles.left}>
                 <div className={styles.toggle}>
