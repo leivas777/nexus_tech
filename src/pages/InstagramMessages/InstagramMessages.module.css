@@ -1,0 +1,236 @@
+.container {
+    display: flex;
+    height: calc(100vh - 60px); /* Ajuste conforme a altura do seu header */
+    background-color: #f0f2f5;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Barra Lateral de Conversas */
+.sidebar {
+    width: 350px;
+    background: #fff;
+    border-right: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h2 {
+    margin: 0;
+    padding: 20px;
+    font-size: 1.2rem;
+    color: #1a1a1a;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.chatListItem {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f9f9f9;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.chatListItem:hover {
+    background-color: #f5f7fb;
+}
+
+.activeChat {
+    background-color: #e7f3ff !important;
+    border-left: 4px solid #0084ff;
+}
+
+.chatListItem p {
+    margin: 0;
+}
+
+.chatListItem .phone {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.chatListItem .lastMsg {
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Área do Chat */
+.chatArea {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+}
+
+.chatHeader {
+    padding: 15px 25px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    background: #fff;
+}
+
+.messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); /* Pattern do WhatsApp */
+    background-color: #e5ddd5;
+}
+
+/* Bolhas de Mensagem */
+.msgUser, .msgBot, .msgHuman {
+    max-width: 70%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+}
+
+.msgUser {
+    align-self: flex-start;
+    background-color: #fff;
+    border-bottom-left-radius: 0;
+}
+
+.msgBot {
+    align-self: flex-end;
+    background-color: #dcf8c6;
+    border-bottom-right-radius: 0;
+}
+
+.msgUser small, .msgBot small, .msgHuman small {
+    display: block;
+    font-size: 0.7rem;
+    margin-bottom: 4px;
+    font-weight: bold;
+    color: #075e54;
+}
+
+.msgUser p, .msgBot p, .msgHuman p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: #303030;
+}
+
+/* Área de Input */
+.inputArea {
+    padding: 15px 20px;
+    background: #f0f2f5;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.inputArea input {
+    flex: 1;
+    padding: 12px 15px;
+    border-radius: 25px;
+    border: 1px solid #fff;
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.inputArea button {
+    background-color: #0084ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.inputArea button:hover {
+    background-color: #0073e6;
+}
+
+.chatInfo {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Garante que o texto longo não quebre o layout */
+}
+
+.phone {
+    font-weight: 700;
+    color: #1a1a1a;
+    font-size: 0.95rem;
+    margin-bottom: 2px;
+}
+
+.lastMsg {
+    font-size: 0.82rem;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adiciona os "..." no final da mensagem se for longa */
+}
+
+.platformBadge {
+    font-size: 0.65rem;
+    background: #E1306C; /* Cor do Instagram */
+    color: white;
+    padding: 2px 6px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+    align-self: flex-start;
+    margin-top: 5px;
+}
+
+/* ... manter o container e sidebar anteriores ... */
+
+.platformIcon {
+    font-size: 14px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.bgInstagram { background-color: #E1306C; }
+.bgWhatsApp { background-color: #25D366; }
+
+/* Bolhas de Mensagem */
+.msgUser {
+    align-self: flex-start;
+    background-color: #fff; /* Branco/Cinza claro para o Cliente */
+    color: #333;
+}
+
+.msgBot {
+    align-self: flex-end;
+    background-color: #dcf8c6; /* Verde para a IA */
+    color: #303030;
+}
+
+.msgHuman {
+    align-self: flex-end;
+    background-color: #cfe9ff; /* Azul para você (Humano) */
+    color: #004085;
+    border-bottom-right-radius: 0;
+}
+
+/* Ajuste no cabeçalho das bolhas */
+.roleLabel {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 800;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+}
+
+.labelUser { color: #888; }
+.labelBot { color: #075e54; }
+.labelHuman { color: #004085; }

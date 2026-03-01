@@ -31,6 +31,7 @@ import GenAi from "./pages/GenAi/GenAi";
 import AuthSuccess from "./pages/Auth/AuthSuccess";
 import ServicesPage from "./pages/Dashboard/services";
 import SettingsPage from "./pages/Agenda/settings";
+import InstagramMessages from "./pages/InstagramMessages/InstagramMessages";
 
 function AppContent() {
   const location = useLocation();
@@ -54,8 +55,9 @@ function AppContent() {
           <Route path="/agenda" element={<Calendar/>}/>
           <Route path="/agendar" element={<Agenda/>}/>
           <Route path="/genAi" element={<GenAi/>}/>
-          <Route path="/dashboard/services" element={<ServicesPage/>}/>
+          <Route path="/business/services" element={<ServicesPage/>}/>
           <Route path="/business/settings" element={<SettingsPage/>}/>
+          <Route path="/business/instagram-messages" element={<InstagramMessages/>}/>
         </Routes>
         {isDashboard ? <DashboardFooter/>:<Footer/>}
         

@@ -7,13 +7,10 @@ import ChatWidgetAppointment from "../../components/ChatWidgetAppointment/ChatWi
 import api from "../../services/api"; // Certifique-se de ter sua instância do axios/api
 import { useNavigate } from "react-router-dom";
 
-
 const Agenda = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [businessData, setBusinessData] = useState(null);
-
-
 
   // 1. Inicializar SDK da Meta ao carregar a Agenda
   useEffect(() => {
@@ -24,7 +21,7 @@ const Agenda = () => {
           cookie: true,
           xfbml: true,
           version: "v18.0",
-        })
+        });
       }
     };
     if (!window.FB) {
@@ -46,9 +43,7 @@ const Agenda = () => {
 
     window.FB.login(
       (response) => {
-
         if (response.authResponse) {
-
           const accessToken = response.authResponse.accessToken;
           saveWhatsAppToken(accessToken);
         } else {
@@ -80,7 +75,6 @@ const Agenda = () => {
           const accessToken = response.authResponse.accessToken;
           saveInstagramToken(accessToken);
         } else {
-
         }
       },
       {
@@ -103,7 +97,6 @@ const Agenda = () => {
         accessToken,
       });
       alert("WhatsApp conectado com sucesso ao seu negócio!");
-
     } catch (error) {
       console.error(error);
       alert("Erro ao vincular no saveWhatsAppToken:", error);
@@ -119,14 +112,10 @@ const Agenda = () => {
       const user = JSON.parse(localStorage.getItem("user"));
       const tenantId = user?.tenantId;
 
-      await api.post(
-        `/tenants/${tenantId}/connect-instagram`,
-        {
-          accessToken,
-        },
-      );
+      await api.post(`/tenants/${tenantId}/connect-instagram`, {
+        accessToken,
+      });
       alert("Instagram conectado com sucesso!");
-
     } catch (error) {
       console.error("Erro ao vincular Instagram:", error);
       alert("Erro ao vincular Instagram.");
@@ -139,26 +128,35 @@ const Agenda = () => {
   const menuWithLogic = exampleMenu.map((item) => {
     if (item.key === "whatsApp") {
       return { ...item, onClick: handleConnectWhatsApp };
-    } if (item.key === "instagram") {
+    }
+    if (item.key === "instagram") {
       return { ...item, onClick: handleConnectInstagram };
-    } if (item.key === "services") {
-      return { ...item, onClick: () => navigate("/dashboard/services") };
-    } if (item.key === "settings") {
+    }
+    if (item.key === "services") {
+      return { ...item, onClick: () => navigate("/business/services") };
+    }
+    if (item.key === "business-settings") {
       return { ...item, onClick: () => navigate("/business/settings") };
+    }
+    if (item.key === "messages-dock") {
+      return {
+        ...item,
+        onClick: () => navigate("/business/instagram-messages"),
+      };
     }
     return item;
   });
 
   useEffect(() => {
     const fetchBusinessInfo = async () => {
-      try{
+      try {
         const response = await api.get("/tenants/me");
         setBusinessData(response.data);
       } catch (error) {
         console.error("Erro ao carregar info do negócio", error);
       }
     };
-    fetchBusinessInfo()
+    fetchBusinessInfo();
   }, []);
 
   return (
@@ -169,29 +167,111 @@ const Agenda = () => {
           <Sidebar menuItems={menuWithLogic} />
         </section>
         <section className={styles.agenda}>
-          <div style={{ 
-            padding: '15px 25px', 
-            background: '#fff', 
-            borderBottom: '1px solid #eee',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between'
-          }}>
+          <div
+            style={{
+              padding: "15px 25px",
+              background: "#fff",
+              borderBottom: "1px solid #eee",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
             <div>
-              <h2 style={{ margin: 0, fontSize: '1.2rem' }}>Minha Agenda</h2>
-              <p style={{ margin: 0, fontSize: '0.8rem', color: '#666' }}>Gerencie seus compromissos</p>
+              <h2 style={{ margin: 0, fontSize: "1.2rem" }}>Minha Agenda</h2>
+              <p style={{ margin: 0, fontSize: "0.8rem", color: "#666" }}>
+                Gerencie seus compromissos
+              </p>
             </div>
-            
-            {/* Se estiver conectado ao Instagram, mostra aqui */}
-            {businessData?.instagramAccountId && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: '#f9f9f9', padding: '5px 12px', borderRadius: '20px', border: '1px solid #e0e0e0' }}>
-                <span style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#E1306C' }}>INSTAGRAM ATIVO</span>
-                <span style={{ fontSize: '0.85rem', color: '#333' }}>{businessData.name}</span>
-                {/* Se você salvar a foto no banco, use businessData.instagramProfilePic */}
-              </div>
-            )}
+            <div className={styles.agendaHeader}>
+              {/* Se estiver conectado ao WhatsApp, mostra aqui */}
+              {businessData?.metaPhoneNumberId ? (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    background: "#f9f9f9",
+                    padding: "5px 12px",
+                    borderRadius: "20px",
+                    border: "1px solid #e0e0e0",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: "0.75rem",
+                      fontWeight: "bold",
+                      color: "#E1306C",
+                    }}
+                  >
+                    WHATSAPP ATIVO
+                  </span>
+                  <span style={{ fontSize: "0.85rem", collor: "#333" }}>
+                    {businessData.name}
+                  </span>
+                </div>
+              ) : (
+                <div
+                  style={{
+                    fontSize: "0.75rem",
+                    color: "#999",
+                    border: "1px dashed #ccc",
+                    padding: "5px 12px",
+                    borderRadius: "20px",
+                  }}
+                >
+                  WhatsApp não conectado
+                </div>
+              )}
+
+              {/* Se estiver conectado ao Instagram, mostra aqui */}
+              {businessData?.instagramAccountId ? (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    background: "#f9f9f9",
+                    padding: "5px 12px",
+                    borderRadius: "20px",
+                    border: "1px solid #e0e0e0",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: "0.75rem",
+                      fontWeight: "bold",
+                      color: "#E1306C",
+                    }}
+                  >
+                    INSTAGRAM ATIVO
+                  </span>
+                  <span style={{ fontSize: "0.85rem", color: "#333" }}>
+                    {businessData.name}
+                  </span>
+                  {/* Se você salvar a foto no banco, use businessData.instagramProfilePic */}
+                </div>
+              ) : (
+                <div
+                  style={{
+                    fontSize: "0.75rem",
+                    color: "#999",
+                    border: "1px dashed #ccc",
+                    padding: "5px 12px",
+                    borderRadius: "20px",
+                  }}
+                >
+                  Instagram não conectado
+                </div>
+              )}
+            </div>
           </div>
-          {loading ? (<div className={styles.loader}><p>Sincronizando com a Meta...</p></div>) : (
+
+          {loading ? (
+            <div className={styles.loader}>
+              <p>Sincronizando com a Meta...</p>
+            </div>
+          ) : (
             <CalendarAgenda />
           )}
         </section>

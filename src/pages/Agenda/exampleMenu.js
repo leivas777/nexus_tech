@@ -19,16 +19,21 @@ export const exampleMenu = [
   },
   {
     key: 'whatsApp',
-    label: 'WhatsApp',
+    label: 'Conectar WhatsApp',
     icon: <img src={WhatsApp} alt="whatsapp" />
   },
   {
     key: 'instagram',
-    label: 'Instagram',
+    label: 'Conectar Instagram',
     icon: <img src={Instagram} alt="instagram" />
   },
   {
-    key: 'settings',
+    key: "messages-dock",
+    label: "Centro de Mensagens",
+    icon: <Icon>📨</Icon>
+  },
+  {
+    key: 'business-settings',
     label: 'Meu Negócio',
     icon: <Icon>🏢</Icon>
   },
