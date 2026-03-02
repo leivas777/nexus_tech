@@ -39,7 +39,7 @@ const CalendarCalendar = ({ currentDate, onDateChange }) => {
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/appointments/${tenantId}?start=${start}&end=${end}`,
+        `${process.env.REACT_APP_BACKEND_URL}api/appointments/${tenantId}?start=${start}&end=${end}`,
 
       );
       const data = await response.json();

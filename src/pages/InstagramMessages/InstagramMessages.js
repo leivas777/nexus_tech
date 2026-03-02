@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../services/api';
+import { useNavigate } from 'react-router-dom';
 import styles from './InstagramMessages.module.css';
 
 export default function MessagesPage() {
     const [sessions, setSessions] = useState([]);
     const [selectedChat, setSelectedChat] = useState(null);
     const [inputText, setInputText] = useState('');
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         api.get('/tenants/sessions').then(res => setSessions(res.data));
@@ -24,9 +27,25 @@ export default function MessagesPage() {
         } catch (e) { console.error(e);}
     }
 
+    const handleBack = async () => {
+        navigate("/agendar")
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.sidebar}>
+                <div className={styles.sidebarIcon}>
+                    <div className={styles.sidebarBackButon}>
+                        <button className={styles.backButton}
+                            type='button'
+                            onClick={handleBack}
+                            aria-label='voltar'
+                        >
+                            <span className={styles.arrow}>&#8592;</span>
+                            Voltar
+                        </button>
+                    </div>
+                </div>
                 <h2 className="p-4 font-bold border-b">Conversas Recentes</h2>
                 {sessions.map(s => (
                     <div

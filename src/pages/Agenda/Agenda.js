@@ -11,6 +11,7 @@ const Agenda = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [businessData, setBusinessData] = useState(null);
+  console.log(businessData)
 
   // 1. Inicializar SDK da Meta ao carregar a Agenda
   useEffect(() => {
@@ -184,6 +185,7 @@ const Agenda = () => {
               </p>
             </div>
             <div className={styles.agendaHeader}>
+              
               {/* Se estiver conectado ao WhatsApp, mostra aqui */}
               {businessData?.metaPhoneNumberId ? (
                 <div
