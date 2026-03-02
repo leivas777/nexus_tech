@@ -11,6 +11,20 @@ export default function MessagesPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        const fetchSessions = () => {
+            api.get('/tenants/sessions')
+                .then(res => setSessions(res.data))
+                .catch(err => console.error(err));
+        };
+
+        fetchSessions();
+
+        const interval = setInterval(fetchSessions, 5000);
+
+        return () => clearInterval(interval);
+    })
+
+    useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
             navigate('/login');
