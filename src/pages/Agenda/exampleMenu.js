@@ -24,12 +24,12 @@ export const exampleMenu = [
   },
   {
     key: 'instagram',
-    label: 'Conectar Instagram',
+    label: 'Conect Instagram',
     icon: <img src={Instagram} alt="instagram" />
   },
   {
     key: "messages-dock",
-    label: "Centro de Mensagens",
+    label: "Messages Center",
     icon: <Icon>📨</Icon>
   },
   {

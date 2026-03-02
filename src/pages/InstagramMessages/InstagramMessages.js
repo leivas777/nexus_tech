@@ -11,20 +11,34 @@ export default function MessagesPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        api.get('/tenants/sessions').then(res => setSessions(res.data));
-    }, []);
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login');
+            return
+        }
+
+        api.get('tenants/sessions')
+            .then(res => setSessions(res.data))
+            .catch(err => console.error("Session fetch error:", err))
+    }, [navigate]);
 
     const handleSend = async () => {
         if(!inputText.trim() || !selectedChat) return;
 
         try {
-            const newMessage = { role: 'human', text: inputText };
-            setSelectedChat(prev => ({
-                ...prev,
-                history: [...prev.history, newMessage]
-            }));
-            setInputText('');
-        } catch (e) { console.error(e);}
+            const response = await api.post(`/tenants/sessions/${selectedChat.id}/message`, {
+                text: inputText
+            });
+
+            setSelectedChat(response.data);
+
+            setSessions(prev => prev.map(s => s.id === selectedChat.id ? response.data : s));
+
+            setInputText('')
+        } catch (e) {
+            console.error("Error sending message:", e);
+            alert("Failed to send message. Check console.");
+        }
     }
 
     const handleBack = async () => {
@@ -42,11 +56,11 @@ export default function MessagesPage() {
                             aria-label='voltar'
                         >
                             <span className={styles.arrow}>&#8592;</span>
-                            Voltar
+                            Back
                         </button>
                     </div>
                 </div>
-                <h2 className="p-4 font-bold border-b">Conversas Recentes</h2>
+                <h2 className="p-4 font-bold border-b">Recent Conversation</h2>
                 {sessions.map(s => (
                     <div
                         key={s.id}
@@ -68,7 +82,7 @@ export default function MessagesPage() {
                 {selectedChat ? (
                     <>
                         <div className={styles.chatHeader}>
-                            <span>Atendimento: <strong>{selectedChat.clientName || selectedChat.phoneNumber}</strong></span>
+                            <span>Service: <strong>{selectedChat.clientName || selectedChat.phoneNumber}</strong></span>
                         </div>
                         <div className={styles.messages}>
                             {selectedChat.history.map((msg, idx) => {
@@ -91,14 +105,14 @@ export default function MessagesPage() {
                                 type="text"
                                 value={inputText}
                                 onChange={(e) => setInputText(e.target.value)}
-                                placeholder="Intervir como humano"
+                                placeholder="Reply as agent"
                                 />
-                            <button onClick={handleSend}>Enviar</button>
+                            <button onClick={handleSend}>Send</button>
                         </div>
                     </>
                 ) : (
                     <div className="flex items-center justify-center h-full text-gray-400">
-                        Selecione uma cliente para visualizar o histórico
+                        Select a client to view their conversation history
                     </div>
                 )}
             </div>

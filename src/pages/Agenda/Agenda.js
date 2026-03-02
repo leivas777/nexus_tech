@@ -4,14 +4,13 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import { exampleMenu } from "./exampleMenu";
 import CalendarAgenda from "../../components/CalendarAgenda/CalendarAgenda";
 import ChatWidgetAppointment from "../../components/ChatWidgetAppointment/ChatWidgetAppointment";
-import api from "../../services/api"; // Certifique-se de ter sua instância do axios/api
+import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 
 const Agenda = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [businessData, setBusinessData] = useState(null);
-  console.log(businessData)
 
   // 1. Inicializar SDK da Meta ao carregar a Agenda
   useEffect(() => {
@@ -203,10 +202,10 @@ const Agenda = () => {
                     style={{
                       fontSize: "0.75rem",
                       fontWeight: "bold",
-                      color: "#E1306C",
+                      color: "#25D366",
                     }}
                   >
-                    WHATSAPP ATIVO
+                    ACTIVE WHATSAPP
                   </span>
                   <span style={{ fontSize: "0.85rem", collor: "#333" }}>
                     {businessData.name}
@@ -222,7 +221,7 @@ const Agenda = () => {
                     borderRadius: "20px",
                   }}
                 >
-                  WhatsApp não conectado
+                  WhatsApp not connected
                 </div>
               )}
 
@@ -246,7 +245,7 @@ const Agenda = () => {
                       color: "#E1306C",
                     }}
                   >
-                    INSTAGRAM ATIVO
+                    ACTIVE INSTAGRAM ACCOUNT
                   </span>
                   <span style={{ fontSize: "0.85rem", color: "#333" }}>
                     {businessData.name}
@@ -263,7 +262,7 @@ const Agenda = () => {
                     borderRadius: "20px",
                   }}
                 >
-                  Instagram não conectado
+                  Instagram not connected
                 </div>
               )}
             </div>

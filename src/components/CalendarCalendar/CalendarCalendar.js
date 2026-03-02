@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import styles from "./CalendaCalendar.module.css";
 import { format, addDays, startOfWeek, endOfWeek } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import api from "../../services/api";
 
 const generateHours = () => {
   const hours = [];
@@ -26,8 +27,6 @@ const CalendarCalendar = ({ currentDate, onDateChange }) => {
     return user?.tenantId;
   };
 
-
-
   // 1. BUSCA DE AGENDAMENTOS (GET)
   const loadAppointments = useCallback(async () => {
     const tenantId = getTenantId();
@@ -38,17 +37,12 @@ const CalendarCalendar = ({ currentDate, onDateChange }) => {
     const end = endOfWeek(currentDate, { weekStartsOn: 1 }).toISOString();
 
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}api/appointments/${tenantId}?start=${start}&end=${end}`,
+      const response = await api.get(`/appointments/${tenantId}`, {
+        params: { start, end }
+      });
 
-      );
-      const data = await response.json();
-      
-      if(Array.isArray(data)){
-        setAppointments(data)
-      }else{
-        console.warn("API não retornou uma array:", data);
-        setAppointments([]);
+      if(Array.isArray(response.data)){
+        setAppointments(response.data);
       }
     } catch (error) {
       console.error("Erro ao carregar agenda:", error);
