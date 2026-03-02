@@ -17,7 +17,7 @@ export default function MessagesPage() {
             return
         }
 
-        api.get('tenants/sessions')
+        api.get('/tenants/sessions')
             .then(res => setSessions(res.data))
             .catch(err => console.error("Session fetch error:", err))
     }, [navigate]);
