@@ -56,7 +56,7 @@ export default function MessagesPage() {
     }
 
     const handleBack = async () => {
-        navigate("/agendar")
+        navigate("/agenda")
     }
 
     return (

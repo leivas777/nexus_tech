@@ -5,14 +5,8 @@ import styles from "./Dashboard.module.css";
 import { useFacebookSDK } from "../../hooks/useFacebookSDK";
 import { authService } from "../../services/authService";
 
-
-import facebookLogo from "../../assets/Facebook_logo_PNG12.png";
-import instagramLogo from "../../assets/InstagramPNG.png";
-import whatsAppLogo from "../../assets/whatsapp_logo_PNG3.png";
 import webhookLogo from "../../assets/icons8-webhook-125.png";
 import nexusAI from "../../assets/nexusAI.png";
-import uranusB2B from "../../assets/Uranus1.png";
-import uranusB2C from "../../assets/Uranus2.png";
 import calendar from "../../assets/calendar.png";
 import TenantSetupModal from "../../components/TenantSetupModal/TenantSetupModal";
 
@@ -54,6 +48,14 @@ export default function Dashboard() {
             email: freshUser.email,
           });
           setHasTenant(!!freshUser.tenantId);
+
+          const params = new URLSearchParams(window.location.search);
+          if (
+            params.get("setup") === "true" ||
+            freshUser.businessName === "Minha Empresa"
+          ) {
+            setIsModalOpen(true);
+          }
         }
       } catch (err) {
         console.error("Erro ao carregar perfil:", err);
@@ -134,10 +136,6 @@ export default function Dashboard() {
     }
   }
 
-  async function onWhatsAppNormal() {
-    navigate("/whats-nao-oficial");
-  }
-
   const handleOpenScheduler = () => {
     //1. Buscar o usuário mais atualizado do localStorage
     const currentUser = authService.getCurrentUser();
@@ -148,10 +146,10 @@ export default function Dashboard() {
     }
 
     //2. Verifica se ele já possui um tenantId vinculado
-    if (!currentUser.tenantId) {
+    if (!currentUser.tenantId || currentUser.businessName === "Minha Empresa") {
       setIsModalOpen(true);
     } else {
-      navigate("/agendar");
+      navigate("/agenda");
     }
   };
 
@@ -216,48 +214,6 @@ export default function Dashboard() {
         </section>
 
         <section className={styles.card}>
-          <h2 className={styles.cardTitle}>Redes Sociais</h2>
-          <div className={styles.cardsGrid3}>
-            <ActionCard
-              img={whatsAppLogo}
-              alt="WhatsApp Business"
-              title="Plataforma Oficial"
-              description="Gerencie a integração das suas contas do WhatsApp Business"
-              text="Conectar"
-              enabled={true}
-              onClick={() => {}}
-            />
-            <ActionCard
-              img={whatsAppLogo}
-              alt="WhatsApp Business"
-              title="Plataforma Não Oficial"
-              description="Gerencie a integração das suas contas do WhatsApp Business"
-              text="Acessar"
-              enabled={true}
-              onClick={onWhatsAppNormal}
-            />
-            <ActionCard
-              img={facebookLogo}
-              alt="Facebook"
-              title="Contas do Facebook"
-              description="Gerencie a integração das suas contas do Facebook"
-              text="Conectar"
-              enabled={true}
-              onClick={() => {}}
-            />
-            <ActionCard
-              img={instagramLogo}
-              alt="Instagram"
-              title="Contas do Instagram"
-              description="Gerencie a integração das suas contas do Instagram"
-              text="Conectar"
-              enabled={true}
-              onClick={() => {}}
-            />
-          </div>
-        </section>
-
-        <section className={styles.card}>
           <h2 className={styles.cardTitle}>Automações</h2>
           <div className={styles.cardsGrid3}>
             <ActionCard
@@ -278,7 +234,7 @@ export default function Dashboard() {
               enabled={false}
               onClick={() => {}}
             />
-            <ActionCard
+            {/* <ActionCard
               img={uranusB2B}
               alt="UranusB2b"
               title="Uranus B2B"
@@ -295,7 +251,7 @@ export default function Dashboard() {
               text="Acessar"
               enabled={false}
               onClick={() => {}}
-            />
+            /> */}
           </div>
         </section>
 
@@ -303,19 +259,31 @@ export default function Dashboard() {
           <TenantSetupModal
             userId={userData.id}
             onClose={() => setIsModalOpen(false)}
-            onSuccess={(newTenant) => {
-              // 1. Atualizar o estado local para o Dashboard saber que agora tem tenant
+            onSuccess={(updatedTenant) => {
+              // 1. Fechar o modal
+              setIsModalOpen(false);
+
+              // Atualizar o localStorage para que o authService e o Dashboard lerem o nome novo
+              const storedUser = JSON.parse(localStorage.getItem("user") || {});
+              const newUserObj = {
+                ...storedUser,
+                tenantId: updatedTenant.id,
+                businessName: updatedTenant.name,
+              };
+              localStorage.setItem("user", JSON.stringify(newUserObj));
+
+              // 3. Atualizar o estado do Dashboard para refletir nome no Header imediatamente
+              setUserData((prev) => ({
+                ...prev,
+                businessName: updatedTenant.name,
+                name: prev.name,
+              }));
               setHasTenant(true);
 
-              // Atualizar o localStorgae para que o handleAgendadorClick funcione na próxima vez
-              const currentUser = authService.getCurrentUser() || {};
-              const updateUser = {
-                ...currentUser,
-                tenantId: newTenant.id,
-                businessName: newTenant.name
-              };
-              localStorage.setItem("user", JSON.stringify(updateUser));
-              navigate("/agendar");
+              // 4. Limpar o ?setup=true da URL para não reabrir o modal no refresh
+              navigate("/dashboard", { replace: true });
+
+              console.log("✅ Configuração concluída e estado atualizado!");
             }}
           />
         )}
@@ -323,7 +291,6 @@ export default function Dashboard() {
     </div>
   );
 }
-
 
 function ActionCard({
   img,

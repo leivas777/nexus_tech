@@ -45,7 +45,7 @@ export default function SettingsPage() {
   }
 
   const handleBack = async () => {
-    navigate("/agendar");
+    navigate("/agenda");
   };
 
   useEffect(() => {

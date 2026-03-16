@@ -28,26 +28,26 @@ export default function TenantSetupModal({ userId, onClose, onSuccess }) {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-        const payload = {
-            userId,
-            ...formData,
-            services: formData.services.map(s => ({
-                ...s,
-                duration: parseInt(s.duration),
-                price: parseFloat(s.price)
-            }))
-        };
+      const payload = {
+        name: formData.businessName,
+        segment: formData.segment,
+        aiPersona: formData.aiPersona,
+        aiTone: formData.aiTone,
+        services: formData.services.map((s) => ({
+          ...s,
+          duration: parseInt(s.duration) || 30,
+          price: parseFloat(s.price) || 0,
+        })),
+      };
 
-      const response = await api.post("/tenants/setup", payload);
+      const response = await api.patch(`/tenants/update`, payload);
 
-      if (response.data && response.data.id) {
-        if(onSuccess){
-            onSuccess(response.data);
-        }
+      if (onSuccess) {
+        onSuccess(response.data);
       }
     } catch (error) {
-        console.error("❌ Erro ao salvar Tenant:", error.response?.data || error.message);
-        alert("Erro ao salvar configurações. O negócio pode já ter sido criado.");
+      console.error("❌ Erro ao atualizar Tenant:", error);
+      alert("Erro ao salvar configurações. O negócio pode já ter sido criado.");
     } finally {
       setLoading(false);
     }
@@ -146,14 +146,25 @@ export default function TenantSetupModal({ userId, onClose, onSuccess }) {
           )}
         </div>
         <div className={styles.footer}>
-            {step >1 && <button onClick={() => setStep(step - 1)}>Voltar</button>}
-            {step <3 ? (
-                <button className={styles.primary} onClick={() => setStep(step + 1)}>Próximo</button>
-            ) : (
-                <button className={styles.primary} onClick={handleSubmit} disabled={loading}>
-                    {loading ? "Salvando..." : "Finalizar Configuração"}
-                </button>
-            )}
+          {step > 1 && (
+            <button onClick={() => setStep(step - 1)}>Voltar</button>
+          )}
+          {step < 3 ? (
+            <button
+              className={styles.primary}
+              onClick={() => setStep(step + 1)}
+            >
+              Próximo
+            </button>
+          ) : (
+            <button
+              className={styles.primary}
+              onClick={handleSubmit}
+              disabled={loading}
+            >
+              {loading ? "Salvando..." : "Finalizar Configuração"}
+            </button>
+          )}
         </div>
       </div>
     </div>

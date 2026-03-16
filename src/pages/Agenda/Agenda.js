@@ -17,7 +17,7 @@ const Agenda = () => {
     const initFB = () => {
       if (window.FB) {
         window.FB.init({
-          appId: process.env.META_APP_ID,
+          appId: process.env.REACT_APP_META_APP_ID,
           cookie: true,
           xfbml: true,
           version: "v18.0",
@@ -141,7 +141,7 @@ const Agenda = () => {
     if (item.key === "messages-dock") {
       return {
         ...item,
-        onClick: () => navigate("/business/instagram-messages"),
+        onClick: () => navigate("/business/messages-center"),
       };
     }
     return item;
@@ -184,7 +184,6 @@ const Agenda = () => {
               </p>
             </div>
             <div className={styles.agendaHeader}>
-              
               {/* Se estiver conectado ao WhatsApp, mostra aqui */}
               {businessData?.metaPhoneNumberId ? (
                 <div

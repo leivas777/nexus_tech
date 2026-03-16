@@ -8,8 +8,7 @@ const Icon = ({ children }) => (
 export const exampleMenu = [
   {
     key: "empresa",
-    label: "Nexus Tech",
-    link: '/'
+    label: "Nexus Tech"
   },
   {
     key: "dashboard",

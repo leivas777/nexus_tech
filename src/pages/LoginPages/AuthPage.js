@@ -4,9 +4,7 @@ import styles from "./AuthPage.module.css";
 import logo from "../../assets/logo_nexus_sem_fundo.png";
 import { authService } from "../../services/authService";
 
-
 export default function AuthPage() {
-
   const navigate = useNavigate();
 
   // ✅ Estados de tema
@@ -69,38 +67,40 @@ export default function AuthPage() {
           localStorage.removeItem("token");
           localStorage.removeItem("user");
         }
-      } 
+      }
     } catch (err) {
       console.error("❌ Erro ao verificar autenticação:", err);
     }
   }, [navigate]);
 
   useEffect(() => {
-  // 1. Criar a função que a Meta chamará automaticamente
-  window.fbAsyncInit = function() {
-    window.FB.init({
-      appId      : 'SEU_META_APP_ID', // Certifique-se de que é o ID correto
-      cookie     : true,
-      xfbml      : true,
-      version    : 'v18.0'
-    });
-  };
+    // 1. Criar a função que a Meta chamará automaticamente
+    window.fbAsyncInit = function () {
+      window.FB.init({
+        appId: "SEU_META_APP_ID", // Certifique-se de que é o ID correto
+        cookie: true,
+        xfbml: true,
+        version: "v18.0",
+      });
+    };
 
-  // 2. Carregar o script (apenas se ainda não existir)
-  const loadSDK = (d, s, id) => {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {
-      // Se o script já existe, forçamos o init manualmente
-      if (window.FB) window.fbAsyncInit();
-      return;
-    }
-    js = d.createElement(s); js.id = id;
-    js.src = "https://connect.facebook.net/pt_BR/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  };
+    // 2. Carregar o script (apenas se ainda não existir)
+    const loadSDK = (d, s, id) => {
+      var js,
+        fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {
+        // Se o script já existe, forçamos o init manualmente
+        if (window.FB) window.fbAsyncInit();
+        return;
+      }
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://connect.facebook.net/pt_BR/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    };
 
-  loadSDK(document, 'script', 'facebook-jssdk');
-}, []);
+    loadSDK(document, "script", "facebook-jssdk");
+  }, []);
 
   // ✅ Efeito para tema
   useEffect(() => {
@@ -177,11 +177,14 @@ export default function AuthPage() {
         response = await authService.register(name, email, password);
 
         if (response.success) {
-          setSuccessMessage("Conta criada com sucesso! Redirecionando...");
+          setSuccessMessage("Conta criada! Vamos configurar seu negócio...");
+
+          // Salvar o tenantId que o backend agora retorna
+          localStorage.setItem("tenantId", response.tenantId);
 
           // Aguardar um momento e redirecionar
           setTimeout(() => {
-            navigate("/dashboard", { replace: true });
+            navigate("/dashboard?setup=true", { replace: true });
           }, 1500);
         } else {
           throw new Error(response.message || "Erro ao criar conta");
@@ -210,7 +213,6 @@ export default function AuthPage() {
     setLoading(true);
     window.location.href = `${process.env.REACT_APP_BACKEND_URL}api/auth/google`;
   };
-
 
   return (
     <div className={styles.fullPage}>
