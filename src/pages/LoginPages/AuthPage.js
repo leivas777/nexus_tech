@@ -500,12 +500,6 @@ export default function AuthPage() {
               </p>
             </form>
           </div>
-
-          {/* ✅ Dica sobre tema */}
-          <div className={styles.tip}>
-            💡 Dica: O tema é persistido no navegador. Para resetar, remova a
-            chave "theme" do localStorage.
-          </div>
         </div>
       </div>
     </div>

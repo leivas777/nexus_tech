@@ -54,25 +54,22 @@ const Home = () => {
   const handleFacebookShare = () => {
     if (!window.FB) {
       alert(
-        "Facebook SDK ainda não foi carregado. Tente novamente em alguns segundos."
+        "Facebook SDK ainda não foi carregado. Tente novamente em alguns segundos.",
       );
       return;
     }
 
-    window.FB.ui(
-      {
-        method: "share",
-        href: "https://nexustech.tec.br/",
-        quote: "Conheça a Leivas & Leivas - Soluções tecnológicas inovadoras!",
-      },
-      
-    );
+    window.FB.ui({
+      method: "share",
+      href: "https://nexustech.tec.br/",
+      quote: "Conheça a Leivas & Leivas - Soluções tecnológicas inovadoras!",
+    });
   };
 
   const handleFacebookLogin = () => {
     if (!window.FB) {
       alert(
-        "Facebook SDK ainda não foi carregado. Tente novamente em alguns segundos."
+        "Facebook SDK ainda não foi carregado. Tente novamente em alguns segundos.",
       );
       return;
     }
@@ -80,12 +77,14 @@ const Home = () => {
     window.FB.login(
       function (response) {
         if (response.authResponse) {
-          window.FB.api("/me", { fields: "name, email" }, function (userInfo) {
-
-          });
-        } 
+          window.FB.api(
+            "/me",
+            { fields: "name, email" },
+            function (_userInfo) {},
+          );
+        }
       },
-      { scope: "email, public_profile" }
+      { scope: "email, public_profile" },
     );
   };
 
@@ -99,18 +98,15 @@ const Home = () => {
   }, []);
 
   const handleTestClick = () => {
-    navigate('/registration');
+    navigate("/registration");
   };
 
   return (
     <>
       <main className={styles.main} role="main">
-        <HeroBanner
-          logoSrc={logo}
-          onCtaClick={handleTestClick}
-        />
+        <HeroBanner logoSrc={logo} onCtaClick={handleTestClick} />
         <HealthBeautySection />
-        <UranusSection/>
+        <UranusSection />
         <div className={styles.buttonContainer}>
           <Link to="/test-message" className={styles.btn}>
             Faça um teste

@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "./PricingPage.module.css";
-import { authService } from "../../services/authService";
 import api from "../../services/api";
 
 const PricingPage = () => {
   const [loading, setLoading] = useState(false);
-  const user = authService.getCurrentUser();
 
   const handleSubscribe = async (planId) => {
     setLoading(true);

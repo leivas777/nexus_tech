@@ -1,4 +1,4 @@
-import React, { useMemo, useId } from "react";
+import { useMemo, useId } from "react";
 import styles from "./BusinessHoursEditor.module.css";
 
 const DAYS_OF_WEEK = [
@@ -47,14 +47,21 @@ export default function BusinessHoursEditor({ hours = {}, onChange }) {
   }, [hours]);
 
   const handleToggleDay = (dayKey) => {
-    const newHours = { ...(hours || {}) };
+    // Criar uma cópia limpa do objeto
+    const currentHours = { ...hours }; // Cópia superficial
 
-    if (newHours[dayKey]) {
-      delete newHours[dayKey];
+    if (currentHours[dayKey]) {
+      // Para remover, filtramos as chaves para garantir um novo objeto
+      // eslint-disable-next-line no-unused-vars
+      const { [dayKey]: _, ...rest } = currentHours;
+      onChange?.(rest);
     } else {
-      newHours[dayKey] = DEFAULT_RANGE;
+      // Para adicionar, usar o spread
+      onChange?.({
+        ...currentHours,
+        [dayKey]: DEFAULT_RANGE,
+      });
     }
-    onChange?.(newHours);
   };
 
   const handleTimeChange = (dayKey, index, value) => {
@@ -91,7 +98,6 @@ export default function BusinessHoursEditor({ hours = {}, onChange }) {
             <div
               key={day.key}
               className={`${styles.row} ${isOpen ? styles.rowOpen : styles.rowClosed}`}
-
             >
               <div className={styles.left}>
                 <div className={styles.toggle}>
@@ -109,7 +115,10 @@ export default function BusinessHoursEditor({ hours = {}, onChange }) {
                   </label>
                 </div>
 
-                <span className={styles.status} aria-live="polite">
+                <span
+                  className={`${styles.statusBase} ${isOpen ? styles.statusOpen : styles.statusClosed}`}
+                  aria-live="polite"
+                >
                   {isOpen ? "Aberto" : "Fechado"}
                 </span>
               </div>
@@ -127,7 +136,7 @@ export default function BusinessHoursEditor({ hours = {}, onChange }) {
                     onChange={(e) =>
                       handleTimeChange(day.key, 0, e.target.value)
                     }
-                    className={`${styles.input} ${hasError ? styles.invalid : ""}`}
+                    className={`${styles.timeInput} ${hasError ? styles.invalid : ""}`}
                     disabled={!isOpen}
                     aria-invalid={hasError ? "true" : "false"}
                     aria-describedby={hasError ? errorId : undefined}

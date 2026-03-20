@@ -68,37 +68,13 @@ export default function ServicesPage() {
     return errors;
   }, [newName, newPrice, newDuration]);
 
-  const canSubmit = status === "ready" && !saving && Object.keys(formErrors).length === 0;
-
-  const handleAddService = async (e) => {
-    e.preventDefault();
-    if (!canSubmit) return;
-
-    setSaving(true);
-    try {
-      const payload = {
-        name: newName.trim(),
-        price: Number(newPrice),
-        duration: Number(newDuration),
-      };
-
-      const response = await api.post("/services", payload);
-
-      setServices((prev) => [...prev, response.data]);
-      setNewName("");
-      setNewPrice("");
-      setNewDuration("");
-
-      toast.success("Serviço adicionado!");
-    } catch (error) {
-      toast.error("Erro ao adicionar serviço.");
-    } finally {
-      setSaving(false);
-    }
-  };
+  const canSubmit =
+    status === "ready" && !saving && Object.keys(formErrors).length === 0;
 
   const handleDelete = async (service) => {
-    const ok = window.confirm(`Tem certeza que deseja remover "${service.name}"?`);
+    const ok = window.confirm(
+      `Tem certeza que deseja remover "${service.name}"?`,
+    );
     if (!ok) return;
 
     try {
@@ -115,22 +91,22 @@ export default function ServicesPage() {
     setNewName(service.name);
     setNewPrice(service.price.toString());
     setNewDuration(service.duration.toString());
-    window.scrollTo({ top:0, behavior: 'smooth' })
-  }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const handleCancelEdit = () => {
     setEditingId(null);
     setNewName("");
     setNewPrice("");
     setNewDuration("");
-  }
+  };
 
   const handleSaveService = async (e) => {
     e.preventDefault();
     if (!canSubmit) return;
 
     setSaving(true);
-    try{
+    try {
       const payload = {
         name: newName.trim(),
         price: Number(newPrice),
@@ -140,8 +116,10 @@ export default function ServicesPage() {
       if (editingId) {
         //MODO EDIÇÃO (PUT)
         const response = await api.put(`/services/${editingId}`, payload);
-        setServices((prev) => prev.map(s => s.id === editingId ? response.data : s));
-        toast.success("Serviço atualizado!")
+        setServices((prev) =>
+          prev.map((s) => (s.id === editingId ? response.data : s)),
+        );
+        toast.success("Serviço atualizado!");
       } else {
         //MODO ADIÇÃO (POST)
         const response = await api.post("/services", payload);
@@ -155,10 +133,13 @@ export default function ServicesPage() {
     } finally {
       setSaving(false);
     }
-  }
+  };
 
   return (
-    <main className={styles.page} aria-busy={status === "loading" ? "true" : "false"}>
+    <main
+      className={styles.page}
+      aria-busy={status === "loading" ? "true" : "false"}
+    >
       <div className={styles.container}>
         <button
           className={styles.backButton}
@@ -190,11 +171,18 @@ export default function ServicesPage() {
         )}
 
         {status === "error" && (
-          <section className={styles.card} aria-label="Erro ao carregar serviços">
+          <section
+            className={styles.card}
+            aria-label="Erro ao carregar serviços"
+          >
             <p className={styles.errorText}>
               Não foi possível carregar seus serviços agora.
             </p>
-            <button type="button" className={styles.primaryButton} onClick={fetchServices}>
+            <button
+              type="button"
+              className={styles.primaryButton}
+              onClick={fetchServices}
+            >
               Tentar novamente
             </button>
           </section>
@@ -202,7 +190,10 @@ export default function ServicesPage() {
 
         {status === "ready" && (
           <>
-            <section className={styles.card} aria-describedby={`${uid}-subtitle`}>
+            <section
+              className={styles.card}
+              aria-describedby={`${uid}-subtitle`}
+            >
               <form onSubmit={handleSaveService} className={styles.form}>
                 <fieldset className={styles.fieldset}>
                   <legend className={styles.legend}>
@@ -223,10 +214,16 @@ export default function ServicesPage() {
                         placeholder="Ex.: Corte masculino"
                         autoComplete="off"
                         aria-invalid={formErrors.name ? "true" : "false"}
-                        aria-describedby={formErrors.name ? `${uid}-name-error` : undefined}
+                        aria-describedby={
+                          formErrors.name ? `${uid}-name-error` : undefined
+                        }
                       />
                       {formErrors.name && (
-                        <p className={styles.fieldError} id={`${uid}-name-error`} role="alert">
+                        <p
+                          className={styles.fieldError}
+                          id={`${uid}-name-error`}
+                          role="alert"
+                        >
                           {formErrors.name}
                         </p>
                       )}
@@ -247,17 +244,28 @@ export default function ServicesPage() {
                         className={`${styles.input} ${formErrors.price ? styles.invalid : ""}`}
                         placeholder="Ex.: 50"
                         aria-invalid={formErrors.price ? "true" : "false"}
-                        aria-describedby={formErrors.price ? `${uid}-price-error` : `${uid}-price-hint`}
+                        aria-describedby={
+                          formErrors.price
+                            ? `${uid}-price-error`
+                            : `${uid}-price-hint`
+                        }
                       />
                       {formErrors.price && (
-                        <p className={styles.fieldError} id={`${uid}-price-error`} role="alert">
+                        <p
+                          className={styles.fieldError}
+                          id={`${uid}-price-error`}
+                          role="alert"
+                        >
                           {formErrors.price}
                         </p>
                       )}
                     </div>
 
                     <div className={styles.field}>
-                      <label className={styles.label} htmlFor={`${uid}-duration`}>
+                      <label
+                        className={styles.label}
+                        htmlFor={`${uid}-duration`}
+                      >
                         Duração (minutos)
                       </label>
                       <input
@@ -271,10 +279,18 @@ export default function ServicesPage() {
                         className={`${styles.input} ${formErrors.duration ? styles.invalid : ""}`}
                         placeholder="Ex.: 30"
                         aria-invalid={formErrors.duration ? "true" : "false"}
-                        aria-describedby={formErrors.duration ? `${uid}-duration-error` : `${uid}-duration-hint`}
+                        aria-describedby={
+                          formErrors.duration
+                            ? `${uid}-duration-error`
+                            : `${uid}-duration-hint`
+                        }
                       />
                       {formErrors.duration && (
-                        <p className={styles.fieldError} id={`${uid}-duration-error`} role="alert">
+                        <p
+                          className={styles.fieldError}
+                          id={`${uid}-duration-error`}
+                          role="alert"
+                        >
                           {formErrors.duration}
                         </p>
                       )}
@@ -287,7 +303,11 @@ export default function ServicesPage() {
                         disabled={!canSubmit}
                         aria-busy={saving ? "true" : "false"}
                       >
-                        {saving ? "Salvando…" : (editingId ? "Salvar Alterações" : "Adicionar")}
+                        {saving
+                          ? "Salvando…"
+                          : editingId
+                            ? "Salvar Alterações"
+                            : "Adicionar"}
                       </button>
 
                       {editingId && (
@@ -305,16 +325,26 @@ export default function ServicesPage() {
               </form>
             </section>
 
-            <section className={styles.listSection} aria-label="Lista de serviços">
+            <section
+              className={styles.listSection}
+              aria-label="Lista de serviços"
+            >
               <div className={styles.listHeader}>
                 <h2 className={styles.sectionTitle}>Serviços cadastrados</h2>
-                <span className={styles.badge} aria-label={`Total de serviços: ${services.length}`}>
+                <span
+                  className={styles.badge}
+                  aria-label={`Total de serviços: ${services.length}`}
+                >
                   {services.length}
                 </span>
               </div>
 
               {services.length === 0 ? (
-                <div className={styles.emptyState} role="status" aria-live="polite">
+                <div
+                  className={styles.emptyState}
+                  role="status"
+                  aria-live="polite"
+                >
                   <p className={styles.emptyTitle}>Nenhum serviço cadastrado</p>
                   <p className={styles.muted}>
                     Cadastre seu primeiro serviço no formulário acima.
@@ -328,7 +358,9 @@ export default function ServicesPage() {
                         <p className={styles.serviceName}>{service.name}</p>
                         <p className={styles.serviceMeta}>
                           <span>{minutesLabel(service.duration)}</span>
-                          <span className={styles.dot} aria-hidden="true">•</span>
+                          <span className={styles.dot} aria-hidden="true">
+                            •
+                          </span>
                           <span>{formatBRL(service.price)}</span>
                         </p>
                       </div>

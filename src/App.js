@@ -11,6 +11,10 @@ import {
 
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
+// Toast
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 //Pages
 import Home from "./pages/Home/Home";
 import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
@@ -35,24 +39,27 @@ function AppContent() {
     <>
       {" "}
       <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/terms-of-use" element={<TermsOfService />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/registration" element={<AuthPage />} />
-        <Route path="/auth-success" element={<AuthSuccess />} />
-        <Route path="/agenda" element={<Agenda />} />
-        <Route path="/business/services" element={<ServicesPage />} />
-        <Route path="/business/settings" element={<SettingsPage />} />
-        <Route
-          path="/business/messages-center"
-          element={<InstagramMessages />}
-        />
-        <Route path="/subscription/plans" element={<PricingPage />} />
-      </Routes>
-      {isDashboard ? <DashboardFooter /> : <Footer />}
+      <div>
+        <ToastContainer position="top-right" autoClose={3000} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-use" element={<TermsOfService />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/registration" element={<AuthPage />} />
+          <Route path="/auth-success" element={<AuthSuccess />} />
+          <Route path="/agenda" element={<Agenda />} />
+          <Route path="/business/services" element={<ServicesPage />} />
+          <Route path="/business/settings" element={<SettingsPage />} />
+          <Route
+            path="/business/messages-center"
+            element={<InstagramMessages />}
+          />
+          <Route path="/subscription/plans" element={<PricingPage />} />
+        </Routes>
+        {isDashboard ? <DashboardFooter /> : <Footer />}
+      </div>
     </>
   );
 }

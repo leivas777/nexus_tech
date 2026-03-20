@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styles from "./Agenda.module.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { exampleMenu } from "./exampleMenu";
@@ -11,6 +11,8 @@ const Agenda = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [businessData, setBusinessData] = useState(null);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const profileRef = useRef();
 
   // 1. Inicializar SDK da Meta ao carregar a Agenda
   useEffect(() => {
@@ -74,7 +76,6 @@ const Agenda = () => {
         if (response.authResponse) {
           const accessToken = response.authResponse.accessToken;
           saveInstagramToken(accessToken);
-        } else {
         }
       },
       {
@@ -159,6 +160,60 @@ const Agenda = () => {
     fetchBusinessInfo();
   }, []);
 
+  // Função auxiliar para barras de progresso dentro do menu
+  const UsageBar = ({ label, used, total }) => {
+    const percentage = Math.min((used / total) * 100, 100);
+    const color = percentage > 85 ? "#ef4444" : "#6e0ad4";
+
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (profileRef.current && !profileRef.current.contains(event.target)) {
+          setShowProfileMenu(false);
+        }
+      };
+      document.addEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    return (
+      <div style={{ marginBottom: "12px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            fontSize: "11px",
+            marginBottom: "4px",
+            color: "#666",
+          }}
+        >
+          <span>{label}</span>
+          <span>
+            {used}/{total}
+          </span>
+        </div>
+        <div
+          style={{
+            width: "100%",
+            height: "6px",
+            background: "#f0f0f0",
+            borderRadius: "3px",
+          }}
+        >
+          <div
+            style={{
+              width: `${percentage}%`,
+              height: "100%",
+              background: color,
+              borderRadius: "3px",
+              transition: "0.3s",
+            }}
+          />
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
       <section className={styles.main}>
@@ -183,85 +238,220 @@ const Agenda = () => {
                 Gerencie seus compromissos
               </p>
             </div>
-            <div className={styles.agendaHeader}>
-              {/* Se estiver conectado ao WhatsApp, mostra aqui */}
-              {businessData?.metaPhoneNumberId ? (
+            <div
+              className={styles.agendaHeader}
+              ref={profileRef}
+              styles={{
+                position: "relative",
+                display: "flex",
+                alignItems: "center",
+                gap: "20px",
+              }}
+            >
+              {/* Indicadores rápidos de conexão (Bolinhas) */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  paddingRight: "15px",
+                  borderRight: "1px solid #eee",
+                }}
+              >
                 <div
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "10px",
-                    background: "#f9f9f9",
-                    padding: "5px 12px",
-                    borderRadius: "20px",
-                    border: "1px solid #e0e0e0",
+                    gap: "6px",
+                    cursor: "help",
                   }}
+                  title={
+                    businessData?.tenant.metaPhoneNumberId
+                      ? "WhatsApp Conectado"
+                      : "WhatsApp Desconectado"
+                  }
                 >
+                  <div
+                    style={{
+                      width: "8px",
+                      height: "8px",
+                      borderRadius: "50%",
+                      background: businessData?.tenant.metaPhoneNumberId
+                        ? "#25D366"
+                        : "#ccc",
+                    }}
+                  />
                   <span
                     style={{
-                      fontSize: "0.75rem",
+                      fontSize: "0.65rem",
                       fontWeight: "bold",
-                      color: "#25D366",
+                      color: "#999",
                     }}
                   >
-                    ACTIVE WHATSAPP
-                  </span>
-                  <span style={{ fontSize: "0.85rem", collor: "#333" }}>
-                    {businessData.name}
+                    WA
                   </span>
                 </div>
-              ) : (
-                <div
-                  style={{
-                    fontSize: "0.75rem",
-                    color: "#999",
-                    border: "1px dashed #ccc",
-                    padding: "5px 12px",
-                    borderRadius: "20px",
-                  }}
-                >
-                  WhatsApp not connected
-                </div>
-              )}
 
-              {/* Se estiver conectado ao Instagram, mostra aqui */}
-              {businessData?.instagramAccountId ? (
                 <div
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "10px",
-                    background: "#f9f9f9",
-                    padding: "5px 12px",
-                    borderRadius: "20px",
-                    border: "1px solid #e0e0e0",
+                    gap: "6px",
+                    cursor: "help",
                   }}
+                  title={
+                    businessData?.tenant.instagramAccountId
+                      ? "Instagram Conectado"
+                      : "Instagram Desconectado"
+                  }
                 >
+                  <div
+                    style={{
+                      width: "8px",
+                      height: "8px",
+                      borderRadius: "50%",
+                      background: businessData?.tenant.instagramAccountId
+                        ? "#E1306C"
+                        : "#ccc",
+                    }}
+                  />
                   <span
                     style={{
-                      fontSize: "0.75rem",
+                      fontSize: "0.65rem",
                       fontWeight: "bold",
-                      color: "#E1306C",
+                      color: "#999",
                     }}
                   >
-                    ACTIVE INSTAGRAM ACCOUNT
+                    IG
                   </span>
-                  <span style={{ fontSize: "0.85rem", color: "#333" }}>
-                    {businessData.name}
-                  </span>
-                  {/* Se você salvar a foto no banco, use businessData.instagramProfilePic */}
                 </div>
-              ) : (
+              </div>
+              {/* Botão do Perfil que abre o Menu */}
+              <div
+                onClick={() => setShowProfileMenu(!showProfileMenu)}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  cursor: "pointer",
+                  userSelect: "none",
+                }}
+              >
+                <div style={{ textAlign: "right" }}>
+                  <p
+                    style={{
+                      margin: 0,
+                      fontSize: "0.85rem",
+                      fontWeight: "600",
+                      color: "#333",
+                    }}
+                  >
+                    {businessData?.tenant.name || "Meu Negócio"}
+                  </p>
+                  <p style={{ margin: 0, fontSize: "0.7rem", color: "#666" }}>
+                    Plano {businessData?.plan?.name || "Carregando..."}
+                  </p>
+                </div>
                 <div
                   style={{
-                    fontSize: "0.75rem",
-                    color: "#999",
-                    border: "1px dashed #ccc",
-                    padding: "5px 12px",
-                    borderRadius: "20px",
+                    width: "35px",
+                    height: "35px",
+                    borderRadius: "10px",
+                    background: "#6e0ad4",
+                    color: "#fff",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "0.9rem",
+                    fontWeight: "bold",
+                    boxShadow: "0 2px 8px rgba(110, 10, 212, 0.2)",
                   }}
                 >
-                  Instagram not connected
+                  {businessData?.tenant.name?.charAt(0).toUpperCase()}
+                </div>
+              </div>
+
+              {/* Dropdown de Assinatura e Status */}
+              {showProfileMenu && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "50px",
+                    right: 0,
+                    width: "260px",
+                    background: "#fff",
+                    border: "1px solid #eee",
+                    borderRadius: "12px",
+                    boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
+                    zIndex: 1000,
+                    padding: "16px",
+                  }}
+                >
+                  <p
+                    style={{
+                      fontSize: "11px",
+                      color: "#999",
+                      fontWeight: "bold",
+                      textTransform: "uppercase",
+                      marginBottom: "12px",
+                    }}
+                  >
+                    Status do Plano
+                  </p>
+
+                  {/* Aqui usaremos os dados que virão daquela rota de Usage futuramente */}
+                  <UsageBar
+                    label="Mensagens Chatbot"
+                    used={businessData?.usage?.messagesSent || 0}
+                    total={businessData?.plan?.messagesLimit || 100}
+                  />
+                  <UsageBar
+                    label="Agendamentos"
+                    used={businessData?.usage?.appointmentsCount || 0}
+                    total={500}
+                  />
+
+                  <div
+                    style={{
+                      marginTop: "15px",
+                      paddingTop: "15px",
+                      borderTop: "1px solid #f0f0f0",
+                    }}
+                  >
+                    <button
+                      onClick={() => navigate("/business/settings")}
+                      style={{
+                        width: "100%",
+                        padding: "8px",
+                        background: "#f3f0ff",
+                        color: "#6e0ad4",
+                        border: "none",
+                        borderRadius: "6px",
+                        fontSize: "0.8rem",
+                        fontWeight: "600",
+                        cursor: "pointer",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      Gerenciar Assinatura
+                    </button>
+                    <button
+                      style={{
+                        width: "100%",
+                        padding: "8px",
+                        background: "none",
+                        color: "#666",
+                        border: "none",
+                        fontSize: "0.8rem",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => {
+                        /* lógica de logout */
+                      }}
+                    >
+                      Sair
+                    </button>
+                  </div>
                 </div>
               )}
             </div>

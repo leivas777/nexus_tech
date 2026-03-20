@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./TenantSetupModal.module.css";
 import api from "../../services/api";
 
-export default function TenantSetupModal({ userId, onClose, onSuccess }) {
+export default function TenantSetupModal({ _userId, _onClose, onSuccess }) {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
 
@@ -58,7 +58,12 @@ export default function TenantSetupModal({ userId, onClose, onSuccess }) {
       <div className={styles.modal}>
         <div className={styles.header}>
           <h2 className={styles.title}>Configurar meu Agendador</h2>
-          <span className={styles.stepIndicator}>Passo {step} de 3</span>
+          <span
+            className={styles.stepIndicator}
+            aria-label="Progresso de Cadastro"
+          >
+            Passo {step} de 3
+          </span>
         </div>
 
         <div className={styles.content}>
@@ -83,6 +88,7 @@ export default function TenantSetupModal({ userId, onClose, onSuccess }) {
                 <option value="Barbearia">Barbearia</option>
                 <option value="Clínica">Clínica Médica / Estética</option>
                 <option value="Consultório">Consultório</option>
+                <option value="Consultório">Tecnologia</option>
                 <option value="Outros">Outros</option>
               </select>
             </div>

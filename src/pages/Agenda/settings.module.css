@@ -1,220 +1,257 @@
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 :root {
-    /* Cores principais (alinhadas ao kit) */
-    --primary-color: #3498db;
-    --primary-dark: #2980b9;
-    --primary-darker: #1f618d;
-    --text-primary: #273b4f;
-    --text-secondary: #34495e;
+  /* Cores principais (alinhadas ao kit) */
+  --primary-color: #3498db;
+  --primary-dark: #2980b9;
+  --primary-darker: #1f618d;
+  --text-primary: #273b4f;
+  --text-secondary: #34495e;
 
-    /* Superfícies (dark UI) */
-    --bg: #0b0f1a;
-    --surface: #0f1629;
-    --surface-soft: #0b1222;
+  /* Superfícies (dark UI) */
+  --bg: #0b0f1a;
+  --surface: #0f1629;
+  --surface-soft: #0b1222;
 
-    /* Acentos e estados */
-    --accent: #6aa2ff;
-    --success: #2ecc71;
-    --warning: #f1c40f;
-    --error: #e74c3c;
+  /* Acentos e estados */
+  --accent: #6aa2ff;
+  --success: #2ecc71;
+  --warning: #f1c40f;
+  --error: #e74c3c;
 
-    --branco: #ffffff;
+  --branco: #ffffff;
 
-    /* Sombras */
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+  /* Sombras */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
 
-    /* Tipografia (kit) */
-    --font-family: "Nunito Sans", "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --font-size-sm: clamp(0.875rem, 2vw, 0.95rem);
-    --font-size-base: clamp(0.9rem, 2.5vw, 1rem);
-    --font-size-lg: clamp(1.25rem, 3.5vw, 1.5rem);
-    --font-size-xl: clamp(1.5rem, 4vw, 2rem);
-    --font-weight-bold: 700;
-    --font-weight-normal: 400;
-    --font-weight-bolder: 800;
+  /* Tipografia (kit) */
+  --font-family:
+    "Nunito Sans", "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+  --font-size-sm: clamp(0.875rem, 2vw, 0.95rem);
+  --font-size-base: clamp(0.9rem, 2.5vw, 1rem);
+  --font-size-lg: clamp(1.25rem, 3.5vw, 1.5rem);
+  --font-size-xl: clamp(1.5rem, 4vw, 2rem);
+  --font-weight-bold: 700;
+  --font-weight-normal: 400;
+  --font-weight-bolder: 800;
 
-    /* Espaço e bordas */
-    --spacing-xs: 0.5rem;
-    --spacing-sm: 0.75rem;
-    --spacing-md: 1rem;
-    --spacing-lg: 1.5rem;
-    --spacing-xl: 2rem;
-    --spacing-2xl: 3rem;
+  /* Espaço e bordas */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 0.75rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
 
-    --radius: 12px;
+  --radius: 12px;
 
-    /* Transições */
-    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Transições */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
-    margin: 0;
-    padding: 2vh 5vw;
-    font-family: var(--font-family);
-    line-height: 1.6;
-    background: var(--bg);
+  margin: 0;
+  padding: 2vh 5vw;
+  font-family: var(--font-family);
+  line-height: 1.6;
+  background: var(--bg);
 }
 
 .page {
-    min-height: 100vh;
-    padding: 32px 16px;
-    background: #f6f7fb;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+  min-height: 100vh;
+  padding: 32px 16px;
+  background: #f6f7fb;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .card {
-    width: 100%;
-    max-width: 720px;
-    background: #ffffff;
-    border: 1px solid #e9ecf2;
-    border-radius: 14px;
-    box-shadow: 0 10px 24px rgba(16, 24, 40, 0.06);
-    padding: 22px;
+  width: 100%;
+  max-width: 720px;
+  background: #ffffff;
+  border: 1px solid #e9ecf2;
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(16, 24, 40, 0.06);
+  padding: 22px;
 }
 
 .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
 }
 
 .title {
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-bolder);
-    margin: 0;
-    color: var(--text-primary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bolder);
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.section {
+  background: #f9fafb;
+  border: 1px solid #eaecf0;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 800;
+  color: #101828;
+  margin-top: 0;
+  margin-bottom: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eaecf0;
 }
 
 .dirtyBadge,
 .savedBadge {
-    font-size: var(--font-size-base);
-    padding: 6px 10px;
-    border-radius: 999px;
-    border: 1px solid transparent;
-    white-space: nowrap;
+  font-size: var(--font-size-base);
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  white-space: nowrap;
 }
 
 .dirtyBadge {
-    background: #fff7ed;
-    border-color: #fed7aa;
-    color: #9a3412;
+  background: #fff7ed;
+  border-color: #fed7aa;
+  color: #9a3412;
 }
 
 .savedBadge {
-    background: #ecfdf3;
-    border-color: #abefc6;
-    color: #067647;
+  background: #ecfdf3;
+  border-color: #abefc6;
+  color: #067647;
 }
 
 .form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .label {
-    font-size: 13px;
-    font-weight: 700;
-    color: #344054;
+  font-size: 13px;
+  font-weight: 700;
+  color: #344054;
 }
 
 .required {
-    color: #d92d20;
+  color: #d92d20;
 }
 
-.input, 
-.textarea {
-    width: 100%;
-    border: 1px solid #d0d5dd;
-    border-radius: 10px;
-    padding: 10px 12px;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 120ms ease, box-shadow 120ms ease;
-    background: #fff;
-    color: #101828;
+.input,
+.textarea,
+.select {
+  width: 100%;
+  border: 1px solid #d0d5dd;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  outline: none;
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+  background: #fff;
+  color: #101828;
+  font-family: var(--font-family);
 }
 
 .textarea {
-    resize: vertical;
-    min-height: 96px;
+  resize: vertical;
+  min-height: 96px;
 }
 
 .input:focus,
 .textarea:focus {
-    border-color: #12b76a;
-    box-shadow: 0 0 0 4px rgba(18, 183, 106, 0.16);
+  border-color: #12b76a;
+  box-shadow: 0 0 0 4px rgba(18, 183, 106, 0.16);
+  font-family: var(--font-family);
 }
 
 .helpText {
-    margin: 0;
-    font-size: 12px;
-    color: #667085;
+  margin: 0;
+  font-size: 12px;
+  color: #667085;
 }
 
 .metaRow {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
 }
 
 .counter {
-    font-size: 12px;
-    color: #667085;
+  font-size: 12px;
+  color: #667085;
 }
 
 .primaryButton {
-    width: 100%;
-    border: none;
-    border-radius: 12px;
-    padding: 12px 14px;
-    font-size: 14px;
-    font-weight: 800;
-    cursor: pointer;
-    background: #12b76a;
-    color: #fff;
-    transition: transform 80ms ease, opacity 120ms ease, background 120ms ease;
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  background: #12b76a;
+  color: #fff;
+  transition:
+    transform 80ms ease,
+    opacity 120ms ease,
+    background 120ms ease;
 }
 
 .primaryButton:hover {
-    background: #0e9f5b;
+  background: #0e9f5b;
 }
 
 .primaryButton:active {
-    transform: translateY(1px);
+  transform: translateY(1px);
+}
+
+.primaryButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(18, 183, 106, 0.2);
 }
 
 .primaryButton:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 .subtleNote {
-    margin: 0;
-    text-align: center;
-    font-size: 12px;
-    color: #98a2b3;
+  margin: 0;
+  text-align: center;
+  font-size: 12px;
+  color: #98a2b3;
 }
 
 .erroText {
-    margin: 10px 0 16px;
-    color: #b42318;
-    font-size: 14px;
+  margin: 10px 0 16px;
+  color: #b42318;
+  font-size: 14px;
 }
 
 /* Skeleton simples */
@@ -222,72 +259,154 @@ body {
 .skeletonInput,
 .skeletonTextarea,
 .skeletonButton {
-    background: linear-gradient(90deg, #eef2f6 25%, #f6f7fb 37%, #eef2f6 63%);
-    background-size: 400% 100%;
-    animation: shimmer 1.2s infinite;
-    border-radius: 10px;
+  background: linear-gradient(90deg, #eef2f6 25%, #f6f7fb 37%, #eef2f6 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.2s infinite;
+  border-radius: 10px;
 }
 
 .skeletonTitle {
-    height: 22px;
-    width: 55%;
-    margin-bottom: 12px;
+  height: 22px;
+  width: 55%;
+  margin-bottom: 12px;
 }
 
 .skeletonInput {
-    height: 40px;
+  height: 40px;
 }
 
 .skeletonTextarea {
-    height: 92px;
+  height: 92px;
 }
 
 .skeletonButton {
-    height: 44px;
-    margin-top: 6px;
+  height: 44px;
+  margin-top: 6px;
 }
 
 .loadingText {
-    margin: 10px 0 0;
-    font-size: 12px;
-    color: #667085;
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: #667085;
 }
 
 @keyframes shimmer {
-    0% { background-position: 100% 0; }
-    100% { background-position: 0 0; }
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
 }
 
-.backButton{
-    display: inline-flex;
-    align-items: center;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    background-color: #f0f0f0;
-    color: #333;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.1s ease;
-    text-decoration: none;
-    font-family: var(--font-family);
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.1s ease;
+  text-decoration: none;
+  font-family: var(--font-family);
 }
 
 .backButton:hover {
-    background-color: #e0e0e0;
+  background-color: #e0e0e0;
 }
 
 .backButton:active {
-    transform : scale(0.98);
+  transform: scale(0.98);
 }
 
 .arrow {
-    margin-right: 8px;
-    font-size: 16px;
-    transition: transform 0.3s ease;
+  margin-right: 8px;
+  font-size: 16px;
+  transition: transform 0.3s ease;
 }
 
 .backButton:hover .arrow {
-    transform: translateX(-3px);
+  transform: translateX(-3px);
 }
 
+.plan {
+  border: 1px solid rgba(52, 64, 84, 0.12);
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.06);
+  overflow: hidden;
+  transition: box-shadow 180ms ease;
+  margin-bottom: 16px;
+}
+
+.plan:hover {
+  box-shadow: 0 10px 24px rgba(16, 24, 40, 0.1);
+}
+
+.planToggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 700;
+  color: #273b4f;
+  transition: background 180ms ease;
+}
+
+.planToggle:hover,
+.planToggle:focus-visible {
+  background: rgba(52, 73, 94, 0.05);
+  outline: none;
+}
+
+.planToggle:focus-visible {
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.35);
+}
+
+.toggleIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 220ms ease;
+}
+
+.planContent {
+  padding: 0 16px 16px;
+  max-height: 0;
+  overflow: hidden;
+  transition:
+    max-height 260ms ease,
+    padding 180ms ease;
+}
+
+[aria-expanded="true"] + .planContent {
+  max-height: 400px; /* ajuste conforme o conteúdo estimado */
+  padding-top: 12px;
+}
+
+.planData {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text {
+  font-size: 14px;
+  outline: none;
+}
+
+.planText {
+  font-size: 12px;
+}
+
+.planUsageDetails {
+}
