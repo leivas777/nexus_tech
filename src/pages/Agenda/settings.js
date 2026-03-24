@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState, useRef } from "react";
 import api from "../../services/api";
 import { toast } from "react-toastify";
-import BusinessHoursEditor from "../../components/BusinessHoursEditor/BusinessHoursEditor";
+import { BusinessHoursEditor } from "../../components";
 import styles from "./settings.module.css";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../../components/ui";
 
 const initialState = {
   name: "",
@@ -53,6 +54,10 @@ export default function SettingsPage() {
   useEffect(() => {
     loadData();
   }, []);
+
+  const handleChangeSubscription = () => {
+    navigate("/subscription/plans");
+  };
 
   const isDirty = useMemo(() => {
     //Comparação simples
@@ -240,10 +245,22 @@ export default function SettingsPage() {
           {planExpanded && (
             <div className={styles.planContent}>
               <div className={styles.planData}>
-                <p className={styles.text}>Plano Atual </p>
-                <span className={styles.planText}>
-                  {formData?.plan?.name || ""}
-                </span>
+                <div className={styles.planDataDetails}>
+                  <p className={styles.text}>Plano Atual </p>
+                  <span className={styles.planText}>
+                    {formData?.plan?.name || ""}
+                  </span>
+                </div>
+                <div className={styles.planDataDetails}>
+                  <p className={styles.text}>Próxima Renovação</p>
+                  <span className={styles.planText}>
+                    {formData?.tenant?.nextBillingDate
+                      ? new Intl.DateTimeFormat("pt-BR").format(
+                          new Date(formData.tenant.nextBillingDate),
+                        )
+                      : "Data não disponível"}
+                  </span>
+                </div>
               </div>
               <div className={styles.planUsage}>
                 <p className={styles.text}>Uso Atual</p>
@@ -261,6 +278,12 @@ export default function SettingsPage() {
                     )}
                   </div>
                 </div>
+              </div>
+
+              <div className={styles.buttonContainer}>
+                <Button variant="primary" onClick={handleChangeSubscription}>
+                  Mudar Plano
+                </Button>
               </div>
             </div>
           )}

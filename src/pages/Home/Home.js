@@ -1,92 +1,17 @@
-import { useEffect, useState, useMemo } from "react";
+import { useMemo } from "react";
 import styles from "./Home.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // Components
-import HeroBanner from "../../components/HeroBanner/HeroBanner";
-import HealthBeautySection from "../../components/HeroHealthBeauty/HealthBeautySection";
+import { Button, HeroBanner } from "../../components";
+import { HealthBeautySection } from "../../components";
 //Assets
 import logo from "../../assets/logo_nexus_sem_fundo.png";
-import UranusSection from "../../components/UranusSection/UranusSection";
+import PlansComponent from "../../components/Plans/PlansComponent";
 
 const WHATSAPP_PHONE = "5551992747402";
 
 const Home = () => {
   const navigate = useNavigate();
-  const [isFBSDKLoaded, setIsFBSDKLoaded] = useState(false);
-
-  useEffect(() => {
-    if (window.FB) {
-      setIsFBSDKLoaded(true);
-      return;
-    }
-
-    window.fbAsyncInit = function () {
-      window.FB.init({
-        appId: "1145156147775393",
-        autoLogAppEvents: true,
-        xfbml: true,
-        version: "v24.0",
-      });
-      setIsFBSDKLoaded(true);
-    };
-
-    const existing = document.getElementById("facebook-jssdk");
-    if (existing) {
-      return () => {};
-    }
-
-    const script = document.createElement("script");
-    script.id = "facebook-jssdk";
-    script.async = true;
-    script.defer = true;
-    script.crossOrigin = "anonymous";
-    script.src = "https://connect.facebook.net/en_US/sdk.js";
-
-    document.body.appendChild(script);
-
-    return () => {
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
-    };
-  }, []);
-
-  const handleFacebookShare = () => {
-    if (!window.FB) {
-      alert(
-        "Facebook SDK ainda não foi carregado. Tente novamente em alguns segundos.",
-      );
-      return;
-    }
-
-    window.FB.ui({
-      method: "share",
-      href: "https://nexustech.tec.br/",
-      quote: "Conheça a Leivas & Leivas - Soluções tecnológicas inovadoras!",
-    });
-  };
-
-  const handleFacebookLogin = () => {
-    if (!window.FB) {
-      alert(
-        "Facebook SDK ainda não foi carregado. Tente novamente em alguns segundos.",
-      );
-      return;
-    }
-
-    window.FB.login(
-      function (response) {
-        if (response.authResponse) {
-          window.FB.api(
-            "/me",
-            { fields: "name, email" },
-            function (_userInfo) {},
-          );
-        }
-      },
-      { scope: "email, public_profile" },
-    );
-  };
 
   const waHref = useMemo(() => {
     const page =
@@ -104,31 +29,19 @@ const Home = () => {
   return (
     <>
       <main className={styles.main} role="main">
+        <div className={styles.buttonContainer}>
+          <Button
+            variant="primary"
+            onClick={handleTestClick}
+            className={styles.btn}
+          >
+            Login
+          </Button>
+        </div>
         <HeroBanner logoSrc={logo} onCtaClick={handleTestClick} />
         <HealthBeautySection />
-        <UranusSection />
-        <div className={styles.buttonContainer}>
-          <Link to="/test-message" className={styles.btn}>
-            Faça um teste
-          </Link>
-          <div className={styles.facebookButtons}>
-            <button
-              onClick={handleFacebookShare}
-              className={`${styles.btn} ${styles.facebookBtn}`}
-              disabled={!isFBSDKLoaded}
-            >
-              {isFBSDKLoaded ? "Compartilhar no Facebook" : "⏳ Carregando..."}
-            </button>
+        <PlansComponent />
 
-            <button
-              onClick={handleFacebookLogin}
-              className={`${styles.btn} ${styles.facebookBtn}`}
-              disabled={!isFBSDKLoaded}
-            >
-              {isFBSDKLoaded ? "Login com Facebook" : "⏳ Carregando..."}
-            </button>
-          </div>
-        </div>
         <a
           href={waHref}
           className={styles.whatsappFab}

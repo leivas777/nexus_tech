@@ -8,7 +8,7 @@ import { authService } from "../../services/authService";
 import webhookLogo from "../../assets/icons8-webhook-125.png";
 import nexusAI from "../../assets/nexusAI.png";
 import calendar from "../../assets/calendar.png";
-import TenantSetupModal from "../../components/TenantSetupModal/TenantSetupModal";
+import { TenantSetupModal } from "../../components";
 
 export default function Dashboard() {
   const navigate = useNavigate();

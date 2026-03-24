@@ -7,10 +7,10 @@
 .container {
     background-color: #fff;
     padding: clamp(1rem, 4vw, 2rem);
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 1200px;
+    max-width: 75rem;
     margin: 0 auto;
     
     /* Melhoria de performance */
@@ -57,12 +57,12 @@ strong {
 
 /* Media Queries para ajustes específicos */
 
-/* Tablets (768px e abaixo) */
-@media screen and (max-width: 768px) {
+/* Tablets (48rem e abaixo) */
+@media screen and (max-width: 48rem) {
     .container {
         margin: 1rem;
-        border-radius: 6px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        border-radius: 0.375rem;
+        box-shadow: 0 2px 0.375rem rgba(0, 0, 0, 0.08);
     }
     
     .container h1,
@@ -76,13 +76,13 @@ strong {
     }
 }
 
-/* Smartphones (480px e abaixo) */
-@media screen and (max-width: 480px) {
+/* Smartphones (30rem e abaixo) */
+@media screen and (max-width: 30rem) {
     .container {
         margin: 0.5rem;
         padding: 1rem;
-        border-radius: 4px;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+        border-radius: 0.25rem;
+        box-shadow: 0 1px 0.25rem rgba(0, 0, 0, 0.06);
     }
     
     .container h1 {
@@ -109,8 +109,8 @@ strong {
     }
 }
 
-/* Telas muito pequenas (320px e abaixo) */
-@media screen and (max-width: 320px) {
+/* Telas muito pequenas (20rem e abaixo) */
+@media screen and (max-width: 20rem) {
     .container {
         margin: 0.25rem;
         padding: 0.75rem;
@@ -130,11 +130,11 @@ strong {
     }
 }
 
-/* Telas grandes (1200px e acima) */
-@media screen and (min-width: 1200px) {
+/* Telas grandes (75rem e acima) */
+@media screen and (min-width: 75rem) {
     .container {
         padding: 2.5rem;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+        box-shadow: 0 0.375rem 0.75rem rgba(0, 0, 0, 0.12);
     }
     
     .container h1 {
@@ -163,7 +163,7 @@ strong {
     .container {
         background-color: #2a2a2a;
         color: #e0e0e0;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
     }
     
     .container h1,

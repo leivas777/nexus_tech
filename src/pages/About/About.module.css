@@ -41,9 +41,9 @@
     --font-weight-bolder: bolder;
     
     /* Bordas e raios */
-    --border-radius: 12px;
+    --border-radius: 0.75rem;
     --border-width: 2px;
-    --border-width-thicker: 4px;
+    --border-width-thicker: 0.25rem;
     --border-width-thinner: 1px;
     
     /* Transições */
@@ -53,9 +53,9 @@
     
     /* Sombras modernas */
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
-    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.07), 0 2px 0.25rem rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 0.625rem 0.938rem rgba(0, 0, 0, 0.1), 0 0.25rem 0.375rem rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 1.25rem 1.562rem rgba(0, 0, 0, 0.1), 0 0.625rem 0.625rem rgba(0, 0, 0, 0.04);
 }
 
 /* Configurações globais */
@@ -83,15 +83,15 @@ body {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 700px;
+    max-width: 43.75rem;
     margin: var(--spacing-2xl) auto 0;
     background: #fff;
     border: var(--border-width) solid var(--primary-color);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-xl);
     overflow: hidden;
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(0.625rem);
+    backdrop-filter: blur(0.625rem);
 }
 
 .dados .title {
@@ -120,7 +120,7 @@ body {
     padding: var(--spacing-md);
     background: #f8fafc;
     border-radius: var(--spacing-xs);
-    border-left: 4px solid var(--primary-color);
+    border-left: 0.25rem solid var(--primary-color);
     transition: all var(--transition-fast);
 }
 
@@ -130,13 +130,13 @@ a{
 
 .dados .dadosCadastrais label:hover {
     background: #f1f5f9;
-    transform: translateX(4px);
+    transform: translateX(0.25rem);
 }
 
 .dados .dadosCadastrais .dadosCadastraisTitle {
     font-weight: 600;
     color: var(--text-primary);
-    min-width: 120px;
+    min-width: 7.5rem;
 }
 
 /* ========================================
@@ -144,7 +144,7 @@ a{
 ======================================== */
 
 /* Tablets */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 48rem) {
     :root {
         --spacing-xl: 1.5rem;
         --spacing-2xl: 2rem;
@@ -161,7 +161,7 @@ a{
 }
 
 /* Smartphones */
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 30rem) {
     :root {
         --spacing-xl: 1rem;
         --spacing-2xl: 1.5rem;

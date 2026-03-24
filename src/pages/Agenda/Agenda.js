@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import styles from "./Agenda.module.css";
-import Sidebar from "../../components/Sidebar/Sidebar";
+import { Sidebar } from "../../components";
 import { exampleMenu } from "./exampleMenu";
-import CalendarAgenda from "../../components/CalendarAgenda/CalendarAgenda";
-import ChatWidgetAppointment from "../../components/ChatWidgetAppointment/ChatWidgetAppointment";
+import { CalendarAgenda } from "../../components";
+import { ChatWidgetAppointment } from "../../components";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 

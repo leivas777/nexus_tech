@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./AuthPage.module.css";
 import logo from "../../assets/logo_nexus_sem_fundo.png";
 import { authService } from "../../services/authService";
+import api from "../../services/api";
 
 export default function AuthPage() {
   const navigate = useNavigate();
@@ -59,6 +60,60 @@ export default function AuthPage() {
       if (hasValidToken && hasValidUser) {
         try {
           JSON.parse(userStr); // Validar se é JSON válido
+
+          // Se estiver logado e tiver assinatura pendente, processar pagamento
+          const pendingSubStr = localStorage.getItem("pendingSubscription");
+          if (pendingSubStr) {
+            const pendingSub = JSON.parse(pendingSubStr);
+            localStorage.removeItem("pendingSubscription");
+
+            if (pendingSub.isFree) {
+              navigate("/dashboard", { replace: true });
+              return;
+            }
+
+            setLoading(true);
+            setSuccessMessage("Verificando sua assinatura...");
+
+            api
+              .get("/users/check-payment-profile")
+              .then((profileRes) => {
+                let doc = null;
+                if (!profileRes.data.hasDoc) {
+                  doc = window.prompt(
+                    "Para gerar sua assinatura, o sistema de pagamentos exige o seu CPF/CNPJ (apenas uma vez):",
+                  );
+                  if (!doc) {
+                    setLoading(false);
+                    navigate("/dashboard", { replace: true });
+                    return;
+                  }
+                }
+
+                return api.post("/payments/create-subscription", {
+                  planId: pendingSub.planId,
+                  cpfCnpj: doc,
+                });
+              })
+              .then((subResponse) => {
+                if (subResponse && subResponse.data.invoiceUrl) {
+                  window.location.href = subResponse.data.invoiceUrl;
+                } else {
+                  navigate("/dashboard", { replace: true });
+                }
+              })
+              .catch((error) => {
+                console.error("❌ Erro ao iniciar assinatura:", error);
+                setError(
+                  "Erro ao processar pagamento. Redirecionando ao dashboard...",
+                );
+                setTimeout(() => {
+                  navigate("/dashboard", { replace: true });
+                }, 3000);
+              });
+
+            return; // Impede o navigate imediato para o dashboard abaixo
+          }
 
           navigate("/dashboard", { replace: true });
         } catch (e) {
@@ -163,12 +218,10 @@ export default function AuthPage() {
         response = await authService.login(email, password);
 
         if (response.success) {
-          setSuccessMessage("Login realizado com sucesso! Redirecionando...");
-
-          // Aguardar um momento e redirecionar
-          setTimeout(() => {
-            navigate("/dashboard", { replace: true });
-          }, 1500);
+          await handlePostAuth(
+            response,
+            "Login realizado com sucesso! Redirecionando...",
+          );
         } else {
           throw new Error(response.message || "Erro ao fazer login");
         }
@@ -177,15 +230,10 @@ export default function AuthPage() {
         response = await authService.register(name, email, password);
 
         if (response.success) {
-          setSuccessMessage("Conta criada! Vamos configurar seu negócio...");
-
           // Salvar o tenantId que o backend agora retorna
           localStorage.setItem("tenantId", response.tenantId);
 
-          // Aguardar um momento e redirecionar
-          setTimeout(() => {
-            navigate("/dashboard?setup=true", { replace: true });
-          }, 1500);
+          await handlePostAuth(response, "Conta criada! Redirecionando...");
         } else {
           throw new Error(response.message || "Erro ao criar conta");
         }
@@ -196,6 +244,66 @@ export default function AuthPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handlePostAuth = async (response, defaultMessage) => {
+    const pendingSubStr = localStorage.getItem("pendingSubscription");
+    if (pendingSubStr) {
+      const pendingSub = JSON.parse(pendingSubStr);
+      localStorage.removeItem("pendingSubscription"); // Limpa intenção para não ficar no loop
+
+      // Se for plano Free/Gratuito (ou isFree), apenas redireciona
+      if (pendingSub.isFree) {
+        setSuccessMessage(defaultMessage);
+        setTimeout(() => {
+          navigate("/dashboard?setup=true", { replace: true });
+        }, 1500);
+        return;
+      }
+
+      // Senão, é plano pago: chamar checkout da Asaas
+      setSuccessMessage("Autenticado! Iniciando pagamento...");
+      try {
+        const profileRes = await api.get("/users/check-payment-profile");
+        let doc = null;
+
+        if (!profileRes.data.hasDoc) {
+          doc = window.prompt(
+            "Para gerar sua assinatura, o sistema de pagamentos exige o seu CPF/CNPJ (apenas uma vez):",
+          );
+          if (!doc) {
+            setLoading(false);
+            navigate("/dashboard", { replace: true });
+            return;
+          }
+        }
+
+        const subResponse = await api.post("/payments/create-subscription", {
+          planId: pendingSub.planId,
+          cpfCnpj: doc,
+        });
+
+        if (subResponse.data.invoiceUrl) {
+          window.location.href = subResponse.data.invoiceUrl;
+          return;
+        }
+      } catch (error) {
+        console.error("❌ Erro ao iniciar assinatura após auth:", error);
+        setError("Erro ao processar pagamento. Redirecionando ao dashboard...");
+        setTimeout(() => {
+          navigate("/dashboard", { replace: true });
+        }, 3000);
+        return;
+      }
+    }
+
+    // Fluxo normal sem assinatura pendente
+    setSuccessMessage(defaultMessage);
+    setTimeout(() => {
+      navigate(mode === "signup" ? "/dashboard?setup=true" : "/dashboard", {
+        replace: true,
+      });
+    }, 1500);
   };
 
   // ✅ Alterar modo (login/registro)

@@ -4,6 +4,8 @@ import styles from "./EditCustomerModal.module.css";
 import { customerService } from "../../services/customerService";
 import { authService } from "../../services/authService";
 import api from "../../services/api";
+import { Button } from "../ui";
+import { toast } from "react-toastify";
 
 export default function EditCustomerModal({
   isOpen,
@@ -139,11 +141,14 @@ export default function EditCustomerModal({
         }
       }
 
+      toast.success("Dados salvos com sucesso!");
+
       setTimeout(() => {
         onClose();
       }, 1500);
     } catch (err) {
       console.error("❌ Erro ao salvar customer:", err.message);
+      toast.error(err.response?.data?.message || "Erro ao salvar dados");
       setError(err.response?.data?.message || "Erro ao salvar dados");
     } finally {
       setLoading(false);
@@ -271,29 +276,22 @@ export default function EditCustomerModal({
 
           {/* Botões */}
           <div className={styles.formActions}>
-            <button
+            <Button
+              variant="primary"
               type="submit"
-              className={styles.primaryBtn}
-              disabled={loading || loadingSegments}
+              isLoading={loading || loadingSegments}
             >
-              {loading ? (
-                <>
-                  <span className={styles.spinner} aria-hidden="true" />
-                  Salvando...
-                </>
-              ) : (
-                "💾 Salvar Alterações"
-              )}
-            </button>
+              {loading ? "Salvando..." : "💾 Salvar Alterações"}
+            </Button>
 
-            <button
+            <Button
+              variant="secondary"
               type="button"
-              className={styles.secondaryBtn}
               onClick={onClose}
               disabled={loading}
             >
               Cancelar
-            </button>
+            </Button>
           </div>
         </form>
       </div>

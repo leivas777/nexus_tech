@@ -23,8 +23,8 @@
 
     /* Sombras */
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.07), 0 2px 0.25rem rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 0.625rem 0.938rem rgba(0, 0, 0, 0.1), 0 0.25rem 0.375rem rgba(0, 0, 0, 0.05);
 
     /* Tipografia (kit) */
     --font-family: "Nunito Sans", "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -44,7 +44,7 @@
     --spacing-xl: 2rem;
     --spacing-2xl: 3rem;
 
-    --radius: 12px;
+    --radius: 0.75rem;
 
     /* Transições */
     --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -62,12 +62,12 @@ body {
 .backButton{
     display: inline-flex;
     align-items: center;
-    padding: 10px 15px;
+    padding: 0.625rem 0.938rem;
     border: none;
-    border-radius: 5px;
+    border-radius: 0.312rem;
     background-color: #f0f0f0;
     color: #333;
-    font-size: 14px;
+    font-size: 0.875rem;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.1s ease;
     text-decoration: none;
@@ -83,8 +83,8 @@ body {
 }
 
 .arrow {
-    margin-right: 8px;
-    font-size: 16px;
+    margin-right: 0.5rem;
+    font-size: 1rem;
     transition: transform 0.3s ease;
 }
 
@@ -96,7 +96,7 @@ body {
 
 .page {
   min-height: 100vh;
-  padding: 24px 16px;
+  padding: 1.5rem 1rem;
   background: var(--bg);
   font-family: var(--font-family);
   color: var(--text-primary);
@@ -104,12 +104,12 @@ body {
 
 .container {
   width: 100%;
-  max-width: 980px;
+  max-width: 61.25rem;
   margin: 0 auto;
 }
 
 .header {
-  margin: 12px 0 16px;
+  margin: 0.75rem 0 1rem;
 }
 
 .title {
@@ -120,7 +120,7 @@ body {
 }
 
 .subtitle {
-  margin: 6px 0 0;
+  margin: 0.375rem 0 0;
   color: rgba(255,255,255,0.72);
   font-size: var(--font-size-base);
 }
@@ -130,11 +130,11 @@ body {
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: var(--radius);
   box-shadow: var(--shadow-md);
-  padding: 16px;
+  padding: 1rem;
 }
 
 .listSection {
-  margin-top: 14px;
+  margin-top: 0.875rem;
 }
 
 .sectionTitle {
@@ -148,29 +148,29 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 18px 0 10px;
+  margin: 1.125rem 0 0.625rem;
 }
 
 .badge {
   background: rgba(255,255,255,0.12);
   border: 1px solid rgba(255,255,255,0.18);
   color: var(--branco);
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 12px;
+  padding: 0.25rem 0.625rem;
+  border-radius: 62.438rem;
+  font-size: 0.75rem;
 }
 
 /* Back button (mantém seu comportamento) */
 .backButton{
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
+  gap: 0.5rem;
+  padding: 0.625rem 0.875rem;
   border: 1px solid rgba(255,255,255,0.18);
-  border-radius: 10px;
+  border-radius: 0.625rem;
   background: rgba(255,255,255,0.08);
   color: var(--branco);
-  font-size: 14px;
+  font-size: 0.875rem;
   cursor: pointer;
   transition: background-color var(--transition-fast), transform 0.1s ease, border-color var(--transition-fast);
   text-decoration: none;
@@ -186,7 +186,7 @@ body {
 }
 
 .arrow {
-  font-size: 16px;
+  font-size: 1rem;
   transition: transform var(--transition-fast);
 }
 
@@ -209,16 +209,16 @@ body {
 .legend {
   font-weight: var(--font-weight-bolder);
   color: var(--text-primary);
-  margin-bottom: 12px;
+  margin-bottom: 0.75rem;
 }
 
 .grid {
   display: grid;
   grid-template-columns: 2fr;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
-@media (min-width: 820px) {
+@media (min-width: 51.25rem) {
   .grid {
     grid-template-columns: 1.4fr 0.8fr 0.8fr 0.6fr;
     align-items: end;
@@ -228,7 +228,7 @@ body {
 .field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0.375rem;
 }
 
 .label {
@@ -239,33 +239,33 @@ body {
 
 .input {
   border: 1px solid #d0d5dd;
-  border-radius: 10px;
-  padding: 10px 12px;
-  font-size: 14px;
+  border-radius: 0.625rem;
+  padding: 0.625rem 0.75rem;
+  font-size: 0.875rem;
   outline: none;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .input:focus-visible {
   border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(106, 162, 255, 0.22);
+  box-shadow: 0 0 0 0.25rem rgba(106, 162, 255, 0.22);
 }
 
 .hint {
   margin: 0;
-  font-size: 10px;
+  font-size: 0.625rem;
   color: #667085;
 }
 
 .fieldError {
   margin: 0;
-  font-size: 10px;
+  font-size: 0.625rem;
   color: var(--error);
 }
 
 .invalid {
   border-color: var(--error);
-  box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.16);
+  box-shadow: 0 0 0 0.25rem rgba(231, 76, 60, 0.16);
 }
 
 .actions {
@@ -277,9 +277,9 @@ body {
 .primaryButton {
   width: 100%;
   border: none;
-  border-radius: 12px;
-  padding: 11px 14px;
-  font-size: 14px;
+  border-radius: 0.75rem;
+  padding: 0.688rem 0.875rem;
+  font-size: 0.875rem;
   font-weight: var(--font-weight-bolder);
   cursor: pointer;
   background: var(--primary-color);
@@ -304,8 +304,8 @@ body {
   border: 1px solid rgba(231, 76, 60, 0.35);
   background: rgba(231, 76, 60, 0.08);
   color: #ffb4ab;
-  padding: 10px 12px;
-  border-radius: 12px;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.75rem;
   cursor: pointer;
   font-weight: var(--font-weight-bold);
   transition: background var(--transition-fast), border-color var(--transition-fast);
@@ -320,7 +320,7 @@ body {
 .primaryButton:focus-visible,
 .backButton:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 4px rgba(106, 162, 255, 0.22);
+  box-shadow: 0 0 0 0.25rem rgba(106, 162, 255, 0.22);
 }
 
 /* List */
@@ -329,19 +329,19 @@ body {
   padding: 0;
   margin: 0;
   display: grid;
-  gap: 10px;
+  gap: 0.625rem;
 }
 
 .serviceCard {
   background: var(--branco);
   border: 1px solid #eef2f6;
   border-radius: var(--radius);
-  padding: 14px;
+  padding: 0.875rem;
   box-shadow: var(--shadow-sm);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 .serviceInfo {
@@ -355,12 +355,12 @@ body {
 }
 
 .serviceMeta {
-  margin: 4px 0 0;
+  margin: 0.25rem 0 0;
   color: #667085;
-  font-size: 13px;
+  font-size: 0.812rem;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
   flex-wrap: wrap;
 }
 
@@ -370,7 +370,7 @@ body {
 
 /* Empty state */
 .emptyState {
-  padding: 16px;
+  padding: 1rem;
   border: 1px dashed rgba(255,255,255,0.22);
   border-radius: var(--radius);
   background: rgba(255,255,255,0.06);
@@ -383,9 +383,9 @@ body {
 }
 
 .muted {
-  margin: 6px 0 0;
+  margin: 0.375rem 0 0;
   color: rgba(255,255,255,0.72);
-  font-size: 13px;
+  font-size: 0.812rem;
 }
 
 /* Skeleton */
@@ -394,14 +394,14 @@ body {
   background: linear-gradient(90deg, #eef2f6 25%, #f6f7fb 37%, #eef2f6 63%);
   background-size: 400% 100%;
   animation: shimmer 1.2s infinite;
-  border-radius: 10px;
+  border-radius: 0.625rem;
 }
 
-.skeletonTitle { height: 18px; width: 42%; margin-bottom: 12px; }
-.skeletonRow { height: 42px; width: 100%; margin-bottom: 10px; }
+.skeletonTitle { height: 1.125rem; width: 42%; margin-bottom: 0.75rem; }
+.skeletonRow { height: 2.625rem; width: 100%; margin-bottom: 0.625rem; }
 
 .errorText {
-  margin: 0 0 12px;
+  margin: 0 0 0.75rem;
   color: var(--error);
   font-weight: var(--font-weight-bold);
 }
@@ -415,8 +415,8 @@ body {
   background-color: #f3f4f6;
   color: #374151;
   border: 1px solid #d1d5db;
-  padding: 6px 12px;
-  border-radius: 6px;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
   cursor: pointer;
   font-size: 0.875rem;
   transition: background 0.2s;
@@ -430,8 +430,8 @@ body {
   background-color: transparent;
   color: #6b7280;
   border: 1px solid #d1d5db;
-  padding: 10px 20px;
-  border-radius: 8px;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.5rem;
   cursor: pointer;
 }
 

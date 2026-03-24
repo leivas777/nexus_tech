@@ -25,8 +25,11 @@
 
   /* Sombras */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-md:
+    0 0.25rem 0.375rem rgba(0, 0, 0, 0.07), 0 2px 0.25rem rgba(0, 0, 0, 0.06);
+  --shadow-lg:
+    0 0.625rem 0.938rem rgba(0, 0, 0, 0.1),
+    0 0.25rem 0.375rem rgba(0, 0, 0, 0.05);
 
   /* Tipografia (kit) */
   --font-family:
@@ -48,7 +51,7 @@
   --spacing-xl: 2rem;
   --spacing-2xl: 3rem;
 
-  --radius: 12px;
+  --radius: 0.75rem;
 
   /* Transições */
   --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -65,7 +68,7 @@ body {
 
 .page {
   min-height: 100vh;
-  padding: 32px 16px;
+  padding: 2rem 1rem;
   background: #f6f7fb;
   display: flex;
   justify-content: center;
@@ -74,20 +77,20 @@ body {
 
 .card {
   width: 100%;
-  max-width: 720px;
+  max-width: 45rem;
   background: #ffffff;
   border: 1px solid #e9ecf2;
-  border-radius: 14px;
-  box-shadow: 0 10px 24px rgba(16, 24, 40, 0.06);
-  padding: 22px;
+  border-radius: 0.875rem;
+  box-shadow: 0 0.625rem 1.5rem rgba(16, 24, 40, 0.06);
+  padding: 1.375rem;
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 18px;
+  gap: 0.75rem;
+  margin-bottom: 1.125rem;
 }
 
 .title {
@@ -100,28 +103,28 @@ body {
 .section {
   background: #f9fafb;
   border: 1px solid #eaecf0;
-  border-radius: 12px;
-  padding: 24px;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1rem;
 }
 
 .sectionTitle {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 800;
   color: #101828;
   margin-top: 0;
-  margin-bottom: 8px;
-  padding-bottom: 12px;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.75rem;
   border-bottom: 1px solid #eaecf0;
 }
 
 .dirtyBadge,
 .savedBadge {
   font-size: var(--font-size-base);
-  padding: 6px 10px;
-  border-radius: 999px;
+  padding: 0.375rem 0.625rem;
+  border-radius: 62.438rem;
   border: 1px solid transparent;
   white-space: nowrap;
 }
@@ -141,17 +144,17 @@ body {
 .form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1rem;
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
 .label {
-  font-size: 13px;
+  font-size: 0.812rem;
   font-weight: 700;
   color: #344054;
 }
@@ -165,9 +168,9 @@ body {
 .select {
   width: 100%;
   border: 1px solid #d0d5dd;
-  border-radius: 10px;
-  padding: 10px 12px;
-  font-size: 14px;
+  border-radius: 0.625rem;
+  padding: 0.625rem 0.75rem;
+  font-size: 0.875rem;
   outline: none;
   transition:
     border-color 120ms ease,
@@ -179,19 +182,19 @@ body {
 
 .textarea {
   resize: vertical;
-  min-height: 96px;
+  min-height: 6rem;
 }
 
 .input:focus,
 .textarea:focus {
   border-color: #12b76a;
-  box-shadow: 0 0 0 4px rgba(18, 183, 106, 0.16);
+  box-shadow: 0 0 0 0.25rem rgba(18, 183, 106, 0.16);
   font-family: var(--font-family);
 }
 
 .helpText {
   margin: 0;
-  font-size: 12px;
+  font-size: 0.75rem;
   color: #667085;
 }
 
@@ -199,20 +202,20 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 .counter {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: #667085;
 }
 
 .primaryButton {
   width: 100%;
   border: none;
-  border-radius: 12px;
-  padding: 12px 14px;
-  font-size: 14px;
+  border-radius: 0.75rem;
+  padding: 0.75rem 0.875rem;
+  font-size: 0.875rem;
   font-weight: 800;
   cursor: pointer;
   background: #12b76a;
@@ -233,7 +236,7 @@ body {
 
 .primaryButton:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 4px rgba(18, 183, 106, 0.2);
+  box-shadow: 0 0 0 0.25rem rgba(18, 183, 106, 0.2);
 }
 
 .primaryButton:disabled {
@@ -244,14 +247,14 @@ body {
 .subtleNote {
   margin: 0;
   text-align: center;
-  font-size: 12px;
+  font-size: 0.75rem;
   color: #98a2b3;
 }
 
 .erroText {
-  margin: 10px 0 16px;
+  margin: 0.625rem 0 1rem;
   color: #b42318;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 /* Skeleton simples */
@@ -262,31 +265,31 @@ body {
   background: linear-gradient(90deg, #eef2f6 25%, #f6f7fb 37%, #eef2f6 63%);
   background-size: 400% 100%;
   animation: shimmer 1.2s infinite;
-  border-radius: 10px;
+  border-radius: 0.625rem;
 }
 
 .skeletonTitle {
-  height: 22px;
+  height: 1.375rem;
   width: 55%;
-  margin-bottom: 12px;
+  margin-bottom: 0.75rem;
 }
 
 .skeletonInput {
-  height: 40px;
+  height: 2.5rem;
 }
 
 .skeletonTextarea {
-  height: 92px;
+  height: 5.75rem;
 }
 
 .skeletonButton {
-  height: 44px;
-  margin-top: 6px;
+  height: 2.75rem;
+  margin-top: 0.375rem;
 }
 
 .loadingText {
-  margin: 10px 0 0;
-  font-size: 12px;
+  margin: 0.625rem 0 0;
+  font-size: 0.75rem;
   color: #667085;
 }
 
@@ -302,12 +305,12 @@ body {
 .backButton {
   display: inline-flex;
   align-items: center;
-  padding: 10px 15px;
+  padding: 0.625rem 0.938rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 0.312rem;
   background-color: #f0f0f0;
   color: #333;
-  font-size: 14px;
+  font-size: 0.875rem;
   cursor: pointer;
   transition:
     background-color 0.3s ease,
@@ -325,8 +328,8 @@ body {
 }
 
 .arrow {
-  margin-right: 8px;
-  font-size: 16px;
+  margin-right: 0.5rem;
+  font-size: 1rem;
   transition: transform 0.3s ease;
 }
 
@@ -336,16 +339,16 @@ body {
 
 .plan {
   border: 1px solid rgba(52, 64, 84, 0.12);
-  border-radius: 12px;
+  border-radius: 0.75rem;
   background: #ffffff;
-  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.06);
+  box-shadow: 0 0.375rem 1.125rem rgba(16, 24, 40, 0.06);
   overflow: hidden;
   transition: box-shadow 180ms ease;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
 .plan:hover {
-  box-shadow: 0 10px 24px rgba(16, 24, 40, 0.1);
+  box-shadow: 0 0.625rem 1.5rem rgba(16, 24, 40, 0.1);
 }
 
 .planToggle {
@@ -353,7 +356,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 16px;
+  padding: 0.875rem 1rem;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -380,7 +383,7 @@ body {
 }
 
 .planContent {
-  padding: 0 16px 16px;
+  padding: 0 1rem 1rem;
   max-height: 0;
   overflow: hidden;
   transition:
@@ -389,23 +392,28 @@ body {
 }
 
 [aria-expanded="true"] + .planContent {
-  max-height: 400px; /* ajuste conforme o conteúdo estimado */
-  padding-top: 12px;
+  max-height: 25rem; /* ajuste conforme o conteúdo estimado */
+  padding-top: 0.75rem;
 }
 
 .planData {
+  display: flex;
+  flex-direction: column;
+}
+
+.planDataDetails {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .text {
-  font-size: 14px;
+  font-size: 0.875rem;
   outline: none;
 }
 
 .planText {
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .planUsageDetails {

@@ -43,15 +43,15 @@ body {
     line-height: 1.6;
 
     border: 2ox solid #3498DB;
-    border-radius: 12px;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 25px,
-        rgba(0, 0, 0, 0.12) 0px -12px 30px,
-        rgba(0, 0, 0, 0.12) 0px 4px 6px,
-        rgba(0, 0, 0, 0.17) 0px 12px 13px,
-        rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    border-radius: 0.75rem;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 1.562rem 1.562rem,
+        rgba(0, 0, 0, 0.12) 0px -0.75rem 1.875rem,
+        rgba(0, 0, 0, 0.12) 0px 0.25rem 0.375rem,
+        rgba(0, 0, 0, 0.17) 0px 0.75rem 0.812rem,
+        rgba(0, 0, 0, 0.09) 0px -3px 0.312rem;
     margin: 5vh auto 0;
     width: 100%;
-    max-width: 800px;
+    max-width: 50rem;
     background: #ffffff;
 }
 
@@ -79,8 +79,8 @@ body {
 }
 
 .body .title img {
-    width: 100px;
-    height: 100px;
+    width: 6.25rem;
+    height: 6.25rem;
 }
 
 .testType{
@@ -90,13 +90,13 @@ body {
 .testType label{
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0.625rem;
     border: 1px solid #1f618D;
     padding: 1rem;
-    border-radius: 12px;
+    border-radius: 0.75rem;
     margin: 5vh auto 0;
     width: 100%;
-    max-width: 800px;
+    max-width: 50rem;
     background: #ffffff;
     line-height: 1.6;
     align-items: justify;
@@ -109,7 +109,7 @@ body {
 
 .testType label select{
     margin: 0 .8vw;
-    padding: 5px;
+    padding: 0.312rem;
     border: 1px solid #BDC3C7;
     color: #2C3E50;
 }
@@ -117,7 +117,7 @@ body {
 .formulario form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0.625rem;
 }
 
 .formulario form label {
@@ -127,14 +127,14 @@ body {
 
 .formulario form label select {
     margin: 0 .8vw;
-    padding: 5px;
+    padding: 0.312rem;
     border: 1px solid #BDC3C7;
     color: #2C3E50;
 }
 
 .formulario form label input {
     margin: 0 .8vw;
-    padding: 5px;
+    padding: 0.312rem;
     border: 1px solid #BDC3C7;
     color: #2C3E50;
 }
@@ -171,15 +171,15 @@ body {
     text-align: center;
 
     padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2rem);
-    min-height: 44px;
+    min-height: 2.75rem;
     /* Acessibilidade - área de toque mínima */
-    min-width: 120px;
+    min-width: 7.5rem;
 
     border: 2px solid transparent;
-    border-radius: 8px;
+    border-radius: 0.5rem;
     cursor: pointer;
     border-color: #2980B9;
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    box-shadow: 0 0.25rem 0.75rem rgba(52, 152, 219, 0.3);
 
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -200,12 +200,12 @@ body {
 .btn:hover {
     background: linear-gradient(135deg, #2980B9 0%, #1f618D 100%);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+    box-shadow: 0 0.5rem 1.25rem rgba(52, 152, 219, 0.4);
 }
 
 .btn:active {
     transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+    box-shadow: 0 2px 0.5rem rgba(52, 152, 219, 0.3);
 }
 
 .btn:focus {
@@ -227,8 +227,8 @@ body {
 }
 
 .btn:active::before {
-    width: 300px;
-    height: 300px;
+    width: 18.75rem;
+    height: 18.75rem;
 }
 
 .btnBack {
@@ -247,15 +247,15 @@ body {
     text-align: center;
 
     padding: clamp(0.25rem, 1vw, .5rem) clamp(1rem, 2vw, 1rem);
-    min-height: 44px;
+    min-height: 2.75rem;
     /* Acessibilidade - área de toque mínima */
-    min-width: 120px;
+    min-width: 7.5rem;
 
     border: 2px solid transparent;
-    border-radius: 8px;
+    border-radius: 0.5rem;
     cursor: pointer;
     border-color: #3c82b0;
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    box-shadow: 0 0.25rem 0.75rem rgba(52, 152, 219, 0.3);
 
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -276,12 +276,12 @@ body {
 .btnBack:hover {
     background: linear-gradient(135deg, #4491c4 0%, #1f618D 100%);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+    box-shadow: 0 0.5rem 1.25rem rgba(52, 152, 219, 0.4);
 }
 
 .btnBack:active {
     transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+    box-shadow: 0 2px 0.5rem rgba(52, 152, 219, 0.3);
 }
 
 .btnBack:focus {
@@ -311,15 +311,15 @@ body {
     line-height: 1.6;
 
     border: 2ox solid #3498DB;
-    border-radius: 12px;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 25px,
-        rgba(0, 0, 0, 0.12) 0px -12px 30px,
-        rgba(0, 0, 0, 0.12) 0px 4px 6px,
-        rgba(0, 0, 0, 0.17) 0px 12px 13px,
-        rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    border-radius: 0.75rem;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 1.562rem 1.562rem,
+        rgba(0, 0, 0, 0.12) 0px -0.75rem 1.875rem,
+        rgba(0, 0, 0, 0.12) 0px 0.25rem 0.375rem,
+        rgba(0, 0, 0, 0.17) 0px 0.75rem 0.812rem,
+        rgba(0, 0, 0, 0.09) 0px -3px 0.312rem;
     margin: 5vh auto 0;
     width: 100%;
-    max-width: 800px;
+    max-width: 50rem;
     background: #ffffff;
 }
 
@@ -333,6 +333,6 @@ body {
 
 .responseBody .payload{
     background: #eee;
-    border: .5px solid #BDC3C7;
+    border: .0.312rem solid #BDC3C7;
     padding: 1vh 1vw;
 }

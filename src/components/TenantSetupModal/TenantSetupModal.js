@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./TenantSetupModal.module.css";
 import api from "../../services/api";
+import { Button } from "../ui";
 
 export default function TenantSetupModal({ _userId, _onClose, onSuccess }) {
   const [step, setStep] = useState(1);
@@ -153,23 +154,27 @@ export default function TenantSetupModal({ _userId, _onClose, onSuccess }) {
         </div>
         <div className={styles.footer}>
           {step > 1 && (
-            <button onClick={() => setStep(step - 1)}>Voltar</button>
+            <Button variant="ghost" onClick={() => setStep(step - 1)}>
+              Voltar
+            </Button>
           )}
           {step < 3 ? (
-            <button
+            <Button
+              variant="primary"
               className={styles.primary}
               onClick={() => setStep(step + 1)}
             >
               Próximo
-            </button>
+            </Button>
           ) : (
-            <button
+            <Button
+              variant="primary"
               className={styles.primary}
               onClick={handleSubmit}
-              disabled={loading}
+              isLoading={loading}
             >
               {loading ? "Salvando..." : "Finalizar Configuração"}
-            </button>
+            </Button>
           )}
         </div>
       </div>
